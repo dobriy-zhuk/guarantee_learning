@@ -1,0 +1,174 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}ГАРАНТИЯ ЗНАНИЙ - кружки Робототехники, Программирования и Химии детям{% endblock title %}
+
+{% block tags %}
+<meta name="description"
+    content="ГАРАНТИЯ ЗНАНИЙ - Курсы дополнительного образования для детей и школьников по робототехнике, программированию, химии и подготовительные курсы егэ и огэ" />
+<meta name="keywords"
+    content="гарантия знаний, программирование, курсы, робототехника, занятия, химия, английский, физика, математика, русский, французский, предпринимательство, финансы, моделирование, обществознание, егэ, огэ, экзамены, лагерь, детский" />
+<meta name="author" content="dobriy_zhuk" />
+<meta property="og:title"
+    content="ГАРАНТИЯ ЗНАНИЙ - Робототехника, Программирование, Химия, а также курсы ЕГЭ и ОГЭ для детей" />
+<meta property="og:description"
+    content="ГАРАНТИЯ ЗНАНИЙ - Курсы дополнительного образования для детей и школьников по робототехнике, программированию, химии и подготовительные курсы егэ и огэ для детей" />
+<meta property="og:image" content="http://garantylearning.com/images/slide_1.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://garantylearning.com/index.html" />
+{% endblock %}
+
+{% block content %}
+
+    <div class="hero-wrap hero-wrap-2" style="background-image: url({% static 'images/slide_1.jpg' %});" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-start">
+          <div class="col-md-8 ftco-animate text-center text-md-left mb-5">
+          	<p class="breadcrumbs mb-0"><span class="mr-3"><a href="{% url 'contact' %} }}">Гарантия Знаний <i class="ion-ios-arrow-forward"></i></a></span> <span>Контакты</span></p>
+            <h1 class="mb-3 bread">Контакты</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ftco-section contact-section ftco-degree-bg">
+      <div class="container">
+        <div class="row d-flex mb-5 contact-info">
+          <div class="col-md-12 mb-4">
+            <h2 class="h4">Контактные данные</h2>
+          </div>
+          <div class="w-100"></div>
+          <div class="col-md-4">
+            <p><span>Телефон:</span> <a href="tel://+74951277833">+7(495)127-78-33</a></p>
+          </div>
+          <div class="col-md-4">
+            <p><span>Email:</span> <a href="mailto:info@garantylearning.com">info@garantylearning.com</a></p>
+          </div>
+          <div class="col-md-4">
+            <p><span>Сайт:</span> <a href="https://garantylearning">garantylearning.com</a></p>
+          </div>
+        </div>
+        <div class="row block-9">
+          <div class="col-md-6 pr-md-5">
+            <form method="post" id="contact-form">
+                {% csrf_token %}
+                <div id="result_div_id"></div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="name" id="name" placeholder="Ваше имя" required>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="email" id="email" placeholder="Ваш Email" required>
+              </div>
+              <div class="form-group">
+                <input type="tel" class="form-control" name="phone" id="phone" placeholder="Телефон" required>
+              </div>
+                <div class="form-group">
+                                <label for="subject">Выберите направление</label>
+                                <select class="form-control" name="subject" id="subject">
+                                    <option value="Программирование">Программирование</option>
+                                    <option value="Робототехника">Робототехника</option>
+                                    <option value="Математика">Математика</option>
+                                    <option value="Ментальная арифметика">Ментальная арифметика</option>
+                                    <option value="Химия">Химия</option>
+                                    <option value="Физика">Физика</option>
+                                    <option value="Русский язык">Русский язык</option>
+                                    <option value="Обществознание">Обществознание</option>
+                                    <option value="Английский язык">Английский язык</option>
+                                    <option value="Чтение и память">Чтение и память</option>
+                                    <option value="Грамотность и письмо">Грамотность и письмо</option>
+                                    <option value="Предпринимательство">Предпринимательство</option>
+                                    <option value="3D-печать">3d-печать</option>
+                                    <option value="Психологические тренинги">Психологические тренинги</option>
+                                    <option value="Продленка">Продленка</option>
+                                    <option value="Городской лагерь">Городской лагерь</option>
+                                    <option value="Загородный лагерь">Загородный лагерь</option>
+                                    <option value="Новогодние праздники">Новогодние праздники</option>
+                                </select>
+                            </div>
+                 <div class="form-group">
+                                <label for="subject">Выберите место занятий</label>
+                                <select class="form-control" name="place" id="place">
+                                    <option value="Онлайн">Онлайн</option>
+                                    <option value="Москва">Москва</option>
+                                    <option value="Одинцово">Одинцово</option>
+                                    <option value="Ярославль">Ярославль</option>
+                                    <option value="Тверь">Тверь</option>
+                                    <option value="Тула">Тула</option>
+                                    <option value="Симферополь">Симферополь</option>
+                                    <option value="Челябинск">Челябинск</option>
+                                    <option value="Вологда">Вологда</option>
+                                </select>
+                            </div>
+              <div class="form-group">
+                <textarea name="comment" id="comment" cols="30" rows="7" class="form-control" placeholder="Укажите любую дополнительную информацию, которую считаете нужной"></textarea>
+              </div>
+              <div class="form-group">
+                  <p>Оставляя заявку вы соглашаетесь с условиями <a href="documents/oferta.pdf" target="_blank">Оферты</a></p>
+                  <button class="btn btn-primary py-3 px-5" type="button" onclick="if (CheckForm()) contact();">Отправить заявку</button>
+              </div>
+            </form>
+
+          </div>
+
+          <div class="col-md-6" id="map"></div>
+        </div>
+      </div>
+    </section>
+
+
+{% endblock %}
+
+{% block javascript %}
+
+    <script>
+
+     function CheckForm() {
+            $("#email").next(".error").remove();
+            $("#phone").next(".error").remove();
+            $("#name").next(".error").remove();
+
+            if ($('#name').val() == "")
+            {
+                $('#name').after('<div class="error" style="color: darkred">Введите имя</div>');
+                return false;
+            }
+            else if ($('#email').val() == "")
+            {
+                $('#email').after('<div class="error" style="color: darkred">Введите Email</div>');
+                return false;
+            }
+            else if ($('#phone').val() == "")
+            {
+                $('#phone').after('<div class="error" style="color: darkred">Введите номер телефона</div>');
+                return false;
+            }
+            else return true; // Если все обязательные поля заполнены - возвращаем true
+        }
+
+
+    function contact(){
+    $.ajax({
+        type:'POST',
+        url:'{% url "contact" %}',
+        data:{
+            name: $('#name').val(),
+            email: $('#email').val(),
+            phone: $('#phone').val(),
+            subject: $('#subject').val(),
+            place: $('#place').val(),
+            comment:$('#comment').val(),
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            action: 'post'
+        },
+        success:function(json){
+            $('#contact-form').trigger( 'reset' );
+            document.getElementById('result_div_id').innerHTML = "<div class=\"alert alert-success\">" + json.result + "</div>";
+        },
+        error : function(xhr,errmsg,err) {
+        console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+    }
+    });
+}
+</script>
+
+{% endblock %}
