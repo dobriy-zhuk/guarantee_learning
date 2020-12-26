@@ -26,28 +26,15 @@ def box(request):
 
 
 def new_lesson(request):
-    if request.method == 'POST':
-        form = CreateLessonForm(request.POST)
-        if form.is_valid():
-            print("VALID")
-            form.save()
-            return HttpResponse('success')
-    else:
-        form = CreateLessonForm()
-        print(form)
-
-    return render(request, 'new_lesson.html',  {'form': form})
-
-
-def create_lesson(request):
     #posts = Post.objects.all()
     response_data = {}
     students = Student.objects.all()
     teachers = Teacher.objects.all()
+    modules = Module.objects.all()
 
     if request.POST.get('action') == 'post':
         title = request.POST.get('title')
-        description = request.POST.get('description')
+        description = request.POST.get('students')
 
         response_data['title'] = "title"
         response_data['description'] = description
@@ -58,7 +45,11 @@ def create_lesson(request):
         #)
         return JsonResponse(response_data)
 
-    return render(request, 'new_lesson.html', {'students': students, 'teachers': teachers})
+    return render(request, 'new_lesson.html', {
+        'students': students,
+        'teachers': teachers,
+        'modules': modules
+    })
 
 
 @login_required

@@ -21,8 +21,8 @@ urlpatterns = [
     path('login/', views.user_login, name='login'),
     path('lesson/', views.lesson, name='lesson'),
     path('lesson/<int:pk>/', views.current_lesson, name='current_lesson'),
-    path('lesson/<int:pk>/finish', views.finish_lesson, name='finish_lesson'),
-    path('lesson/new', views.new_lesson, name='new_lesson'),
-    path('lesson/create_lesson/', views.create_lesson, name='create_lesson'),
+    #path('lesson/<int:pk>/edit', views.edit_lesson, name='edit_lesson'),
+    path('lesson/<int:pk>/finish/', views.finish_lesson, name='finish_lesson'),
+    path('lesson/new/', views.new_lesson, name='new_lesson'),
     path('lesson/change_bonus/', views.change_bonus, name='change_bonus'),
 ]
