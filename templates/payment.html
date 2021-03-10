@@ -1,0 +1,162 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}ГАРАНТИЯ ЗНАНИЙ - кружки Робототехники, Программирования и Химии детям{% endblock title %}
+
+{% block tags %}
+<meta name="description"
+    content="ГАРАНТИЯ ЗНАНИЙ - Курсы дополнительного образования для детей и школьников по робототехнике, программированию, химии и подготовительные курсы егэ и огэ" />
+<meta name="keywords"
+    content="гарантия знаний, программирование, курсы, робототехника, занятия, химия, английский, физика, математика, русский, французский, предпринимательство, финансы, моделирование, обществознание, егэ, огэ, экзамены, лагерь, детский" />
+<meta name="author" content="dobriy_zhuk" />
+<meta property="og:title"
+    content="ГАРАНТИЯ ЗНАНИЙ - Робототехника, Программирование, Химия, а также курсы ЕГЭ и ОГЭ для детей" />
+<meta property="og:description"
+    content="ГАРАНТИЯ ЗНАНИЙ - Курсы дополнительного образования для детей и школьников по робототехнике, программированию, химии и подготовительные курсы егэ и огэ для детей" />
+<meta property="og:image" content="http://garantylearning.com/images/slide_1.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://garantylearning.com/index.html" />
+{% endblock %}
+
+{% block content %}
+
+    <div class="hero-wrap hero-wrap-2" style="background-image: url({% static 'images/bg_1.jpg' %});" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-start">
+          <div class="col-md-8 ftco-animate text-center text-md-left mb-5">
+          	<p class="breadcrumbs mb-0"><span class="mr-3"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Domain</span></p>
+            <h1 class="mb-3 bread">Your lesson</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ftco-section">
+    	<div class="container">
+    		<div class="row mb-5">
+          <div class="col-md-6 text-left heading-section ftco-animate">
+            <div id="jitsi"></div>
+                  <button onclick="mute()" value="hello">Mute</button>
+          </div>
+                <div class="col-md-6 text-left heading-section ftco-animate">
+
+                       <style>
+    .paint-canvas {
+  border: 1px black solid;
+  display: block;
+  margin: 1rem;
+}
+
+.color-picker {
+  margin: 1rem 1rem 0 1rem;
+}
+    </style>
+
+
+<input type="color"  class="js-color-picker  color-picker">
+<input type="range" class="js-line-range" min="1" max="72" value="1">
+<label class="js-range-value">1</label>Px
+<button onclick="clear_canvas()">Clear</button>
+<button onclick="save()">Save</button>
+<canvas class="js-paint  paint-canvas" width="600" height="300"></canvas>
+
+    <script>
+
+    const paintCanvas = document.querySelector( '.js-paint' );
+const context = paintCanvas.getContext( '2d' );
+context.lineCap = 'round';
+
+const colorPicker = document.querySelector( '.js-color-picker');
+
+colorPicker.addEventListener( 'change', event => {
+    context.strokeStyle = event.target.value;
+} );
+
+const lineWidthRange = document.querySelector( '.js-line-range' );
+const lineWidthLabel = document.querySelector( '.js-range-value' );
+
+lineWidthRange.addEventListener( 'input', event => {
+    const width = event.target.value;
+    lineWidthLabel.innerHTML = width;
+    context.lineWidth = width;
+} );
+
+let x = 0, y = 0;
+let isMouseDown = false;
+
+const stopDrawing = () => { isMouseDown = false; };
+const startDrawing = event => {
+    isMouseDown = true;
+   [x, y] = [event.offsetX, event.offsetY];
+};
+const drawLine = event => {
+    if ( isMouseDown ) {
+        const newX = event.offsetX;
+        const newY = event.offsetY;
+        context.beginPath();
+        context.moveTo( x, y );
+        context.lineTo( newX, newY );
+        context.stroke();
+        //[x, y] = [newX, newY];
+        x = newX;
+        y = newY;
+    }
+};
+
+paintCanvas.addEventListener( 'mousedown', startDrawing );
+paintCanvas.addEventListener( 'mousemove', drawLine );
+paintCanvas.addEventListener( 'mouseup', stopDrawing );
+paintCanvas.addEventListener( 'mouseout', stopDrawing );
+
+function clear_canvas() {
+    context.clearRect(0, 0, paintCanvas.width, paintCanvas.height);
+}
+
+function save() {
+   var image = paintCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+    window.location.href=image; // it will save locally
+}
+    </script>
+
+          </div>
+        </div>
+
+    	</div>
+    </section>
+
+
+
+            <script src="https://meet.jit.si/external_api.js"></script>
+        <script>
+            var domain = "meet.jit.si";
+            var options = {
+                roomName: "guarantee_1",
+                width: 500,
+                height: 500,
+                parentNode: document.querySelector('#jitsi'),
+                configOverwrite: {},
+                interfaceConfigOverwrite: {},
+                userInfo: {
+                    email: 'email@jitsiexamplemail.com',
+                    displayName: 'Artem Kvasov'
+                }
+            };
+            var api = new JitsiMeetExternalAPI(domain, options);
+        </script>
+
+
+            <script>
+                function mute() {
+                    //api.executeCommand('setLargeVideoParticipant', 'abcd1234');
+                }
+            </script>
+
+
+
+
+
+
+
+
+
+{% endblock %}

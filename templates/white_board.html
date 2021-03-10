@@ -1,0 +1,317 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load box_tags %}
+{% block title %}ГАРАНТИЯ ЗНАНИЙ - кружки Робототехники, Программирования и Химии детям{% endblock title %}
+
+{% block tags %}
+<meta name="description"
+    content="ГАРАНТИЯ ЗНАНИЙ - Курсы дополнительного образования для детей и школьников по робототехнике, программированию, химии и подготовительные курсы егэ и огэ" />
+<meta name="keywords"
+    content="гарантия знаний, программирование, курсы, робототехника, занятия, химия, английский, физика, математика, русский, французский, предпринимательство, финансы, моделирование, обществознание, егэ, огэ, экзамены, лагерь, детский" />
+<meta name="author" content="dobriy_zhuk" />
+<meta property="og:title"
+    content="ГАРАНТИЯ ЗНАНИЙ - Робототехника, Программирование, Химия, а также курсы ЕГЭ и ОГЭ для детей" />
+<meta property="og:description"
+    content="ГАРАНТИЯ ЗНАНИЙ - Курсы дополнительного образования для детей и школьников по робототехнике, программированию, химии и подготовительные курсы егэ и огэ для детей" />
+<meta property="og:image" content="http://garantylearning.com/images/slide_1.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://garantylearning.com/index.html" />
+{% endblock %}
+
+{% block content %}
+    <div class="hero-wrap hero-wrap-2" style="background-image: url({% static 'images/bg_1.jpg' %});" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-start">
+          <div class="col-md-8 ftco-animate text-center text-md-left mb-5">
+          	<p class="breadcrumbs mb-0"><span class="mr-3"><a href="index.html">Гарантия Знаний <i class="ion-ios-arrow-forward"></i></a></span> <span>Уроки</span></p>
+            <h1 class="mb-3 bread">{{ lesson.name }}</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section class="ftco-section">
+    	<div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                  <div class="text-left">
+                      <div id="jitsi" class="video_frame"></div>
+                      <div class="form-group form-inline">
+                          <button class="btn btn-primary" type="button" onclick="sound();">Звук</button>
+                          <button class="btn btn-primary" type="button" onclick="video()">Видео</button>
+                          <button class="btn btn-primary" type="button" onclick="little_size()">Уменьшить экран</button>
+                          <button class="btn btn-primary" type="button" onclick="standart_size()">Стандартный размер</button>
+                      </div>
+                  </div>
+                </div>
+                <div class="row mb-5">
+                    <div class="col-md-9 text-left heading-section text-right ftco-animate">
+                <form id="lesson-form" name="lesson-form" class="small">
+                {% csrf_token %}
+                <div class="table-responsive">
+	    				<table class="table">
+						    <thead class="thead-primary">
+						      <tr>
+						        <th>ФИО</th>
+						        <th>Бонусы</th>
+                                <th>Комментарий</th>
+                              </tr>
+						    </thead>
+                        {% for student in lesson.students.all %}
+                            <tr>
+						        <td class="color">{{ student.user.first_name }} {{ student.user.last_name }}</td>
+                                <input hidden name="student.{{ forloop.counter }}" value="{{ student.user }}">
+						        <td>
+                                    <select class="form-control" name="bonus.{{ forloop.counter }}" id="bonus">
+                                        <option value="-2">Отсутстовал: неуважительно</option>
+                                        <option value="-1">Отсутствовал: уважительно</option>
+                                        <option value="0">Присутствовал</option>
+                                        <option value="1">Присутствовал: 1 бонус</option>
+                                        <option value="2">Присутствовал: 2 бонуса</option>
+                                    </select>
+                                </td>
+						        <td>
+                                    <textarea name="comment.{{ forloop.counter }}" id="comment" cols="10" rows="2" class="form-control" placeholder="Комментарий"></textarea>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+						    <tbody>
+                            </tbody>
+						  </table>
+                <div id="result_div_id"></div>
+                <div class="form-group">
+                <textarea name="homework" id="homework" cols="30" rows="3" class="form-control" placeholder="Домашнее задание"></textarea>
+              </div>
+                <div class="form-group">
+                  <button class="btn btn-primary py-3 px-5" type="button" onclick="finish_lesson();">Завершить урок</button>
+              </div>
+                </div>
+                </form>
+            </div>
+                </div>
+            </div>
+        <div class="col-md-6">
+        {% if request.user|has_group:"teacher" %}
+            <div class="container" style="overflow:auto; height: 1000px;">
+                {{ lesson.module.teacher_text|safe }}
+            </div>
+        {% endif %}
+        {% if request.user|has_group:"student" %}
+            <div class="container" style="overflow:auto; height: 1000px;">
+                {{ lesson.module.student_text|safe }}
+            </div>
+        {% endif %}
+        </div>
+        </div>
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <style>
+                    .paint-canvas {
+                  border: 1px black solid;
+                  display: block;
+                  margin: 1rem;
+                }
+
+                .color-picker {
+                  margin: 1rem 1rem 0 1rem;
+                }
+                    </style>
+            <div class="form-inline form-group-sm">
+                <input type="color"  class="js-color-picker  color-picker">
+                <input type="range" class="js-line-range" min="1" max="72" value="1">
+                <label class="js-range-value">1</label>Px
+                <button class="btn btn-primary ml-3" type="button" onclick="clear_canvas();">Очистить</button>
+                <button class="btn btn-primary" type="button" onclick="save()">Скачать доску</button>
+                <button class="btn btn-primary" type="button" onclick="write_down()">Демонстрация доски</button>
+            </div>
+            <canvas class="js-paint col-md-12 paint-canvas" height="100"></canvas>
+            <script>
+
+            const paintCanvas = document.querySelector( '.js-paint' );
+        const context = paintCanvas.getContext( '2d' );
+        context.lineCap = 'round';
+
+        const colorPicker = document.querySelector( '.js-color-picker');
+
+        colorPicker.addEventListener( 'change', event => {
+            context.strokeStyle = event.target.value;
+        } );
+
+        const lineWidthRange = document.querySelector( '.js-line-range' );
+        const lineWidthLabel = document.querySelector( '.js-range-value' );
+
+        lineWidthRange.addEventListener( 'input', event => {
+            const width = event.target.value;
+            lineWidthLabel.innerHTML = width;
+            context.lineWidth = width;
+        } );
+
+        let x = 0, y = 0;
+        let isMouseDown = false;
+
+        const stopDrawing = () => { isMouseDown = false; };
+        const startDrawing = event => {
+            isMouseDown = true;
+           [x, y] = [event.offsetX, event.offsetY];
+        };
+        const drawLine = event => {
+            if ( isMouseDown ) {
+                const newX = event.offsetX;
+                const newY = event.offsetY;
+                context.beginPath();
+                context.moveTo( x, y );
+                context.lineTo( newX, newY );
+                context.stroke();
+                //[x, y] = [newX, newY];
+                x = newX;
+                y = newY;
+            }
+        };
+
+        paintCanvas.addEventListener( 'mousedown', startDrawing );
+        paintCanvas.addEventListener( 'mousemove', drawLine );
+        paintCanvas.addEventListener( 'mouseup', stopDrawing );
+        paintCanvas.addEventListener( 'mouseout', stopDrawing );
+
+        function clear_canvas() {
+            context.clearRect(0, 0, paintCanvas.width, paintCanvas.height);
+        }
+
+        function save() {
+           var image = paintCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+            window.location.href=image; // it will save locally
+        }
+            </script>
+        </div>
+    </div>
+
+    	</div>
+
+
+
+
+    </section>
+
+
+
+            <script src="https://meet.jit.si/external_api.js"></script>
+        <script>
+            var domain = "meet.jit.si";
+            var options = {
+                roomName: "{{ lesson.link }}",
+                parentNode: document.querySelector('#jitsi'),
+                configOverwrite: {},
+                interfaceConfigOverwrite: {},
+                userInfo: {
+                    email: '{{ request.user.email }}',
+                    displayName: '{{ request.user.first_name }} {{ request.user.last_name }}'
+                }
+            };
+            var api = new JitsiMeetExternalAPI(domain, options);
+        </script>
+    <style>
+    div.video_frame {
+        width: 100%;
+        height: 500px;
+}
+    </style>
+
+
+            <script>
+                function sound() {
+                    api.executeCommand('toggleAudio');
+                }
+                function video() {
+                    api.executeCommand('toggleVideo');
+                }
+                function little_size() {
+                    document.getElementById('jitsi').style.width = '100px';
+                     document.getElementById('jitsi').style.height = '100px';
+                }
+
+                function standart_size() {
+                    document.getElementById('jitsi').style.width = '500px';
+                     document.getElementById('jitsi').style.height = '500px';
+                }
+
+                function write_down() {
+                   api.executeCommand('toggleShareScreen');
+                   api.executeCommand('toggleFilmStrip');
+                }
+
+                function finish_lesson() {
+                    var $form = $("#lesson-form");
+                    var data = getFormData($form);
+
+
+                    $.ajax({
+                        type:'POST',
+                        url:'{% url "finish_lesson" pk=lesson.pk %}',
+                        data:{
+                            students: JSON.stringify(data),
+                            homework: document.getElementById('homework').value,
+                            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                            action: 'post'
+                        },
+                        success:function(json){
+                            document.getElementById("lesson-form").reset();
+                            if (json.result === 'ok'){
+                                window.location.replace("http://127.0.0.1:8000/box/");
+                        }
+                        },
+                        error : function(xhr,errmsg,err) {
+                            alert("ERROR");
+                        console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                    }
+                    });
+
+                }
+
+function getFormData($form){
+    var unindexed_array = $form.serializeArray();
+    var lesson_dict = [];
+    count = 1;
+
+
+    for (let count = 1; count <= {{ lesson.students.all.count }}; count++){
+        var dict = [];
+        for (let i = 0; i < unindexed_array.length; i++) {
+            if (unindexed_array[i].name.split('.')[0] === 'homework'){
+                break;
+            } else if (unindexed_array[i].name.split('.')[1] === count.toString()){
+                    dict.push({
+                        key: unindexed_array[i].name.split('.')[0],
+                        value: unindexed_array[i].value
+                    })
+                }
+        }
+        lesson_dict.push({
+            key: dict[0].value,
+            value: dict[1].value
+        });
+
+}
+
+
+    return lesson_dict;
+}
+
+            </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

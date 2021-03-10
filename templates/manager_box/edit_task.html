@@ -1,0 +1,188 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}ГАРАНТИЯ ЗНАНИЙ - кружки Робототехники, Программирования и Химии детям{% endblock title %}
+
+{% block tags %}
+<meta name="description"
+    content="ГАРАНТИЯ ЗНАНИЙ - Курсы дополнительного образования для детей и школьников по робототехнике, программированию, химии и подготовительные курсы егэ и огэ" />
+<meta name="keywords"
+    content="гарантия знаний, программирование, курсы, робототехника, занятия, химия, английский, физика, математика, русский, французский, предпринимательство, финансы, моделирование, обществознание, егэ, огэ, экзамены, лагерь, детский" />
+<meta name="author" content="dobriy_zhuk" />
+<meta property="og:title"
+    content="ГАРАНТИЯ ЗНАНИЙ - Робототехника, Программирование, Химия, а также курсы ЕГЭ и ОГЭ для детей" />
+<meta property="og:description"
+    content="ГАРАНТИЯ ЗНАНИЙ - Курсы дополнительного образования для детей и школьников по робототехнике, программированию, химии и подготовительные курсы егэ и огэ для детей" />
+<meta property="og:image" content="http://garantylearning.com/images/slide_1.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://garantylearning.com/index.html" />
+
+
+{% endblock %}
+
+{% block content %}
+
+        <section class="ftco-section">
+    	<div class="container">
+    		<div class="row justify-content-center mb-3 mt-5">
+          <div class="col-md-7 text-center heading-section ftco-animate">
+            <h2 class="mb-3">Редактирование модуля</h2>
+            <p>Внимательно вносите информацию</p>
+          </div>
+        </div>
+    		<div class="row">
+    			<div class="col-md-12 ftco-animate">
+                       <form method='POST' enctype="multipart/form-data">
+                       <div id="result_div_id"></div>
+                      {% csrf_token %}
+                      {% for field in module_form %}
+                          <p>{% if field.help_text %}</p>
+                      <small style="color: grey">{{ field.help_text }}</small><br>
+                        {% endif %}
+                        {{ field }}
+                        {% for error in field.errors %}
+                          <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                        {% endfor %}
+                        <div class="form-group">
+                          <button class="btn btn-primary py-3 px-5" type="submit">Обновить</button>
+                      </div>
+                    </form>
+    			</div>
+    		</div>
+    	</div>
+    </section>
+    <section class="ftco-section ftco-partner">
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-sm ftco-animate">
+    				<a href="#" class="partner"><img src="images/partner-1.png" class="img-fluid" alt="Colorlib Template"></a>
+    			</div>
+    			<div class="col-sm ftco-animate">
+    				<a href="#" class="partner"><img src="images/partner-2.png" class="img-fluid" alt="Colorlib Template"></a>
+    			</div>
+    			<div class="col-sm ftco-animate">
+    				<a href="#" class="partner"><img src="images/partner-3.png" class="img-fluid" alt="Colorlib Template"></a>
+    			</div>
+    			<div class="col-sm ftco-animate">
+    				<a href="#" class="partner"><img src="images/partner-4.png" class="img-fluid" alt="Colorlib Template"></a>
+    			</div>
+    			<div class="col-sm ftco-animate">
+    				<a href="#" class="partner"><img src="images/partner-5.png" class="img-fluid" alt="Colorlib Template"></a>
+    			</div>
+    		</div>
+    	</div>
+    </section>
+
+
+<link rel="stylesheet" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006288/BBBootstrap/choices.min.css?version=7.0.0">
+<script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006273/BBBootstrap/choices.min.js?version=7.0.0"></script>
+<script>
+
+
+ var multipleCancelButtonStudent = new Choices('#choices-multiple-remove-student', {
+ removeItemButton: true,
+ maxItemCount:10,
+ searchResultLimit:10,
+ renderChoiceLimit:10
+ });
+
+
+  var multipleCancelButtonTeacher = new Choices('#choices-multiple-remove-teacher', {
+ removeItemButton: true,
+ maxItemCount:1,
+ searchResultLimit:1,
+ renderChoiceLimit:5
+ });
+
+function create_student(){
+    $.ajax({
+        type:'POST',
+        url:'{% url "new_profile" %}',
+        dataType: 'json',
+        data: JSON.stringify({
+            "user_type": "student",
+            "first_name": $('#student_first_name').val(),
+            "last_name": $('#student_last_name').val(),
+            "email": $('#student_email').val(),
+            "phone": $('#student_phone').val(),
+            "status": document.getElementById("student_leadCheckbox").checked,
+        }),
+        contentType: 'application/json; charset=utf-8',
+        success:function(json){
+            //document.getElementById("post-form").reset();
+            alert(json.result);
+        },
+        error : function(xhr,errmsg,err) {
+            alert("ERROR");
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+        }
+    });
+}
+
+    function create_teacher(){
+        $.ajax({
+            type:'POST',
+            url:'{% url "new_profile" %}',
+            dataType: 'json',
+            data: JSON.stringify({
+                "user_type": "teacher",
+                "first_name": $('#teacher_first_name').val(),
+                "last_name": $('#teacher_last_name').val(),
+                "email": $('#teacher_email').val(),
+                "phone": $('#teacher_phone').val(),
+                "status": $('#teacher_status').val(),
+                "hourly_rate": $('#teacher_hourly_rate').val(),
+            }),
+            contentType: 'application/json; charset=utf-8',
+            success:function(json){
+            //document.getElementById("post-form").reset();
+                alert(json.result);
+            },
+            error : function(xhr,errmsg,err) {
+                alert("ERROR");
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    }
+
+    function create_manager(){
+        $.ajax({
+            type:'POST',
+            url:'{% url "new_profile" %}',
+            dataType: 'json',
+            data: JSON.stringify({
+                "user_type": "manager",
+                "first_name": $('#manager_first_name').val(),
+                "last_name": $('#manager_last_name').val(),
+                "email": $('#manager_email').val(),
+                "phone": $('#manager_phone').val(),
+            }),
+            contentType: 'application/json; charset=utf-8',
+            success:function(json){
+            //document.getElementById("post-form").reset();
+                alert(json.result);
+            },
+            error : function(xhr,errmsg,err) {
+                alert("ERROR");
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    }
+</script>
+
+
+<script>
+function changeStudent(value) {
+
+    profile_type = document.getElementById("profile_type").value;
+
+    var url = new URL(window.location.href + "?profile_type=" + profile_type);
+    url.searchParams.set('profile_type', profile_type);
+
+    window.location.replace(url);
+
+}
+</script>
+
+{% endblock %}
+

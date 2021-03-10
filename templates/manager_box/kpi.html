@@ -1,0 +1,152 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}ГАРАНТИЯ ЗНАНИЙ - кружки Робототехники, Программирования и Химии детям{% endblock title %}
+
+{% block tags %}
+<meta name="description"
+    content="ГАРАНТИЯ ЗНАНИЙ - Курсы дополнительного образования для детей и школьников по робототехнике, программированию, химии и подготовительные курсы егэ и огэ" />
+<meta name="keywords"
+    content="гарантия знаний, программирование, курсы, робототехника, занятия, химия, английский, физика, математика, русский, французский, предпринимательство, финансы, моделирование, обществознание, егэ, огэ, экзамены, лагерь, детский" />
+<meta name="author" content="dobriy_zhuk" />
+<meta property="og:title"
+    content="ГАРАНТИЯ ЗНАНИЙ - Робототехника, Программирование, Химия, а также курсы ЕГЭ и ОГЭ для детей" />
+<meta property="og:description"
+    content="ГАРАНТИЯ ЗНАНИЙ - Курсы дополнительного образования для детей и школьников по робототехнике, программированию, химии и подготовительные курсы егэ и огэ для детей" />
+<meta property="og:image" content="http://garantylearning.com/images/slide_1.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://garantylearning.com/index.html" />
+{% endblock %}
+
+{% block content %}
+
+        <section class="ftco-section">
+    	<div class="container">
+    		<div class="row mt-5">
+          <div class="col-md-7 text-left heading-section ftco-animate">
+            <h2 class="">Финансы <a class="btn btn-danger btn-sm" href="{% url 'new_module' %}">Добавить</a></h2>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <label for="filterBranch">Филиал</label>
+                <select onchange="filterParams()" class="custom-select" id="filterBranch">
+                    <option value="False" {% if request.GET.branch == "Marino" %} selected {% endif %}>Братиславская</option>
+                    <option value="True" {% if request.GET.finished == True %} selected {% endif %}>Ярославль</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="filterFinished">Состояние</label>
+                <select onchange="filterParams()" class="custom-select" id="filterFinished">
+                    <option value="False" {% if request.GET.status == "Лид" %} selected {% endif %}>Лид</option>
+                    <option value="True" {% if request.GET.finished == "True" %} selected {% endif %}>Активный студент</option>
+                    <option value="True" {% if request.GET.finished == "True" %} selected {% endif %}>Архив</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="filterTeacher">Ответственный менеджер</label>
+                <select onchange="filterParams()" class="custom-select" id="filterTeacher">
+                    <option value="id_1" selected>Квасов Артем</option>
+                    <option value="id_2">Завершенные</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="filterPeriod">Скачать выборку</label>
+                <select onchange="filterParams()" class="custom-select" id="filterPeriod">
+                    <option value="False" selected>Январь 2021</option>
+                    <option value="True">Завершенные</option>
+                </select>
+            </div>
+        </div>
+
+    		<div class="row">
+    			<div class="col-md-12 ftco-animate">
+    				<div class="table-responsive">
+	    				<table class="table">
+						    <thead class="thead-primary">
+						      <tr>
+						        <th>Задача</th>
+						        <th>Описание</th>
+						        <th>Ответственный</th>
+						        <th>Клиенты</th>
+                                <th>Статус</th>
+						        <th>Zoom</th>
+                                <th>Комментарий</th>
+						      </tr>
+						    </thead>
+						    <tbody>
+                            {% for profile in all_profiles %}
+                                <tr>
+                                    <td class="color">{{ profile }}</td>
+        </td>
+						        <td>{{ profile.user.email }}</td>
+						        <td>{{ profile.phone }}</td>
+						        <td>{{ lesson.teacher }}</td>
+                                    <td>{{ profile.status }}</td>
+                                    <td></td>
+                                <td><input type="text" value="{{ profile.status }}"></td>
+                                <td>
+                                    <a class="btn btn-dark" href="{% url 'edit_profile' pk=profile.user.pk %}"><span class="icon-pencil"></span></a>
+                                    <a class="btn btn-danger" href="{% url 'remove_profile' pk=profile.user.pk %}"><span class="icon-remove"></span></a>
+                                </td>
+						      </tr>
+                        {% endfor %}
+						    </tbody>
+						  </table>
+					  </div>
+    			</div>
+    		</div>
+        <div class="row mt-5">
+          <div class="col text-center">
+            <div class="block-27">
+            {% if all_profiles.has_other_pages %}
+              <ul>
+                  {% if all_profiles.has_previous %}
+                    <li><a href="?page={{ all_profiles.previous_page_number }}">&lt;</a></li>
+                  {% else %}
+                    <li class="disabled"></li>
+                  {% endif %}
+                  {% for i in all_profiles.paginator.page_range %}
+                      {% if all_profiles.number > 3 and forloop.first %}
+                        <li><a href="?page=1">1</a></li>
+                        <li class="disabled">⋯</li>
+                      {% endif %}
+                    {% if all_profiles.number == i %}
+                        <li class="active"><span>{{ i }}</span></li>
+                    {% elif i > all_profiles.number|add:'-3' and i < all_profiles.number|add:'3' %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% if all_profiles.paginator.num_pages > lessons.number|add:'3' and forloop.last %}
+                        <li class="disabled">⋯</li>
+                        <li><a href="?page={{ all_profiles.paginator.num_pages }}">{{ all_profiles.paginator.num_pages }}</a></li>
+                    {% endif %}
+                  {% endfor %}
+                  {% if all_profiles.has_next %}
+                    <li><a href="?page={{ all_profiles.next_page_number }}">></a></li>
+                  {% else %}
+                    <li class="disabled"></li>
+                  {% endif %}
+              </ul>
+            {% endif %}
+            </div>
+          </div>
+        </div>
+    	</div>
+    </section>
+
+
+
+<script>
+function filterParams() {
+    user_type = document.getElementById("filterType").value;
+    teacher = document.getElementById("filterTeacher").value;
+
+    var url = new URL(window.location.href + "?finished=False");
+    url.searchParams.set('user_type', user_type);
+    url.searchParams.set('teacher', teacher);
+
+    window.location.replace(url);
+
+}
+</script>
+
+{% endblock %}
