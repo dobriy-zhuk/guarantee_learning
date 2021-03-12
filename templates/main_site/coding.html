@@ -1,6 +1,6 @@
 {% extends 'base/base.html' %}
 {% load static %}
-{% block title %}ГАРАНТИЯ ЗНАНИЙ - кружки Робототехники, Программирования и Химии детям{% endblock title %}
+{% block title %}{{ this_page.title }}{% endblock title %}
 
 {% block tags %}
 <meta name="description"
@@ -19,50 +19,132 @@
 
 {% block content %}
 
-    <div class="hero-wrap hero-wrap-2" style="background-image: url({% static 'images/slide_1.jpg' %});" data-stellar-background-ratio="0.5">
+    <div class="hero-wrap js-fullheight">
       <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end justify-content-start">
-          <div class="col-md-8 ftco-animate text-center text-md-left mb-5">
-          	<p class="breadcrumbs mb-0"><span class="mr-3"><a href="{% url 'camp' %} }}">Гарантия Знаний <i class="ion-ios-arrow-forward"></i></a></span> <span>Лагерь</span></p>
-            <h1 class="mb-3 bread">Детский городской лагерь</h1>
-          </div>
-        </div>
+      <div class="container-fluid px-0">
+      	<div class="row d-md-flex no-gutters slider-text align-items-center js-fullheight justify-content-end">
+	      	<img class="one-third js-fullheight align-self-end order-md-last img-fluid" src="{% static 'images/undraw_pair_programming_njlp.svg' %}" alt="">
+	        <div class="one-forth d-flex align-items-center ftco-animate js-fullheight">
+	        	<div class="text mt-5">
+	        		<span class="subheading">Гарантия Знаний</span>
+	            <h1 class="mb-3"><span>Научим вашего ребенка создавать игры!</span></h1>
+	            <p>Всего за 16 занятий ваш ребенок научится создавать мобильные приложения и анимационные игры!</p>
+	            <p><a href="{% url 'contact' %}#school-contacts" class="btn btn-primary px-4 py-3">Бесплатный урок</a></p>
+	          </div>
+	        </div>
+	    	</div>
       </div>
     </div>
 
-     <section class="ftco-section bg-light">
+    <section class="ftco-section services-section bg-light">
+      <div class="container">
+      	<div class="row justify-content-center mb-5 pb-3">
+          <div class="col-md-7 text-center heading-section ftco-animate">
+            <h2 class="mb-4">{{ this_page.h2 }}</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center order-md-last">
+            		<span class="flaticon-cloud"></span>
+            	</div>
+              <div class="media-body pl-4 pl-md-0 pr-md-4 text-md-right">
+                <h3 class="heading">Вводный урок</h3>
+                <p class="mb-0">Занятия начинаются с бесплатного вводного урока. На этом занятии ребенок создаст свою первую игру, а мы создадим для него план занятий!</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center">
+            		<span class="flaticon-server"></span>
+            	</div>
+              <div class="media-body pl-4">
+                <h3 class="heading">Индивидуальный подход</h3>
+                <p class="mb-0">Мы корректируем программу занятий в зависимости от успехов ребенка и формируем индивидуальный план обучения!</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center order-md-last">
+            		<span class="flaticon-customer-service"></span>
+            	</div>
+              <div class="media-body pl-4 pl-md-0 pr-md-4 text-md-right">
+                <h3 class="heading">Контроль прогресса</h3>
+                <p>Мы ежемесячно даем обратную связь по успехам ребенка. Тем самым вы всегда будете знать насколько полезны наши уроки</p>
+              </div>
+            </div>
+          </div>
+					<div class="col-md-6 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center">
+            		<span class="flaticon-life-insurance"></span>
+            	</div>
+              <div class="media-body pl-4">
+                <h3 class="heading">Удобная платформа</h3>
+                <p>Все записи занятий хранятся в личном кабинете. Мы мотивируем ребенка к обучению и дарим подарки за его достижения!</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center order-md-last">
+            		<span class="flaticon-cloud-computing"></span>
+            	</div>
+              <div class="media-body pl-4 pl-md-0 pr-md-4 text-md-right">
+                <h3 class="heading">Практические уроки</h3>
+                <p>Каждый урок - это отдельный небольшой проект. Мы создаем интерактивные и насыщенные уроки с большим количеством практики</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center">
+            		<span class="flaticon-settings"></span>
+            	</div>
+              <div class="media-body pl-4">
+                <h3 class="heading">Режим занятий</h3>
+                <p>Длительность одного урока - 60 минут. Занятия проходят один раз в неделю. Полный курс рассчитан на 8 модулей по 16 занятий</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+     <section class="ftco-section ">
     	<div class="container">
     		<div class="row justify-content-center mb-5 pb-5">
     			<div class="col-md-7 text-center heading-section ftco-animate">
-            <span class="subheading">Services</span>
-            <h2 class="mb-4">How it works</h2>
+            <span class="subheading">Школа программирования</span>
+            <h2 class="mb-4">Чему мы учим?</h2>
           </div>
     		</div>
     		<div class="row">
           <div class="col-md-12 nav-link-wrap mb-5 pb-md-5 pb-sm-1 ftco-animate">
             <div class="nav ftco-animate nav-pills justify-content-center text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-              <a class="nav-link active" id="v-pills-nextgen-tab" data-toggle="pill" href="#v-pills-nextgen" role="tab" aria-controls="v-pills-nextgen" aria-selected="true">Next gen VPS</a>
+              <a class="nav-link active" id="v-pills-nextgen-tab" data-toggle="pill" href="#v-pills-nextgen" role="tab" aria-controls="v-pills-nextgen" aria-selected="true">Scratch для детей</a>
 
-              <a class="nav-link" id="v-pills-performance-tab" data-toggle="pill" href="#v-pills-performance" role="tab" aria-controls="v-pills-performance" aria-selected="false">Performance</a>
+              <a class="nav-link" id="v-pills-performance-tab" data-toggle="pill" href="#v-pills-performance" role="tab" aria-controls="v-pills-performance" aria-selected="false">Android-программирование</a>
 
-              <a class="nav-link" id="v-pills-effect-tab" data-toggle="pill" href="#v-pills-effect" role="tab" aria-controls="v-pills-effect" aria-selected="false">Effectiveness</a>
+              <a class="nav-link" id="v-pills-effect-tab" data-toggle="pill" href="#v-pills-effect" role="tab" aria-controls="v-pills-effect" aria-selected="false">Python</a>
             </div>
           </div>
           <div class="col-md-12 align-items-center ftco-animate">
-
             <div class="tab-content ftco-animate" id="v-pills-tabContent">
-
               <div class="tab-pane fade show active" id="v-pills-nextgen" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
               	<div class="d-md-flex">
 	              	<div class="one-forth align-self-center">
-	              		<img src="images/undraw_laravel_and_vue_59tp.svg" class="img-fluid" alt="">
+	              		<img src="{% static 'images/scratch.png' %}" class="img-fluid" alt="">
 	              	</div>
 	              	<div class="one-half ml-md-5 align-self-center">
-		                <h2 class="mb-4">Next gen VPS hosting</h2>
-		              	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-		                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt voluptate, quibusdam sunt iste dolores consequatur</p>
-		                <p><a href="#" class="btn btn-primary py-3">Get in touch</a></p>
+		                <h2 class="mb-4">Scratch для детей (6-10 лет)</h2>
+		              	<p>Ученики будут изучать увлекательный и мощный язык программирования - Scratch, который был разработан ведущим Мировым университетом M.I.T. и помогает детям осваивать основы математики и логики.</p>
+		                <p>В модуле большое внимание уделяется логике, ребята создают простые программы: калькулятор, лабиринт и даже ping pong.</p>
+		                <p><strong>Стоимость</strong>: от 800руб/урок</p>
+		                <p><a href="{% url 'contact' %}" class="btn btn-primary py-3">Узнать подробности</a></p>
 		              </div>
 	              </div>
               </div>
@@ -70,13 +152,14 @@
               <div class="tab-pane fade" id="v-pills-performance" role="tabpanel" aria-labelledby="v-pills-performance-tab">
                 <div class="d-md-flex">
 	              	<div class="one-forth order-last align-self-center">
-	              		<img src="images/undraw_visual_data_b1wx.svg" class="img-fluid" alt="">
+	              		<img src="{% static 'images/android.png' %}" class="img-fluid" alt="">
 	              	</div>
 	              	<div class="one-half order-first mr-md-5 align-self-center">
-		                <h2 class="mb-4">Performance VPS hosting</h2>
-		              	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-		                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt voluptate, quibusdam sunt iste dolores consequatur</p>
-		                <p><a href="#" class="btn btn-primary py-3">Get in touch</a></p>
+		                <h2 class="mb-4">Android-програмирование (8-14 лет)</h2>
+		              	<p>Ребята при помощи специальной платформы будут создавать игры и мобильные приложения для телефона. Дети будут создавать игры, приложение "калькулятор" и даже морской бой!</p>
+		                <p>В модуле большое внимание уделяется разработке реальных приложений. Будут устанавливать игры на Android и публиковать свои разработки в Google Play.</p>
+		                <p><strong>Стоимость</strong>: от 900руб/урок</p>
+		                <p><a href="{% url 'contact' %}" class="btn btn-primary py-3">Узнать подробности</a></p>
 		              </div>
 	              </div>
               </div>
@@ -84,13 +167,14 @@
               <div class="tab-pane fade" id="v-pills-effect" role="tabpanel" aria-labelledby="v-pills-effect-tab">
                 <div class="d-md-flex">
 	              	<div class="one-forth align-self-center">
-	              		<img src="images/undraw_business_plan_5i9d.svg" class="img-fluid" alt="">
+	              		<img src="{% static 'images/python.png' %}" class="img-fluid" alt="">
 	              	</div>
 	              	<div class="one-half ml-md-5 align-self-center">
-		                <h2 class="mb-4">Effective VPS hosting</h2>
-		              	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-		                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt voluptate, quibusdam sunt iste dolores consequatur</p>
-		                <p><a href="#" class="btn btn-primary py-3">Get in touch</a></p>
+		                <h2 class="mb-4">Python для будущих программистов<br>(12-17 лет)</h2>
+		              	<p>На этом модуле ребенок изучит основы программирования на языке высокого уровня. Освоит основные алгоритмы и даже создаст графическое приложение для компьютера. </p>
+		                <p>В модуле большое внимание уделяется логике, математике и развитию алгоритмического мышления</p>
+                        <p><strong>Стоимость</strong>: от 900руб/урок</p>
+		                <p><a href="{% url 'contact' %}" class="btn btn-primary py-3">Узнать подробности</a></p>
 		              </div>
 	              </div>
               </div>
@@ -104,9 +188,9 @@
       <div class="container">
         <div class="row justify-content-center mb-5 pb-3">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <span class="subheading">Customer Says</span>
-            <h2 class="mb-4">Our satisfied customer says</h2>
-            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
+            <span class="subheading">Наши клиенты</span>
+            <h3 class="mb-4">Отзывы о школе программирования</h3>
+            <p>Образование - это все! Будущее ребенка зависит от качества образования и любви к учебе. Мы даем детям возможность развивать свои таланты и становиться успешнее!</p>
           </div>
         </div>
         <div class="row ftco-animate">
@@ -114,71 +198,44 @@
             <div class="carousel-testimony owl-carousel ftco-owl">
               <div class="item">
                 <div class="testimony-wrap p-4 text-center">
-                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">
+                  <div class="user-img mb-4" style="background-image: url({% static 'images/testimonial_coding_1.jpg' %})">
                     <span class="quote d-flex align-items-center justify-content-center">
                       <i class="icon-quote-left"></i>
                     </span>
                   </div>
                   <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Mark Web</p>
-                    <span class="position">Marketing Manager</span>
+                    <p class="mb-4">Занимались на курсах программирования на протяжении года в Гарантии Знаний. Ребенок был в восторге от занятий, уроки для него пролетали незаметно.</p>
+                    <p class="name">Юлия</p>
+                    <span class="position">Мама Платона</span>
+                  </div>
+                </div>
+              </div>
+                <div class="item">
+                <div class="testimony-wrap p-4 text-center">
+                  <div class="user-img mb-4" style="background-image: url({% static 'images/testimonial_coding_2.jpg' %})">
+                    <span class="quote d-flex align-items-center justify-content-center">
+                      <i class="icon-quote-left"></i>
+                    </span>
+                  </div>
+                  <div class="text">
+                    <p class="mb-4">Хочу поделиться впечатлениями!! Мой " ершистый" сынок после первого урока вставал раньше будильника, чтоб не опоздать на занятия! Спасибо за чуткое отношение к детям! </p>
+                    <p class="name">Мария</p>
+                    <span class="position">Мама Вани</span>
                   </div>
                 </div>
               </div>
               <div class="item">
                 <div class="testimony-wrap p-4 text-center">
-                  <div class="user-img mb-4" style="background-image: url(images/person_2.jpg)">
+                  <div class="user-img mb-4" style="background-image: url({% static 'images/testimonial_coding_3.jpg' %})">
                     <span class="quote d-flex align-items-center justify-content-center">
                       <i class="icon-quote-left"></i>
                     </span>
                   </div>
                   <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Mark Web</p>
-                    <span class="position">Interface Designer</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap p-4 text-center">
-                  <div class="user-img mb-4" style="background-image: url(images/person_3.jpg)">
-                    <span class="quote d-flex align-items-center justify-content-center">
-                      <i class="icon-quote-left"></i>
-                    </span>
-                  </div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Mark Web</p>
-                    <span class="position">UI Designer</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap p-4 text-center">
-                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">
-                    <span class="quote d-flex align-items-center justify-content-center">
-                      <i class="icon-quote-left"></i>
-                    </span>
-                  </div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Mark Web</p>
-                    <span class="position">Web Developer</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap p-4 text-center">
-                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">
-                    <span class="quote d-flex align-items-center justify-content-center">
-                      <i class="icon-quote-left"></i>
-                    </span>
-                  </div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Mark Web</p>
-                    <span class="position">System Analyst</span>
+                    <p class="mb-4">Замечательные курсы! Ребенок (девочка)захотел программировать. Нас очень пугало, что такой предмет и для девочки. Но опасения были напрасны... Занятия нравятся!
+                    </p>
+                    <p class="name">Ирина</p>
+                    <span class="position">Мама Алины</span>
                   </div>
                 </div>
               </div>

@@ -24,7 +24,7 @@
       <div class="container">
         <div class="row no-gutters slider-text align-items-end justify-content-start">
           <div class="col-md-8 ftco-animate text-center text-md-left mb-5">
-          	<p class="breadcrumbs mb-0"><span class="mr-3"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Blog</span></p>
+          	<p class="breadcrumbs mb-0"><span class="mr-3"><a href="{% url 'blog' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Blog</span></p>
             <h1 class="mb-3 bread">Blog</h1>
 
           </div>
@@ -42,6 +42,9 @@
 
     <section class="ftco-section bg-light">
       <div class="container">
+      <div class="row text-right">
+           <a class="btn btn-danger btn-sm" href="{% url 'new_post' %}">Добавить</a>
+      </div>
         <div class="row">
             {% for post in posts %}
           <div class="col-md-4 ftco-animate">
@@ -56,105 +59,48 @@
                 </div>
                 <div class="desc pl-3">
 	                <h3 class="heading"><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
+                    <p>
+                        <a class="btn btn-dark btn-sm" href="{% url 'edit_post' pk=post.pk %}"><span class="icon-pencil"></span></a>
+                        <a class="btn btn-danger btn-sm" href="{% url 'remove_post' pk=post.pk %}"><span class="icon-remove"></span></a>
+                    </p>
 	              </div>
               </div>
             </div>
           </div>
             {% endfor %}
-          <div class="col-md-4 ftco-animate">
-            <div class="blog-entry" data-aos-delay="100">
-              <a href="blog-single.html" class="block-20" style="background-image: url({% static 'images/image_2.jpg' %});">
-              </a>
-              <div class="text d-flex py-4">
-                <div class="meta mb-3">
-                  <div><a href="#">May 8, 2019</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-                <div class="desc pl-3">
-	                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-	              </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 ftco-animate">
-            <div class="blog-entry" data-aos-delay="200">
-              <a href="blog-single.html" class="block-20" style="background-image: url({% static 'images/image_3.jpg' %});">
-              </a>
-              <div class="text d-flex py-4">
-                <div class="meta mb-3">
-                  <div><a href="#">May 8, 2019</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-                <div class="desc pl-3">
-	                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-	              </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4 ftco-animate">
-            <div class="blog-entry">
-              <a href="blog-single.html" class="block-20" style="background-image: url('images/image_4.jpg');">
-              </a>
-              <div class="text d-flex py-4">
-                <div class="meta mb-3">
-                  <div><a href="#">May 8, 2019</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-                <div class="desc pl-3">
-	                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-	              </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 ftco-animate">
-            <div class="blog-entry" data-aos-delay="100">
-              <a href="blog-single.html" class="block-20" style="background-image: url('images/image_5.jpg');">
-              </a>
-              <div class="text d-flex py-4">
-                <div class="meta mb-3">
-                  <div><a href="#">May 8, 2019</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-                <div class="desc pl-3">
-	                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-	              </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 ftco-animate">
-            <div class="blog-entry" data-aos-delay="200">
-              <a href="blog-single.html" class="block-20" style="background-image: url('images/image_6.jpg');">
-              </a>
-              <div class="text d-flex py-4">
-                <div class="meta mb-3">
-                  <div><a href="#">May 8, 2019</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-                <div class="desc pl-3">
-	                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-	              </div>
-              </div>
-            </div>
-          </div>
         </div>
-        <div class="row mt-5">
+      <div class="row mt-5">
           <div class="col text-center">
             <div class="block-27">
+            {% if posts.has_other_pages %}
               <ul>
-                <li><a href="#">&lt;</a></li>
-                <li class="active"><span>1</span></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">&gt;</a></li>
+                  {% if posts.has_previous %}
+                    <li><a href="?page={{ posts.previous_page_number }}">&lt;</a></li>
+                  {% else %}
+                    <li class="disabled"></li>
+                  {% endif %}
+                  {% for i in posts.paginator.page_range %}
+                      {% if posts.number > 3 and forloop.first %}
+                        <li><a href="?page=1">1</a></li>
+                        <li class="disabled">⋯</li>
+                      {% endif %}
+                    {% if posts.number == i %}
+                        <li class="active"><span>{{ i }}</span></li>
+                    {% elif i > posts.number|add:'-3' and i < posts.number|add:'3' %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% if posts.paginator.num_pages > posts.number|add:'3' and forloop.last %}
+                        <li class="disabled">⋯</li>
+                        <li><a href="?page={{ posts.paginator.num_pages }}">{{ posts.paginator.num_pages }}</a></li>
+                    {% endif %}
+                  {% endfor %}
+                  {% if posts.has_next %}
+                    <li><a href="?page={{ posts.next_page_number }}">></a></li>
+                  {% else %}
+                    <li class="disabled"></li>
+                  {% endif %}
               </ul>
+            {% endif %}
             </div>
           </div>
         </div>

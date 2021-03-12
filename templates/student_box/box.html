@@ -35,12 +35,14 @@
 	    				<table class="table">
 						    <thead class="thead-primary">
 						      <tr>
-						        <th>Name</th>
-						        <th>Data</th>
-						        <th>Students</th>
-						        <th>Teacher</th>
-						        <th>Homework</th>
-						        <th>Link</th>
+						        <th>Наименование</th>
+						        <th>Дата</th>
+						        <th>Ученики</th>
+						        <th>Учитель</th>
+                                <th>Тема урока</th>
+						        <th>Домашнее задание</th>
+						        <th>Ссылка</th>
+                                <th>Запись</th>
 						      </tr>
 						    </thead>
 						    <tbody>
@@ -52,6 +54,7 @@
                                 {{ student }}<br>
                             {% endfor %}</td>
 						        <td>{{ lesson.teacher }}</td>
+                                <td>{{ lesson.module }}</td>
 						        <td>{{ lesson.homework }}</td>
 						        <td>
                                     {% if lesson.finished %}
@@ -93,7 +96,7 @@
                     {% endif %}
                   {% endfor %}
                   {% if lessons.has_next %}
-                    <li><a href="?page={{ lessons.next_page_number }}">&raquo;</a></li>
+                    <li><a href="?page={{ lessons.next_page_number }}">></a></li>
                   {% else %}
                     <li class="disabled"></li>
                   {% endif %}

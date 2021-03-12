@@ -19,144 +19,120 @@
 
 {% block content %}
 
-    <div class="hero-wrap hero-wrap-2" style="background-image: url({% static 'images/bg_1.jpg' %});" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end justify-content-start">
-          <div class="col-md-8 ftco-animate text-center text-md-left mb-5">
-          	<p class="breadcrumbs mb-0"><span class="mr-3"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Domain</span></p>
-            <h1 class="mb-3 bread">Your lesson</h1>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <section class="ftco-section">
+     <section class="ftco-section bg-light">
     	<div class="container">
-    		<div class="row mb-5">
-          <div class="col-md-6 text-left heading-section ftco-animate">
-            <div id="jitsi"></div>
-                  <button onclick="mute()" value="hello">Mute</button>
-          </div>
-                <div class="col-md-6 text-left heading-section ftco-animate">
-
-                       <style>
-    .paint-canvas {
-  border: 1px black solid;
-  display: block;
-  margin: 1rem;
-}
-
-.color-picker {
-  margin: 1rem 1rem 0 1rem;
-}
-    </style>
-
-
-<input type="color"  class="js-color-picker  color-picker">
-<input type="range" class="js-line-range" min="1" max="72" value="1">
-<label class="js-range-value">1</label>Px
-<button onclick="clear_canvas()">Clear</button>
-<button onclick="save()">Save</button>
-<canvas class="js-paint  paint-canvas" width="600" height="300"></canvas>
-
-    <script>
-
-    const paintCanvas = document.querySelector( '.js-paint' );
-const context = paintCanvas.getContext( '2d' );
-context.lineCap = 'round';
-
-const colorPicker = document.querySelector( '.js-color-picker');
-
-colorPicker.addEventListener( 'change', event => {
-    context.strokeStyle = event.target.value;
-} );
-
-const lineWidthRange = document.querySelector( '.js-line-range' );
-const lineWidthLabel = document.querySelector( '.js-range-value' );
-
-lineWidthRange.addEventListener( 'input', event => {
-    const width = event.target.value;
-    lineWidthLabel.innerHTML = width;
-    context.lineWidth = width;
-} );
-
-let x = 0, y = 0;
-let isMouseDown = false;
-
-const stopDrawing = () => { isMouseDown = false; };
-const startDrawing = event => {
-    isMouseDown = true;
-   [x, y] = [event.offsetX, event.offsetY];
-};
-const drawLine = event => {
-    if ( isMouseDown ) {
-        const newX = event.offsetX;
-        const newY = event.offsetY;
-        context.beginPath();
-        context.moveTo( x, y );
-        context.lineTo( newX, newY );
-        context.stroke();
-        //[x, y] = [newX, newY];
-        x = newX;
-        y = newY;
-    }
-};
-
-paintCanvas.addEventListener( 'mousedown', startDrawing );
-paintCanvas.addEventListener( 'mousemove', drawLine );
-paintCanvas.addEventListener( 'mouseup', stopDrawing );
-paintCanvas.addEventListener( 'mouseout', stopDrawing );
-
-function clear_canvas() {
-    context.clearRect(0, 0, paintCanvas.width, paintCanvas.height);
-}
-
-function save() {
-   var image = paintCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
-    window.location.href=image; // it will save locally
-}
-    </script>
-
+    		<div class="row justify-content-center mb-5 pb-3">
+          <div class="col-md-7 text-center heading-section ftco-animate">
+            <h2 class="mb-4">Выберите сумму оплаты</h2>
           </div>
         </div>
+    		<div class="row d-flex">
+	        <div class="col-lg-3 col-md-6 ftco-animate">
+	          <div class="block-7">
+	            <form class="text-center" method="post" action="{% url 'payment' %}">
+                    {% csrf_token %}
+		            <h2 class="heading">Free</h2>
+                    <span class="price"><sup>$</sup> <span class="number">1000<small class="per">/mo</small></span></span>
+		            <span class="excerpt d-block">100% free. Forever</span>
+		            <h3 class="heading-2 mb-3">Enjoy All The Features</h3>
 
+		            <ul class="pricing-text mb-4">
+		              <li><strong>150 GB</strong> Bandwidth</li>
+		              <li><strong>100 GB</strong> Storage</li>
+		              <li><strong>$1.00 / GB</strong> Overages</li>
+		              <li>All features</li>
+		            </ul>
+                    <input name="sum" value="10" hidden>
+                        <button class="btn btn-block btn-primary d-block px-3 py-3 mb-4" type="submit">Выбрать</button>
+	            </form>
+	          </div>
+	        </div>
+	        <div class="col-lg-3 col-md-6 ftco-animate">
+	          <div class="block-7">
+	           <form class="text-center" method="post" action="{% url 'payment' %}">
+                    {% csrf_token %}
+		            <h2 class="heading">Free</h2>
+                    <span class="price"><sup>$</sup> <span class="number">2000<small class="per">/mo</small></span></span>
+		            <span class="excerpt d-block">100% free. Forever</span>
+		            <h3 class="heading-2 mb-3">Enjoy All The Features</h3>
+
+		            <ul class="pricing-text mb-4">
+		              <li><strong>150 GB</strong> Bandwidth</li>
+		              <li><strong>100 GB</strong> Storage</li>
+		              <li><strong>$1.00 / GB</strong> Overages</li>
+		              <li>All features</li>
+		            </ul>
+                   <input name="sum" value="2000" hidden>
+                        <button class="btn btn-block btn-primary d-block px-3 py-3 mb-4" type="submit">Выбрать</button>
+	            </form>
+	          </div>
+	        </div>
+	        <div class="col-lg-3 col-md-6 ftco-animate">
+	          <div class="block-7">
+	            <form class="text-center" method="post" action="{% url 'payment' %}">
+                    {% csrf_token %}
+		            <h2 class="heading">Free</h2>
+                    <span class="price"><sup>$</sup> <span class="number">3000<small class="per">/mo</small></span></span>
+		            <span class="excerpt d-block">100% free. Forever</span>
+		            <h3 class="heading-2 mb-3">Enjoy All The Features</h3>
+
+		            <ul class="pricing-text mb-4">
+		              <li><strong>150 GB</strong> Bandwidth</li>
+		              <li><strong>100 GB</strong> Storage</li>
+		              <li><strong>$1.00 / GB</strong> Overages</li>
+		              <li>All features</li>
+		            </ul>
+                    <input name="sum" value="3000" hidden>
+                        <button class="btn btn-block btn-primary d-block px-3 py-3 mb-4" type="submit">Выбрать</button>
+	            </form>
+	          </div>
+	        </div>
+	        <div class="col-lg-3 col-md-6 ftco-animate">
+	          <div class="block-7">
+	            <form class="text-center" method="post" action="{% url 'payment' %}">
+                    {% csrf_token %}
+		            <h2 class="heading">Free</h2>
+                    <span class="price"><sup>$</sup> <span class="number">4000<small class="per">/mo</small></span></span>
+		            <span class="excerpt d-block">100% free. Forever</span>
+		            <h3 class="heading-2 mb-3">Enjoy All The Features</h3>
+
+		            <ul class="pricing-text mb-4">
+		              <li><strong>150 GB</strong> Bandwidth</li>
+		              <li><strong>100 GB</strong> Storage</li>
+		              <li><strong>$1.00 / GB</strong> Overages</li>
+		              <li>All features</li>
+		            </ul>
+                    <input name="sum" value="4000" hidden>
+                        <button class="btn btn-block btn-primary d-block px-3 py-3 mb-4" type="submit">Выбрать</button>
+	            </form>
+	          </div>
+	        </div>
+	      </div>
     	</div>
     </section>
 
+    <script>
+     function payment() {
+
+                    $.ajax({
+                        type:'POST',
+                        url:'{% url "payment" %}',
+                        data:{
+                            amount: 100,
+                            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                        },
+                        success:function(json){
+                            alert(json);
+                        },
+                        error: function(xhr,errmsg,err) {
+                            alert("ERROR");
+                        console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                    }
+                    });
+     }
 
 
-            <script src="https://meet.jit.si/external_api.js"></script>
-        <script>
-            var domain = "meet.jit.si";
-            var options = {
-                roomName: "guarantee_1",
-                width: 500,
-                height: 500,
-                parentNode: document.querySelector('#jitsi'),
-                configOverwrite: {},
-                interfaceConfigOverwrite: {},
-                userInfo: {
-                    email: 'email@jitsiexamplemail.com',
-                    displayName: 'Artem Kvasov'
-                }
-            };
-            var api = new JitsiMeetExternalAPI(domain, options);
-        </script>
-
-
-            <script>
-                function mute() {
-                    //api.executeCommand('setLargeVideoParticipant', 'abcd1234');
-                }
-            </script>
-
-
-
-
-
-
-
-
+    </script>
 
 {% endblock %}

@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% load static %}
+{% load box_tags %}
 {% block title %}ГАРАНТИЯ ЗНАНИЙ - кружки Робототехники, Программирования и Химии детям{% endblock title %}
 
 {% block tags %}
@@ -23,7 +24,7 @@
     	<div class="container">
     		<div class="row mt-5">
           <div class="col-md-7 text-left heading-section ftco-animate">
-            <h2 class="">Финансы <a class="btn btn-danger btn-sm" href="{% url 'new_module' %}">Добавить</a></h2>
+            <h2 class="">Показатели эффективности</h2>
           </div>
         </div>
         <div class="row">
@@ -32,13 +33,16 @@
                 <select onchange="filterParams()" class="custom-select" id="filterBranch">
                     <option value="False" {% if request.GET.branch == "Marino" %} selected {% endif %}>Братиславская</option>
                     <option value="True" {% if request.GET.finished == True %} selected {% endif %}>Ярославль</option>
+                    <option value="True" {% if request.GET.finished == True %} selected {% endif %}>Расход</option>
+                    <option value="True" {% if request.GET.finished == True %} selected {% endif %}>Количество лидов</option>
+                    <option value="True" {% if request.GET.finished == True %} selected {% endif %}>Количество клиентов</option>
                 </select>
             </div>
             <div class="col-md-3">
-                <label for="filterFinished">Состояние</label>
+                <label for="filterFinished">Год</label>
                 <select onchange="filterParams()" class="custom-select" id="filterFinished">
-                    <option value="False" {% if request.GET.status == "Лид" %} selected {% endif %}>Лид</option>
-                    <option value="True" {% if request.GET.finished == "True" %} selected {% endif %}>Активный студент</option>
+                    <option value="False" {% if request.GET.status == "Лид" %} selected {% endif %}>2021</option>
+                    <option value="True" {% if request.GET.finished == "True" %} selected {% endif %}>2020</option>
                     <option value="True" {% if request.GET.finished == "True" %} selected {% endif %}>Архив</option>
                 </select>
             </div>
@@ -60,41 +64,62 @@
 
     		<div class="row">
     			<div class="col-md-12 ftco-animate">
-    				<div class="table-responsive">
+       				<td class="table-responsive">
 	    				<table class="table">
 						    <thead class="thead-primary">
-						      <tr>
-						        <th>Задача</th>
-						        <th>Описание</th>
-						        <th>Ответственный</th>
-						        <th>Клиенты</th>
-                                <th>Статус</th>
-						        <th>Zoom</th>
-                                <th>Комментарий</th>
-						      </tr>
+                                 <tr>
+                                    <td rowspan="2"></td>
+                                    <th colspan="2" scope="colgroup">Январь</th>
+                                     <th colspan="2" scope="colgroup">Февраль</th>
+                                     <th colspan="2" scope="colgroup">Март</th>
+                                     <th colspan="2" scope="colgroup">Апрель</th>
+                                     <th colspan="2" scope="colgroup">Май</th>
+                                  </tr>
+                                  <tr>
+                                    <th scope="col">Факт</th>
+                                    <th scope="col">План</th>
+                                    <th scope="col">Факт</th>
+                                    <th scope="col">План</th>
+                                    <th scope="col">Факт</th>
+                                    <th scope="col">План</th>
+                                    <th scope="col">Факт</th>
+                                    <th scope="col">План</th>
+                                    <th scope="col">Факт</th>
+                                    <th scope="col">План</th>
+                                  </tr>
 						    </thead>
 						    <tbody>
-                            {% for profile in all_profiles %}
-                                <tr>
-                                    <td class="color">{{ profile }}</td>
-        </td>
-						        <td>{{ profile.user.email }}</td>
-						        <td>{{ profile.phone }}</td>
-						        <td>{{ lesson.teacher }}</td>
-                                    <td>{{ profile.status }}</td>
-                                    <td></td>
-                                <td><input type="text" value="{{ profile.status }}"></td>
+
+                                 <tr>
+                                <td class="color">Новые лиды</td>
+                                 {% for plan, result in leads_kpi %}
+                                    <td>{{ result}}</td>
+                                     <td>{{ plan }}</td>
+
+                                 {% endfor %}
+                                 <a class="btn btn-dark btn-sm" href="{% url 'edit_kpi' pk=1 %}"><span class="icon-pencil"></span></a>
+                                <td></td>
                                 <td>
-                                    <a class="btn btn-dark" href="{% url 'edit_profile' pk=profile.user.pk %}"><span class="icon-pencil"></span></a>
-                                    <a class="btn btn-danger" href="{% url 'remove_profile' pk=profile.user.pk %}"><span class="icon-remove"></span></a>
                                 </td>
 						      </tr>
-                        {% endfor %}
+                            <tr>
+                                <td class="color">Количество клиентов</td>
+                                 {% for plan, result in client_kpi %}
+                                    <td>{{ result}}</td>
+                                     <td>{{ plan }}</td>
+                                 {% endfor %}
+                                <td></td>
+                                <td>
+                                </td>
+
+						      </tr>
+
 						    </tbody>
 						  </table>
 					  </div>
     			</div>
-    		</div>
+
+
         <div class="row mt-5">
           <div class="col text-center">
             <div class="block-27">

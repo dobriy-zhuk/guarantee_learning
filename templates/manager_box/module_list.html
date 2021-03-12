@@ -23,16 +23,17 @@
     	<div class="container">
     		<div class="row mt-5">
           <div class="col-md-7 text-left heading-section ftco-animate">
-            <h2 class="">Все пользователи</h2>
+            <h2 class="">Все модули <a class="btn btn-danger btn-sm" href="{% url 'new_module' %}">Добавить</a></h2>
+
           </div>
         </div>
         <div class="row">
             <div class="col-md-3">
-                <label for="filterType">Тип пользователя</label>
-                <select onchange="filterParams()" class="custom-select" id="filterType">
-                    <option value="student" {% if request.GET.user_type == "student" %} selected {% endif %}>Студент</option>
-                    <option value="teacher" {% if request.GET.user_type == "teacher" %} selected {% endif %}>Педагог</option>
-                    <option value="manager" {% if request.GET.user_type == "manager" %} selected {% endif %}>Менеджер</option>
+                <label for="filterType">Предмет</label>
+                <select onchange="filterParams()" class="custom-select" id="filterSubject">
+                {% for subject in subjects %}
+                    <option value="{{ subject }}" {% if request.GET.subject|slugify == subject|slugify %} selected {% endif %}>{{ subject }}</option>
+                {% endfor %}
                 </select>
             </div>
             <div class="col-md-3">
@@ -50,44 +51,28 @@
                     <option value="id_2">Завершенные</option>
                 </select>
             </div>
-            <div class="col-md-3">
-                <label for="filterPeriod">Скачать выборку</label>
-                <select onchange="filterParams()" class="custom-select" id="filterPeriod">
-                    <option value="False" selected>Январь 2021</option>
-                    <option value="True">Завершенные</option>
-                </select>
-            </div>
         </div>
-
     		<div class="row">
     			<div class="col-md-12 ftco-animate">
     				<div class="table-responsive">
 	    				<table class="table">
 						    <thead class="thead-primary">
 						      <tr>
-						        <th>ФИО</th>
-						        <th>Email</th>
-						        <th>Телефон</th>
-						        <th>Домашний адрес</th>
-                                <th>Статус</th>
-						        <th>Zoom</th>
+						        <th>Урок</th>
+						        <th>Номер урока</th>
                                 <th>Комментарий</th>
 						      </tr>
 						    </thead>
 						    <tbody>
-                            {% for profile in all_profiles %}
+                            {% for module in module_list %}
                                 <tr>
-                                    <td class="color">{{ profile }}</td>
-        </td>
-						        <td>{{ profile.user.email }}</td>
-						        <td>{{ profile.phone }}</td>
-						        <td>{{ lesson.teacher }}</td>
-                                    <td>{{ profile.status }}</td>
+                                    <td class="color">{{ module.title }}</td>
+                                    <td>{{ module.module_number }}</td>
                                     <td></td>
                                 <td><input type="text" value="{{ profile.status }}"></td>
                                 <td>
-                                    <a class="btn btn-dark btn-sm" href="{% url 'edit_profile' pk=profile.user.pk %}"><span class="icon-pencil"></span></a>
-                                    <a class="btn btn-danger btn-sm" href="{% url 'remove_profile' pk=profile.user.pk %}"><span class="icon-remove"></span></a>
+                                    <a class="btn btn-dark btn-sm" href="{% url 'edit_module' pk=module.pk %}"><span class="icon-pencil"></span></a>
+                                    <a class="btn btn-danger btn-sm" href="{% url 'remove_module' pk=module.pk %}"><span class="icon-remove"></span></a>
                                 </td>
 						      </tr>
                         {% endfor %}
@@ -138,12 +123,10 @@
 
 <script>
 function filterParams() {
-    user_type = document.getElementById("filterType").value;
-    teacher = document.getElementById("filterTeacher").value;
+    subject = document.getElementById("filterSubject").value;
 
-    var url = new URL(window.location.href + "?finished=False");
-    url.searchParams.set('user_type', user_type);
-    url.searchParams.set('teacher', teacher);
+    var url = new URL(window.location.href);
+    url.searchParams.set('subject', subject);
 
     window.location.replace(url);
 

@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% load static %}
+{% load box_tags %}
 {% block title %}ГАРАНТИЯ ЗНАНИЙ - кружки Робототехники, Программирования и Химии детям{% endblock title %}
 
 {% block tags %}
@@ -31,27 +32,30 @@
     </div>
     <section class="ftco-section">
     	<div class="container">
-    		<div class="row mb-5">
-              <div class="col-md-6 text-left heading-section ftco-animate">
-
-                        <!--div id="jitsi" class="video_frame"></div-->
-                  <div class="form-group form-inline">
-                      <button class="btn btn-primary" type="button" onclick="sound();">Звук</button>
-                      <button class="btn btn-primary" type="button" onclick="video()">Видео</button>
-                      <button class="btn btn-primary" type="button" onclick="little_size()">Уменьшить экран</button>
-                      <button class="btn btn-primary" type="button" onclick="standart_size()">Стандартный размер</button>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                  <div class="text-left">
+                      <div id="jitsi" class="video_frame"></div>
+                      <div class="form-group form-inline">
+                          <button class="btn btn-primary" type="button" onclick="sound();">Звук</button>
+                          <button class="btn btn-primary" type="button" onclick="video()">Видео</button>
+                          <button class="btn btn-primary" type="button" onclick="little_size()">Уменьшить экран</button>
+                          <button class="btn btn-primary" type="button" onclick="standart_size()">Стандартный размер</button>
+                          <a href="{% url 'whiteboard' %}" target="_blank" class="btn btn-primary">Виртуальная доска</a>
+                          <button class="btn btn-primary" type="button" onclick="write_down()">Демонстрация</button>
+                      </div>
                   </div>
-              </div>
-                <div class="col-md-6 text-left heading-section text-right ftco-animate">
-                <form id="lesson-form" name="lesson-form">
+                </div>
+                <div class="row mb-5">
+                    <div class="col-md-9 text-left heading-section text-right ftco-animate">
+                <form id="lesson-form" name="lesson-form" class="small">
                 {% csrf_token %}
                 <div class="table-responsive">
 	    				<table class="table">
 						    <thead class="thead-primary">
 						      <tr>
 						        <th>ФИО</th>
-                                <th>Присутствие</th>
-						        <th>Оценка</th>
 						        <th>Бонусы</th>
                                 <th>Комментарий</th>
                               </tr>
@@ -60,25 +64,13 @@
                             <tr>
 						        <td class="color">{{ student.user.first_name }} {{ student.user.last_name }}</td>
                                 <input hidden name="student.{{ forloop.counter }}" value="{{ student.user }}">
-                                <td>
-                                    <select class="form-control" name="visited.{{ forloop.counter }}" id="visited">
-                                        <option value="1">Был</option>
-                                        <option value="0">Не был</option>
-                                    </select>
-                                </td>
-						        <td>
-                                    <select class="form-control" name="score.{{ forloop.counter }}" id="score">
-                                        <option value="5">5</option>
-                                        <option value="4">4</option>
-                                        <option value="3">3</option>
-                                        <option value="4">2</option>
-                                    </select>
-                                </td>
 						        <td>
                                     <select class="form-control" name="bonus.{{ forloop.counter }}" id="bonus">
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
+                                        <option value="-2">Отсутстовал: неуважительно</option>
+                                        <option value="-1">Отсутствовал: уважительно</option>
+                                        <option value="0">Присутствовал</option>
+                                        <option value="1">Присутствовал: 1 бонус</option>
+                                        <option value="2">Присутствовал: 2 бонуса</option>
                                     </select>
                                 </td>
 						        <td>
@@ -92,7 +84,7 @@
 						  </table>
                 <div id="result_div_id"></div>
                 <div class="form-group">
-                <textarea name="homework" id="homework" cols="30" rows="7" class="form-control" placeholder="Домашнее задание"></textarea>
+                <textarea name="homework" id="homework" cols="30" rows="3" class="form-control" placeholder="Домашнее задание"></textarea>
               </div>
                 <div class="form-group">
                   <button class="btn btn-primary py-3 px-5" type="button" onclick="finish_lesson();">Завершить урок</button>
@@ -100,92 +92,24 @@
                 </div>
                 </form>
             </div>
-            <div class="row mb-5">
-              <div class="col-md-12 text-left heading-section ftco-animate">
-    <style>
-    .paint-canvas {
-  border: 1px black solid;
-  display: block;
-  margin: 1rem;
-}
-
-.color-picker {
-  margin: 1rem 1rem 0 1rem;
-}
-    </style>
-
-                  <div class="form-group form-inline">
-                      <input type="color"  class="js-color-picker  color-picker">
-                      <input type="range" class="js-line-range" min="1" max="72" value="1">
-                      <label class="js-range-value">1</label>Px
-                      <button class="btn btn-primary ml-3" type="button" onclick="clear_canvas();">Очистить</button>
-                      <button class="btn btn-primary" type="button" onclick="save()">Скачать доску</button>
-                      <button class="btn btn-primary" type="button" onclick="write_down()">Демонстрация доски</button>
-                  </div>
-<canvas class="js-paint  paint-canvas" width="1000" height="500"></canvas>
-
-    <script>
-
-    const paintCanvas = document.querySelector( '.js-paint' );
-const context = paintCanvas.getContext( '2d' );
-context.lineCap = 'round';
-
-const colorPicker = document.querySelector( '.js-color-picker');
-
-colorPicker.addEventListener( 'change', event => {
-    context.strokeStyle = event.target.value;
-} );
-
-const lineWidthRange = document.querySelector( '.js-line-range' );
-const lineWidthLabel = document.querySelector( '.js-range-value' );
-
-lineWidthRange.addEventListener( 'input', event => {
-    const width = event.target.value;
-    lineWidthLabel.innerHTML = width;
-    context.lineWidth = width;
-} );
-
-let x = 0, y = 0;
-let isMouseDown = false;
-
-const stopDrawing = () => { isMouseDown = false; };
-const startDrawing = event => {
-    isMouseDown = true;
-   [x, y] = [event.offsetX, event.offsetY];
-};
-const drawLine = event => {
-    if ( isMouseDown ) {
-        const newX = event.offsetX;
-        const newY = event.offsetY;
-        context.beginPath();
-        context.moveTo( x, y );
-        context.lineTo( newX, newY );
-        context.stroke();
-        //[x, y] = [newX, newY];
-        x = newX;
-        y = newY;
-    }
-};
-
-paintCanvas.addEventListener( 'mousedown', startDrawing );
-paintCanvas.addEventListener( 'mousemove', drawLine );
-paintCanvas.addEventListener( 'mouseup', stopDrawing );
-paintCanvas.addEventListener( 'mouseout', stopDrawing );
-
-function clear_canvas() {
-    context.clearRect(0, 0, paintCanvas.width, paintCanvas.height);
-}
-
-function save() {
-   var image = paintCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
-    window.location.href=image; // it will save locally
-}
-    </script>
-
-          </div>
+                </div>
+            </div>
+        <div class="col-md-6">
+        {% if request.user|has_group:"teacher" %}
+            <div class="container" style="overflow:auto; height: 1000px;">
+                {{ lesson.module.teacher_text|safe }}
+            </div>
+        {% endif %}
+        {% if request.user|has_group:"student" %}
+            <div class="container" style="overflow:auto; height: 1000px;">
+                {{ lesson.module.student_text|safe }}
+            </div>
+        {% endif %}
+        </div>
+        </div>
         </div>
 
-    	</div>
+
     </section>
 
 
@@ -206,16 +130,8 @@ function save() {
             var api = new JitsiMeetExternalAPI(domain, options);
         </script>
     <style>
-    div.affix {
-    bottom:50px;
-    right: 50px;
-        width: 500px;
-        height: 500px;
-    position:fixed;
-}
-
     div.video_frame {
-        width: 500px;
+        width: 100%;
         height: 500px;
 }
     </style>
@@ -252,7 +168,7 @@ function save() {
                         type:'POST',
                         url:'{% url "finish_lesson" pk=lesson.pk %}',
                         data:{
-                            students: data,
+                            students: JSON.stringify(data),
                             homework: document.getElementById('homework').value,
                             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
                             action: 'post'
@@ -260,7 +176,7 @@ function save() {
                         success:function(json){
                             document.getElementById("lesson-form").reset();
                             if (json.result === 'ok'){
-                            window.location.replace("http://127.0.0.1:8000/box/");
+                                window.location.replace("http://127.0.0.1:8000/box/");
                         }
                         },
                         error : function(xhr,errmsg,err) {
@@ -271,13 +187,13 @@ function save() {
 
                 }
 
-                function getFormData($form){
+function getFormData($form){
     var unindexed_array = $form.serializeArray();
-    var lesson_dict = {};
+    var lesson_dict = [];
     count = 1;
 
 
-    for (let count = 1; count <= 2; count++){
+    for (let count = 1; count <= {{ lesson.students.all.count }}; count++){
         var dict = [];
         for (let i = 0; i < unindexed_array.length; i++) {
             if (unindexed_array[i].name.split('.')[0] === 'homework'){
@@ -289,7 +205,10 @@ function save() {
                     })
                 }
         }
-        lesson_dict[count.toString()] = dict;
+        lesson_dict.push({
+            key: dict[0].value,
+            value: dict[1].value
+        });
 
 }
 

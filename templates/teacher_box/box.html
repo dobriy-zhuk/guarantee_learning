@@ -35,12 +35,13 @@
 	    				<table class="table">
 						    <thead class="thead-primary">
 						      <tr>
-						        <th>Name</th>
-						        <th>Data</th>
-						        <th>Students</th>
-						        <th>Teacher</th>
-						        <th>Homework</th>
-						        <th>Link</th>
+						        <th>Наименование</th>
+						        <th>Дата</th>
+						        <th>Ученики</th>
+						        <th>Учитель</th>
+                                <th>Тема урока</th>
+						        <th>Домашнее задание</th>
+						        <th>Ссылка</th>
 						      </tr>
 						    </thead>
 						    <tbody>
@@ -52,6 +53,7 @@
                                 {{ student }}<br>
                             {% endfor %}</td>
 						        <td>{{ lesson.teacher }}</td>
+                                <td>{{ lesson.module }}</td>
 						        <td>{{ lesson.homework }}</td>
 						        <td>
                                     {% if lesson.finished %}
@@ -93,7 +95,7 @@
                     {% endif %}
                   {% endfor %}
                   {% if lessons.has_next %}
-                    <li><a href="?page={{ lessons.next_page_number }}">&raquo;</a></li>
+                    <li><a href="?page={{ lessons.next_page_number }}">></a></li>
                   {% else %}
                     <li class="disabled"></li>
                   {% endif %}
@@ -110,7 +112,7 @@
 
       	<div class="row justify-content-center">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="">Профиль ученика</h2>
+            <h2 class="">Профиль преподавателя</h2>
           </div>
         </div>
         <div class="row">
@@ -132,7 +134,7 @@
             		<span class="flaticon-life-insurance"></span>
             	</div>
               <div class="media-body pl-4">
-                <h3 class="heading">Домашнее задание</h3>
+                <h3 class="heading">Мои пособия</h3>
                 <p>{{ last_homework }}</p>
               </div>
             </div>
@@ -143,9 +145,9 @@
             		<span class="flaticon-life-insurance"></span>
             	</div>
               <div class="media-body pl-4">
-                <h3 class="heading">Мои бонусы: {{ student.bonus }}шт.</h3>
+                <h3 class="heading">Моя квалификация: Начинающий</h3>
                 <p>Мы дарим подарки за ваши достижения!</p>
-                <p><a href="#" class="btn btn-outline-info py-3">Обменять</a></p>
+                <p><a href="#" class="btn btn-outline-info py-3">Повысить</a></p>
               </div>
             </div>
           </div>

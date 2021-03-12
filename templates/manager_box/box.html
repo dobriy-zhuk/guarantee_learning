@@ -19,139 +19,166 @@
 
 {% block content %}
 
-        <section class="ftco-section">
-    	<div class="container">
-    		<div class="row mt-5">
-          <div class="col-md-7 text-left heading-section ftco-animate">
-            <h2 class="">Мои уроки</h2>
-              <a href="?finished=True">finished</a>
-              <a href="?finished=False">not finished</a>
-          </div>
-        </div>
-
-    		<div class="row">
-    			<div class="col-md-12 ftco-animate">
-    				<div class="table-responsive">
-	    				<table class="table">
-						    <thead class="thead-primary">
-						      <tr>
-						        <th>Name</th>
-						        <th>Data</th>
-						        <th>Students</th>
-						        <th>Teacher</th>
-						        <th>Homework</th>
-						        <th>Link</th>
-						      </tr>
-						    </thead>
-						    <tbody>
-                            {% for lesson in lessons %}
-                                <tr>
-						        <td class="color">{{ lesson.name }}</td>
-						        <td>{{ lesson.start }}</td>
-						        <td>{% for student in lesson.students.all %}
-                                {{ student }}<br>
-                            {% endfor %}</td>
-						        <td>{{ lesson.teacher }}</td>
-						        <td>{{ lesson.homework }}</td>
-						        <td>
-                                    {% if lesson.finished %}
-                                        <p>Урок проведен</p>
-                                    {% else %}
-                                        <a href="{% url 'current_lesson' pk=lesson.pk %}" target="_blank" class="btn btn-primary" >Connect</a>
-                                    {% endif %}
-                                </td>
-						      </tr>
-                        {% endfor %}
-						    </tbody>
-						  </table>
-					  </div>
-    			</div>
-    		</div>
-        <div class="row mt-5">
-          <div class="col text-center">
-            <div class="block-27">
-            {% if lessons.has_other_pages %}
-              <ul>
-                  {% if lessons.has_previous %}
-                    <li><a href="?page={{ lessons.previous_page_number }}">&lt;</a></li>
-                  {% else %}
-                    <li class="disabled"></li>
-                  {% endif %}
-                  {% for i in lessons.paginator.page_range %}
-                      {% if lessons.number > 3 and forloop.first %}
-                        <li><a href="?page=1">1</a></li>
-                        <li class="disabled">⋯</li>
-                      {% endif %}
-                    {% if lessons.number == i %}
-                        <li class="active"><span>{{ i }}</span></li>
-                    {% elif i > lessons.number|add:'-3' and i < lessons.number|add:'3' %}
-                        <li><a href="?page={{ i }}">{{ i }}</a></li>
-                    {% endif %}
-                    {% if lessons.paginator.num_pages > lessons.number|add:'3' and forloop.last %}
-                        <li class="disabled">⋯</li>
-                        <li><a href="?page={{ lessons.paginator.num_pages }}">{{ lessons.paginator.num_pages }}</a></li>
-                    {% endif %}
-                  {% endfor %}
-                  {% if lessons.has_next %}
-                    <li><a href="?page={{ lessons.next_page_number }}">&raquo;</a></li>
-                  {% else %}
-                    <li class="disabled"></li>
-                  {% endif %}
-              </ul>
-            {% endif %}
-            </div>
-          </div>
-        </div>
-    	</div>
-    </section>
-
-
+    <section class="ftco-section">
     <div class="container">
 
       	<div class="row justify-content-center">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="">Профиль ученика</h2>
+            <h2 class="">Управление школой</h2>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6 d-flex align-self-stretch ftco-animate">
-            <div class="media block-6 services d-flex align-items-center">
+          <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+            <div class="media block-4 services d-flex align-items-center">
             	<div class="icon d-flex align-items-center justify-content-center">
             		<span class="flaticon-life-insurance"></span>
             	</div>
               <div class="media-body pl-4">
-                <h3 class="heading">Текущий баланс: {{ student.amount }}{{ student.currency }}</h3>
-                <p><a href="{% url 'payment' %}" class="btn btn-outline-info py-3">Пополнить</a></p>
+                <h3 class="heading">Редактор уроков</h3>
+                <p>
+                    <a href="{% url 'list_lesson' %}" class="btn btn-outline-info py-3">Список</a>
+                    <a href="{% url 'new_lesson' %}" class="btn btn-outline-info py-3">Добавить</a>
+                </p>
               </div>
             </div>
           </div>
 
-          <div class="col-md-6 d-flex align-self-stretch ftco-animate">
-            <div class="media block-6 services d-flex align-items-center">
+          <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+            <div class="media block-4 services d-flex align-items-center">
             	<div class="icon d-flex align-items-center justify-content-center">
             		<span class="flaticon-life-insurance"></span>
             	</div>
               <div class="media-body pl-4">
-                <h3 class="heading">Домашнее задание</h3>
-                <p>{{ last_homework }}</p>
+                <h3 class="heading">Мои задачи</h3>
+                <p>Записать видеообращение</p>
+                <p>
+                    <a href="{% url 'task_list' %}" class="btn btn-outline-info py-3">Все</a>
+                    <a href="{% url 'new_task' %}" class="btn btn-outline-info py-3">Создать</a>
+                </p>
               </div>
             </div>
           </div>
-					<div class="col-md-6 d-flex align-self-stretch ftco-animate">
-            <div class="media block-6 services d-flex align-items-center">
+          <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+            <div class="media block-4 services d-flex align-items-center">
             	<div class="icon d-flex align-items-center justify-content-center">
             		<span class="flaticon-life-insurance"></span>
             	</div>
               <div class="media-body pl-4">
-                <h3 class="heading">Мои бонусы: {{ student.bonus }}шт.</h3>
+                <h3 class="heading">Пользователи</h3>
+                <p>Студенты, учителя, менеджеры</p>
+                <p>
+                    <a href="{% url 'profile_list' %}" class="btn btn-outline-info py-3">Список</a>
+                    <a href="{% url 'new_profile' %}" class="btn btn-outline-info py-3">Добавить</a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+            <div class="media block-4 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center">
+            		<span class="flaticon-life-insurance"></span>
+            	</div>
+              <div class="media-body pl-4">
+                <h3 class="heading">Финансы</h3>
+                <p>Доходы и расходы филиала</p>
+                <p>
+                    <a href="{% url 'finance_list' %}" class="btn btn-outline-info py-3">Список</a>
+                    <a href="{% url 'new_finance' %}" class="btn btn-outline-info py-3">Добавить</a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+            <div class="media block-4 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center">
+            		<span class="flaticon-life-insurance"></span>
+            	</div>
+              <div class="media-body pl-4">
+                <h3 class="heading">Показатели эффективности</h3>
                 <p>Мы дарим подарки за ваши достижения!</p>
-                <p><a href="#" class="btn btn-outline-info py-3">Обменять</a></p>
+                <p>
+                    <a href="{% url 'kpi' %}" class="btn btn-outline-info py-3">Список</a>
+                    <a href="#" class="btn btn-outline-info py-3">Добавить</a>
+                </p>
+              </div>
+            </div>
+          </div>
+            <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+            <div class="media block-4 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center">
+            		<span class="flaticon-life-insurance"></span>
+            	</div>
+              <div class="media-body pl-4">
+                <h3 class="heading">Контент уроков</h3>
+                <p>Редактор модулей</p>
+                <p>
+                    <a href="{% url 'module_list' %}" class="btn btn-outline-info py-3">Список</a>
+                    <a href="#" class="btn btn-outline-info py-3">Добавить</a>
+                </p>
+              </div>
+            </div>
+          </div>
+            <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+            <div class="media block-4 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center">
+            		<span class="flaticon-life-insurance"></span>
+            	</div>
+              <div class="media-body pl-4">
+                <h3 class="heading">Трансляция</h3>
+                <p>Филиал в прямом эфире</p>
+                <p>
+                    <a href="#" class="btn btn-outline-info py-3">Список</a>
+                    <a href="#" class="btn btn-outline-info py-3">Добавить</a>
+                </p>
+              </div>
+            </div>
+          </div>
+            <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+            <div class="media block-4 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center">
+            		<span class="flaticon-life-insurance"></span>
+            	</div>
+              <div class="media-body pl-4">
+                <h3 class="heading">Скрипты продаж</h3>
+                <p>Мы дарим подарки за ваши достижения!</p>
+                <p>
+                    <a href="{% url 'kpi' %}" class="btn btn-outline-info py-3">Список</a>
+                    <a href="#" class="btn btn-outline-info py-3">Добавить</a>
+                </p>
+              </div>
+            </div>
+          </div>
+            <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+            <div class="media block-4 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center">
+            		<span class="flaticon-life-insurance"></span>
+            	</div>
+              <div class="media-body pl-4">
+                <h3 class="heading">Документы</h3>
+                <p>Мы дарим подарки за ваши достижения!</p>
+                <p>
+                    <a href="{% url 'kpi' %}" class="btn btn-outline-info py-3">Список</a>
+                    <a href="#" class="btn btn-outline-info py-3">Добавить</a>
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
+ </section>
 
+<script>
+function filterParams() {
+    finished = document.getElementById("filterFinished").value;
+    teacher = document.getElementById("filterTeacher").value;
 
+    var url = new URL(window.location.href + "?finished=False");
+    url.searchParams.set('finished', finished);
+    url.searchParams.set('teacher', teacher);
+
+    window.location.replace(url);
+
+}
+</script>
 
 {% endblock %}

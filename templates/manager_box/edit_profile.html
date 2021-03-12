@@ -23,150 +23,37 @@
         <section class="ftco-section">
     	<div class="container">
     		<div class="row justify-content-center mb-3 mt-5">
-          <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-3">Редактирование урока</h2>
-            <p>Внимательно вносите информацию по уроку</p>
-          </div>
-        </div>
+              <div class="col-md-7 text-center heading-section ftco-animate">
+                <h2 class="mb-3">Редактирование пользователя</h2>
+                <p>Внимательно вносите информацию</p>
+              </div>
+            </div>
     		<div class="row">
     			<div class="col-md-12 ftco-animate">
-
-
-<form method="post" id="lesson-form">
-  {% csrf_token %}
-    <div id="result_div_id"></div>
-    <div class="form-group">
-        <label>Наименование урока</label>
-        <input type="text" class="form-control" id="title" placeholder="Наименование урока" value="{{ lesson.name }}">
-    </div>
-    <div class="form-group">
-        <div class="row d-flex mt-100">
-            <div class="col-md-6"> <select id="choices-multiple-remove-student" placeholder="Выберите до 10 учеников" multiple>
-                {% for student in students %}
-                    <option value="{{ student.pk }}" {% if student in lesson.students.all %} selected {% endif %}>{{ student.user.first_name }} {{ student.user.last_name }}</option>
-                {% endfor %}
-                </select> </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="subject-select">Выберите предмет</label>
-        <select class="form-control" id="subject-select">
-            {% for subject in subjects %}
-                <option value="{{ subject }}" {% if subject == lesson.subject %} selected {% endif %} >{{ subject }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="form-group">
-        <div class="row d-flex  mt-100">
-            <div class="col-md-6">
-                <select id="choices-multiple-remove-teacher" placeholder="Выберите педагога" multiple>
-                {% for teacher in teachers %}
-                    <option value="{{ teacher.pk }}" {% if teacher == lesson.teacher %} selected {% endif %}>{{ teacher.user.first_name }} {{ teacher.user.last_name }}</option>
-                {% endfor %}
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-          <p class="fallbackLabel">Дата и время занятия:</p>
-          <div class="fallbackDateTimePicker">
-            <div>
-              <span>
-                <label for="day">День:</label>
-                <select id="day" name="day">
-                    {% for i in 1|times:32 %}
-                        <option value="{{ i }}" {% if lesson.start.day == i %} selected {% endif %}>{{ i }}</option>
+                <form method='POST' enctype="multipart/form-data">
+                    {%csrf_token%}
+                    {% for field in user_form %}
+                        <p>{% if field.help_text %}
+                        <small style="color: grey">{{ field.help_text }}</small><br>
+                        {% endif %}
+                        {{ field }}
+                        {% for error in field.errors %}
+                            <p style="color: red">{{ error }}</p>
+                        {% endfor %}
                     {% endfor %}
-                </select>
-              </span>
-              <span>
-                <label for="month">Месяц:</label>
-                <select id="month" name="month">
-                    {% for i in 1|times:13 %}
-                        <option value="{{ i }}" {% if lesson.start.month == i %} selected {% endif %}>{{ i }}</option>
+                    {% for field in profile_form %}
+                        <p>{% if field.help_text %}</p>
+                        <small style="color: grey">{{ field.help_text }}</small><br>
+                        {% endif %}
+                        {{ field }}
+                        {% for error in field.errors %}
+                        <p style="color: red">{{ error }}</p>
+                        {% endfor %}
                     {% endfor %}
-                </select>
-              </span>
-              <span>
-                <label for="year">Год:</label>
-                <select id="year" name="year">
-                    {% for i in 2020|times:2023 %}
-                        <option value="{{ i }}" {% if lesson.start.year == i %} selected {% endif %}>{{ i }}</option>
-                    {% endfor %}
-                </select>
-              </span>
-              <span>
-                <label for="hour">Часы:</label>
-                <select id="hour" name="hour">
-                    {% for i in 0|times:24 %}
-                        <option value="{{ i }}" {% if lesson.start.hour == i %} selected {% endif %}>{{ i }}</option>
-                    {% endfor %}
-                </select>
-              </span>
-              <span>
-                <label for="minute">Минуты:</label>
-                <select id="minute" name="minute">
-                    {% for i in 0|times:60 %}
-                        <option value="{{ i }}" {% if lesson.start.minute == i %} selected {% endif %}>{{ i }}</option>
-                    {% endfor %}
-                </select>
-              </span>
-            </div>
-          </div>
-    </div>
-    <div class="form-group">
-        <label>Продолжительность занятия</label>
-        <input type="number" class="form-control" id="duration" placeholder="Продолжительность урока, минут" value="{{ lesson.duration }}">
-    </div>
-   <button type="button" class="btn btn-primary" onclick="save_lesson()">Сохранить</button>
-</form>
-
-<script>
-    function save_lesson(){
-
-
-    $.ajax({
-        type:'POST',
-        url: '{% url "edit_lesson" pk=lesson.pk %}',
-        headers: { "X-CSRFToken": getCookie("csrftoken") },
-        dataType: 'json',
-        data: JSON.stringify({
-            "title": $('#title').val(),
-            "students": $('#choices-multiple-remove-student').val(),
-            "subject": $('#subject-select').val(),
-            "teachers": $('#choices-multiple-remove-teacher').val(),
-            "start": new Date(year.value, month.value, day.value, hour.value, minute.value, 0, 0),
-            "duration": $('#duration').val(),
-        }),
-        contentType: 'application/json; charset=utf-8',
-        success:function(json){
-            //document.getElementById("post-form").reset();
-            alert(json.result);
-        },
-        error : function(xhr,errmsg,err) {
-            alert("ERROR");
-        console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-    }
-    });
-
-
-    function getCookie(c_name)
-    {
-        if (document.cookie.length > 0)
-        {
-            c_start = document.cookie.indexOf(c_name + "=");
-            if (c_start != -1)
-            {
-                c_start = c_start + c_name.length + 1;
-                c_end = document.cookie.indexOf(";", c_start);
-                if (c_end == -1) c_end = document.cookie.length;
-                return unescape(document.cookie.substring(c_start,c_end));
-            }
-    }
-    return "";
- }
-}
-</script>
+                    <div class="form-group">
+                      <button class="btn btn-primary py-3 px-5" type="submit">Обновить</button>
+                  </div>
+                </form>
     			</div>
     		</div>
     	</div>

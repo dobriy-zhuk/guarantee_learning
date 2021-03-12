@@ -34,11 +34,18 @@
                        <form method='POST' enctype="multipart/form-data">
                        <div id="result_div_id"></div>
                       {% csrf_token %}
-                      {% for field in module_form %}
+                      {% for field in kpi_form %}
                           <p>{% if field.help_text %}</p>
                       <small style="color: grey">{{ field.help_text }}</small><br>
                         {% endif %}
-                        {{ field }}
+                          {{ field.label }}
+                          {% if field.label == "Result" %}
+                            {% for f in field %}
+                              {{ f }}
+                              {% endfor %}
+                          {% else %}
+                            {{ field }}
+                          {% endif %}
                         {% for error in field.errors %}
                           <p style="color: red">{{ error }}</p>
                         {% endfor %}

@@ -26,7 +26,7 @@ SECRET_KEY = '$si2j-12u-@(jel8-_awjhpsjb(f6_-*-kbz%s0(&+-#ubgwsj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['guarantee.eu-west-2.elasticbeanstalk.com']
 
 
 # Application definition
@@ -69,6 +69,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+
+
         },
     },
 ]
@@ -123,15 +125,16 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
-
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
+
+
+#media files of users
+MEDIA_ROOT  = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 
 #Email sending
@@ -141,3 +144,11 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'courseok@gmail.com'
 EMAIL_HOST_PASSWORD = 'dobriy_zhuk76!'
 EMAIL_PORT = 587
+
+
+
+#Payment settings
+PAYMENT_USERNAME = 'garantylearning-api'
+PAYMENT_PASSWORD = 'Dobriy76!'
+PAYMENT_GATEWAY_URL = 'https://securepayments.sberbank.ru/payment/rest/'
+PAYMENT_RETURN_URL = 'http://127.0.0.1:8000/box/payment/'

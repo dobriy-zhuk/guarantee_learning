@@ -23,33 +23,35 @@
     	<div class="container">
     		<div class="row mt-5">
           <div class="col-md-7 text-left heading-section ftco-animate">
-            <h2 class="">Все уроки</h2>
+            <h2 class="">Все пользователи <a class="btn btn-danger btn-sm" href="{% url 'new_profile' %}">Добавить</a></h2>
           </div>
         </div>
         <div class="row">
             <div class="col-md-3">
-                <label for="filterBranch">Филиал</label>
-                <select onchange="filterParams()" class="custom-select" id="filterBranch">
-                    <option value="False" {% if request.GET.branch == "Marino" %} selected {% endif %}>Братиславская</option>
-                    <option value="True" {% if request.GET.finished == True %} selected {% endif %}>Ярославль</option>
+                <label for="filterType">Тип пользователя</label>
+                <select onchange="filterParams()" class="custom-select" id="filterType">
+                    <option value="student" {% if request.GET.user_type == "student" %} selected {% endif %}>Студент</option>
+                    <option value="teacher" {% if request.GET.user_type == "teacher" %} selected {% endif %}>Педагог</option>
+                    <option value="manager" {% if request.GET.user_type == "manager" %} selected {% endif %}>Менеджер</option>
                 </select>
             </div>
             <div class="col-md-3">
-                <label for="filterFinished">Состояние уроков</label>
+                <label for="filterFinished">Состояние</label>
                 <select onchange="filterParams()" class="custom-select" id="filterFinished">
-                    <option value="False" {% if request.GET.finished == "False" %} selected {% endif %}>Незавершенные</option>
-                    <option value="True" {% if request.GET.finished == "True" %} selected {% endif %}>Завершенные</option>
+                    <option value="False" {% if request.GET.status == "Лид" %} selected {% endif %}>Лид</option>
+                    <option value="True" {% if request.GET.finished == "True" %} selected {% endif %}>Активный студент</option>
+                    <option value="True" {% if request.GET.finished == "True" %} selected {% endif %}>Архив</option>
                 </select>
             </div>
             <div class="col-md-3">
-                <label for="filterTeacher">Учитель</label>
+                <label for="filterTeacher">Ответственный менеджер</label>
                 <select onchange="filterParams()" class="custom-select" id="filterTeacher">
                     <option value="id_1" selected>Квасов Артем</option>
                     <option value="id_2">Завершенные</option>
                 </select>
             </div>
             <div class="col-md-3">
-                <label for="filterPeriod">Период</label>
+                <label for="filterPeriod">Скачать выборку</label>
                 <select onchange="filterParams()" class="custom-select" id="filterPeriod">
                     <option value="False" selected>Январь 2021</option>
                     <option value="True">Завершенные</option>
@@ -63,37 +65,30 @@
 	    				<table class="table">
 						    <thead class="thead-primary">
 						      <tr>
-						        <th>Наименование</th>
-						        <th>Дата</th>
-						        <th>Ученики</th>
-						        <th>Учитель</th>
-                                <th>Тема урока</th>
-						        <th>Домашнее задание</th>
-						        <th>Ссылка</th>
-                                <th>Запись</th>
+						        <th>ФИО</th>
+						        <th>Email</th>
+						        <th>Телефон</th>
+						        <th>Домашний адрес</th>
+                                <th>Статус</th>
+						        <th>Zoom</th>
+                                <th>Комментарий</th>
 						      </tr>
 						    </thead>
 						    <tbody>
-                            {% for lesson in lessons %}
+                            {% for profile in all_profiles %}
                                 <tr>
-                                    <td class="color">{{ lesson.name }}</td>
+                                    <td class="color">{{ profile }}</td>
         </td>
-						        <td>{{ lesson.start }}</td>
-						        <td>{% for student in lesson.students.all %}
-                                {{ student }}<br>
-                            {% endfor %}</td>
+						        <td>{{ profile.user.email }}</td>
+						        <td>{{ profile.phone }}</td>
 						        <td>{{ lesson.teacher }}</td>
-                                <td>{{ lesson.module.title }}</td>
-						        <td>{{ lesson.homework }}</td>
-						        <td>
-                                    {% if lesson.finished %}
-                                        <p>Урок проведен</p>
-                                    {% else %}
-                                        <a href="{% url 'current_lesson' pk=lesson.pk %}" target="_blank" class="btn btn-primary" >Перейти</a>
-                                    {% endif %}
+                                    <td>{{ profile.status }}</td>
+                                    <td></td>
+                                <td><input type="text" value="{{ profile.status }}"></td>
+                                <td>
+                                    <a class="btn btn-dark btn-sm" href="{% url 'edit_profile' pk=profile.user.pk %}"><span class="icon-pencil"></span></a>
+                                    <a class="btn btn-danger btn-sm" href="{% url 'remove_profile' pk=profile.user.pk %}"><span class="icon-remove"></span></a>
                                 </td>
-                                <td></td>
-                                <td><a class="btn" href="{% url 'edit_lesson' pk=lesson.pk %}"><span class="icon-pencil"></span></a></td>
 						      </tr>
                         {% endfor %}
 						    </tbody>
@@ -104,30 +99,30 @@
         <div class="row mt-5">
           <div class="col text-center">
             <div class="block-27">
-            {% if lessons.has_other_pages %}
+            {% if all_profiles.has_other_pages %}
               <ul>
-                  {% if lessons.has_previous %}
-                    <li><a href="?page={{ lessons.previous_page_number }}">&lt;</a></li>
+                  {% if all_profiles.has_previous %}
+                    <li><a href="?page={{ all_profiles.previous_page_number }}">&lt;</a></li>
                   {% else %}
                     <li class="disabled"></li>
                   {% endif %}
-                  {% for i in lessons.paginator.page_range %}
-                      {% if lessons.number > 3 and forloop.first %}
+                  {% for i in all_profiles.paginator.page_range %}
+                      {% if all_profiles.number > 3 and forloop.first %}
                         <li><a href="?page=1">1</a></li>
                         <li class="disabled">⋯</li>
                       {% endif %}
-                    {% if lessons.number == i %}
+                    {% if all_profiles.number == i %}
                         <li class="active"><span>{{ i }}</span></li>
-                    {% elif i > lessons.number|add:'-3' and i < lessons.number|add:'3' %}
+                    {% elif i > all_profiles.number|add:'-3' and i < all_profiles.number|add:'3' %}
                         <li><a href="?page={{ i }}">{{ i }}</a></li>
                     {% endif %}
-                    {% if lessons.paginator.num_pages > lessons.number|add:'3' and forloop.last %}
+                    {% if all_profiles.paginator.num_pages > lessons.number|add:'3' and forloop.last %}
                         <li class="disabled">⋯</li>
-                        <li><a href="?page={{ lessons.paginator.num_pages }}">{{ lessons.paginator.num_pages }}</a></li>
+                        <li><a href="?page={{ all_profiles.paginator.num_pages }}">{{ all_profiles.paginator.num_pages }}</a></li>
                     {% endif %}
                   {% endfor %}
-                  {% if lessons.has_next %}
-                    <li><a href="?page={{ lessons.next_page_number }}">></a></li>
+                  {% if all_profiles.has_next %}
+                    <li><a href="?page={{ all_profiles.next_page_number }}">></a></li>
                   {% else %}
                     <li class="disabled"></li>
                   {% endif %}
@@ -140,127 +135,14 @@
     </section>
 
 
-    <div class="container">
-
-      	<div class="row justify-content-center">
-          <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="">Управление школой</h2>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-            <div class="media block-4 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center">
-            		<span class="flaticon-life-insurance"></span>
-            	</div>
-              <div class="media-body pl-4">
-                <h3 class="heading">Редактор уроков</h3>
-                <p><a href="{% url 'new_lesson' %}" class="btn btn-outline-info py-3">Добавить</a></p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-            <div class="media block-4 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center">
-            		<span class="flaticon-life-insurance"></span>
-            	</div>
-              <div class="media-body pl-4">
-                <h3 class="heading">Мои задачи</h3>
-                <p>Записать видеообращение</p>
-                <p>
-                    <a href="#" class="btn btn-outline-info py-3">Все</a>
-                    <a href="#" class="btn btn-outline-info py-3">Создать</a>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-            <div class="media block-4 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center">
-            		<span class="flaticon-life-insurance"></span>
-            	</div>
-              <div class="media-body pl-4">
-                <h3 class="heading">Пользователи</h3>
-                <p>Студенты, учителя, менеджеры</p>
-                <p>
-                    <a href="#" class="btn btn-outline-info py-3">Список</a>
-                    <a href="{% url 'new_profile' %}" class="btn btn-outline-info py-3">Добавить</a>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-            <div class="media block-4 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center">
-            		<span class="flaticon-life-insurance"></span>
-            	</div>
-              <div class="media-body pl-4">
-                <h3 class="heading">Учителя</h3>
-                <p>Мы дарим подарки за ваши достижения!</p>
-                <p>
-                    <a href="#" class="btn btn-outline-info py-3">Список</a>
-                    <a href="#" class="btn btn-outline-info py-3">Добавить</a>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-            <div class="media block-4 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center">
-            		<span class="flaticon-life-insurance"></span>
-            	</div>
-              <div class="media-body pl-4">
-                <h3 class="heading">Финансы</h3>
-                <p>Мы дарим подарки за ваши достижения!</p>
-                <p>
-                    <a href="#" class="btn btn-outline-info py-3">Список</a>
-                    <a href="#" class="btn btn-outline-info py-3">Добавить</a>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-            <div class="media block-4 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center">
-            		<span class="flaticon-life-insurance"></span>
-            	</div>
-              <div class="media-body pl-4">
-                <h3 class="heading">Показатели эффективности</h3>
-                <p>Мы дарим подарки за ваши достижения!</p>
-                <p>
-                    <a href="#" class="btn btn-outline-info py-3">Список</a>
-                    <a href="#" class="btn btn-outline-info py-3">Добавить</a>
-                </p>
-              </div>
-            </div>
-          </div>
-            <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-            <div class="media block-4 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center">
-            		<span class="flaticon-life-insurance"></span>
-            	</div>
-              <div class="media-body pl-4">
-                <h3 class="heading">Трансляция</h3>
-                <p>Филиал в прямом эфире</p>
-                <p>
-                    <a href="#" class="btn btn-outline-info py-3">Список</a>
-                    <a href="#" class="btn btn-outline-info py-3">Добавить</a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
 
 <script>
 function filterParams() {
-    finished = document.getElementById("filterFinished").value;
+    user_type = document.getElementById("filterType").value;
     teacher = document.getElementById("filterTeacher").value;
 
     var url = new URL(window.location.href + "?finished=False");
-    url.searchParams.set('finished', finished);
+    url.searchParams.set('user_type', user_type);
     url.searchParams.set('teacher', teacher);
 
     window.location.replace(url);

@@ -23,7 +23,7 @@
     	<div class="container">
     		<div class="row mt-5">
           <div class="col-md-7 text-left heading-section ftco-animate">
-            <h2 class="">Все уроки <a class="btn btn-danger btn-sm" href="{% url 'new_lesson' %}">Добавить</a></h2>
+            <h2 class="">Все платежи <a class="btn btn-danger btn-sm" href="{% url 'new_finance' %}">Добавить</a></h2>
           </div>
         </div>
         <div class="row">
@@ -35,23 +35,23 @@
                 </select>
             </div>
             <div class="col-md-3">
-                <label for="filterFinished">Состояние уроков</label>
+                <label for="filterFinished">Статус</label>
                 <select onchange="filterParams()" class="custom-select" id="filterFinished">
-                    <option value="False" {% if request.GET.finished == "False" %} selected {% endif %}>Незавершенные</option>
-                    <option value="True" {% if request.GET.finished == "True" %} selected {% endif %}>Завершенные</option>
+                    <option value="False" {% if request.GET.finished == "False" %} selected {% endif %}>Доходы</option>
+                    <option value="True" {% if request.GET.finished == "True" %} selected {% endif %}>Расходы</option>
                 </select>
             </div>
             <div class="col-md-3">
-                <label for="filterTeacher">Учитель</label>
+                <label for="filterTeacher">Счет</label>
                 <select onchange="filterParams()" class="custom-select" id="filterTeacher">
-                    <option value="id_1" selected>Квасов Артем</option>
+                    <option value="id_1" selected>Банковский счет</option>
                     <option value="id_2">Завершенные</option>
                 </select>
             </div>
             <div class="col-md-3">
-                <label for="filterPeriod">Период</label>
+                <label for="filterPeriod">Статья</label>
                 <select onchange="filterParams()" class="custom-select" id="filterPeriod">
-                    <option value="False" selected>Январь 2021</option>
+                    <option value="False" selected>Курсы</option>
                     <option value="True">Завершенные</option>
                 </select>
             </div>
@@ -74,29 +74,15 @@
 						      </tr>
 						    </thead>
 						    <tbody>
-                            {% for lesson in lessons %}
+                            {% for finance in finance_list %}
                                 <tr>
-                                    <td class="color">{{ lesson.name }}</td>
-        </td>
-						        <td>{{ lesson.start }}</td>
-						        <td>{% for student in lesson.students.all %}
-                                {{ student }}<br>
-                            {% endfor %}</td>
-						        <td>{{ lesson.teacher }}</td>
-                                <td>{{ lesson.module.title }}</td>
-						        <td>{{ lesson.homework }}</td>
-						        <td>
-                                    {% if lesson.finished %}
-                                        <p>Урок проведен</p>
-                                    {% else %}
-                                        <a href="{% url 'current_lesson' pk=lesson.pk %}" target="_blank" class="btn btn-primary btn-sm" >Перейти</a>
-                                    {% endif %}
-                                </td>
-                                <td></td>
-                                <td>
-                                    <a class="btn btn-dark btn-sm" href="{% url 'edit_lesson' pk=lesson.pk %}"><span class="icon-pencil"></span></a>
-                                    <a class="btn btn-danger btn-sm" href="{% url 'remove_lesson' pk=lesson.pk %}"><span class="icon-remove"></span></a>
-                                </td>
+                                    <td class="color">{{ finance.title }}</td>
+						            <td>{{ finance.amount }}</td>
+                                    <td></td>
+                                    <td>
+                                        <a class="btn btn-dark btn-sm" href="{% url 'edit_finance' pk=finance.pk %}"><span class="icon-pencil"></span></a>
+                                        <a class="btn btn-danger btn-sm" href="{% url 'remove_finance' pk=finance.pk %}"><span class="icon-remove"></span></a>
+                                    </td>
 						      </tr>
                         {% endfor %}
 						    </tbody>
@@ -107,30 +93,30 @@
         <div class="row mt-5">
           <div class="col text-center">
             <div class="block-27">
-            {% if lessons.has_other_pages %}
+            {% if finance_list.has_other_pages %}
               <ul>
-                  {% if lessons.has_previous %}
-                    <li><a href="?page={{ lessons.previous_page_number }}">&lt;</a></li>
+                  {% if finance_list.has_previous %}
+                    <li><a href="?page={{ finance_list.previous_page_number }}">&lt;</a></li>
                   {% else %}
                     <li class="disabled"></li>
                   {% endif %}
-                  {% for i in lessons.paginator.page_range %}
-                      {% if lessons.number > 3 and forloop.first %}
+                  {% for i in finance_list.paginator.page_range %}
+                      {% if finance_list.number > 3 and forloop.first %}
                         <li><a href="?page=1">1</a></li>
                         <li class="disabled">⋯</li>
                       {% endif %}
-                    {% if lessons.number == i %}
+                    {% if finance_list.number == i %}
                         <li class="active"><span>{{ i }}</span></li>
-                    {% elif i > lessons.number|add:'-3' and i < lessons.number|add:'3' %}
+                    {% elif i > finance_list.number|add:'-3' and i < finance_list.number|add:'3' %}
                         <li><a href="?page={{ i }}">{{ i }}</a></li>
                     {% endif %}
-                    {% if lessons.paginator.num_pages > lessons.number|add:'3' and forloop.last %}
+                    {% if finance_list.paginator.num_pages > finance_list.number|add:'3' and forloop.last %}
                         <li class="disabled">⋯</li>
-                        <li><a href="?page={{ lessons.paginator.num_pages }}">{{ lessons.paginator.num_pages }}</a></li>
+                        <li><a href="?page={{ finance_list.paginator.num_pages }}">{{ finance_list.paginator.num_pages }}</a></li>
                     {% endif %}
                   {% endfor %}
-                  {% if lessons.has_next %}
-                    <li><a href="?page={{ lessons.next_page_number }}">></a></li>
+                  {% if finance_list.has_next %}
+                    <li><a href="?page={{ finance_list.next_page_number }}">></a></li>
                   {% else %}
                     <li class="disabled"></li>
                   {% endif %}

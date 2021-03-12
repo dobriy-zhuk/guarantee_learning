@@ -19,78 +19,121 @@
 
 {% block content %}
 
-    <div class="hero-wrap hero-wrap-2" style="background-image: url({% static 'images/slide_1.jpg' %});" data-stellar-background-ratio="0.5">
+    <div class="hero-wrap js-fullheight">
       <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end justify-content-start">
-          <div class="col-md-8 ftco-animate text-center text-md-left mb-5">
-          	<p class="breadcrumbs mb-0"><span class="mr-3"><a href="{% url 'index' %} }}">Гарантия Знаний <i class="ion-ios-arrow-forward"></i></a></span> <span>Предметы</span></p>
-            <h1 class="mb-3 bread">{{ this_page.title }}</h1>
-          </div>
-        </div>
+      <div class="container-fluid px-0">
+      	<div class="row d-md-flex no-gutters slider-text align-items-center js-fullheight justify-content-end">
+	      	<img class="one-third js-fullheight align-self-end order-md-last img-fluid" src="{% static 'images/undraw_pair_programming_njlp.svg' %}" alt="">
+	        <div class="one-forth d-flex align-items-center ftco-animate js-fullheight">
+	        	<div class="text mt-5">
+	        		<span class="subheading">Гарантия Знаний</span>
+	            <h1 class="mb-3"><span>Подготовка ЕГЭ и ОГЭ с гарантией результата</span></h1>
+	            <p>Всего за 10 занятий ваш ребенок улучшит свою успеваемость в 2 раза!</p>
+	            <p><a href="{% url 'contact' %}#school-contacts" class="btn btn-primary px-4 py-3">Записаться на консультацию</a></p>
+	          </div>
+	        </div>
+	    	</div>
       </div>
     </div>
 
-     <section class="ftco-section bg-light">
+
+    <section class="ftco-section bg-light">
     	<div class="container">
     		<div class="row justify-content-center mb-5 pb-5">
     			<div class="col-md-7 text-center heading-section ftco-animate">
-            <span class="subheading">Services</span>
-            <h2 class="mb-4">How it works</h2>
-          </div>
+            <span class="subheading">Подготовка к экзаменам</span>
+            <h2 class="mb-4">Наши курсы ЕГЭ и ОГЭ</h2>
+                </div>
     		</div>
     		<div class="row">
           <div class="col-md-12 nav-link-wrap mb-5 pb-md-5 pb-sm-1 ftco-animate">
             <div class="nav ftco-animate nav-pills justify-content-center text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-              <a class="nav-link active" id="v-pills-nextgen-tab" data-toggle="pill" href="#v-pills-nextgen" role="tab" aria-controls="v-pills-nextgen" aria-selected="true">Next gen VPS</a>
-
-              <a class="nav-link" id="v-pills-performance-tab" data-toggle="pill" href="#v-pills-performance" role="tab" aria-controls="v-pills-performance" aria-selected="false">Performance</a>
-
-              <a class="nav-link" id="v-pills-effect-tab" data-toggle="pill" href="#v-pills-effect" role="tab" aria-controls="v-pills-effect" aria-selected="false">Effectiveness</a>
+              <a class="nav-link active" id="v-pills-nextgen-tab" data-toggle="pill" href="#v-math" role="tab" aria-controls="v-pills-nextgen" aria-selected="true">Математика</a>
+              <a class="nav-link" id="v-pills-performance-tab" data-toggle="pill" href="#v-russian" role="tab" aria-controls="v-pills-performance" aria-selected="false">Русский язык</a>
+              <a class="nav-link" id="v-pills-effect-tab" data-toggle="pill" href="#v-informatics" role="tab" aria-controls="v-pills-effect" aria-selected="false">Информатика</a>
+                <a class="nav-link" id="v-pills-effect-tab" data-toggle="pill" href="#v-physics" role="tab" aria-controls="v-pills-effect" aria-selected="false">Физика</a>
+                <a class="nav-link" id="v-pills-effect-tab" data-toggle="pill" href="#v-society" role="tab" aria-controls="v-pills-effect" aria-selected="false">Обществознание</a>
             </div>
           </div>
           <div class="col-md-12 align-items-center ftco-animate">
-
             <div class="tab-content ftco-animate" id="v-pills-tabContent">
-
-              <div class="tab-pane fade show active" id="v-pills-nextgen" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
+              <div class="tab-pane fade show active" id="v-math" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
               	<div class="d-md-flex">
 	              	<div class="one-forth align-self-center">
-	              		<img src="images/undraw_laravel_and_vue_59tp.svg" class="img-fluid" alt="">
+	              		<img src="{% static 'images/math.jpg' %}" class="img-fluid" alt="">
 	              	</div>
 	              	<div class="one-half ml-md-5 align-self-center">
-		                <h2 class="mb-4">Next gen VPS hosting</h2>
-		              	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-		                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt voluptate, quibusdam sunt iste dolores consequatur</p>
-		                <p><a href="#" class="btn btn-primary py-3">Get in touch</a></p>
+		                <h2 class="mb-4">Подготовительные курсы ЕГЭ и ОГЭ по Математике</h2>
+		              	<p>Считаете экзамен по Математике одним из самых сложных? Может, ваш ребенок хочет стать инженером,
+                            и ему обязательно надо сдавать Математику в качестве основного вступительного экзаменов в ВУЗ?
+                            Тогда записывайте его к нам на курсы по дготовки к ЕГЭ и ОГЭ по математике!
+                            На занятиях дети смогут узнать много нового и полезного для сдачи экзамена.</p>
+		                    <p><strong>Стоимость</strong>: от 700руб/урок</p>
+		                <p><a href="{% url 'contact' %}" class="btn btn-primary py-3">Узнать подробности</a></p>
 		              </div>
 	              </div>
               </div>
 
-              <div class="tab-pane fade" id="v-pills-performance" role="tabpanel" aria-labelledby="v-pills-performance-tab">
+              <div class="tab-pane fade" id="v-russian" role="tabpanel" aria-labelledby="v-pills-performance-tab">
                 <div class="d-md-flex">
 	              	<div class="one-forth order-last align-self-center">
-	              		<img src="images/undraw_visual_data_b1wx.svg" class="img-fluid" alt="">
+	              		<img src="{% static 'images/russian.jpg' %}" class="img-fluid" alt="">
 	              	</div>
 	              	<div class="one-half order-first mr-md-5 align-self-center">
-		                <h2 class="mb-4">Performance VPS hosting</h2>
-		              	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-		                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt voluptate, quibusdam sunt iste dolores consequatur</p>
-		                <p><a href="#" class="btn btn-primary py-3">Get in touch</a></p>
+		                <h2 class="mb-4">Подготовительные курсы ЕГЭ и ОГЭ по Русскому языку</h2>
+		              	<p>Занятия подготовки к ЕГЭ и ОГЭ по русскому языку наполнены большим количеством интерактива.
+                            Дети будут развивать мышление и память, учиться грамотно писать, говорить и стараться подготовиться к экзамену
+                            на максимальный балл. Мы помогаем детям осваивать столь непростой предмет и делаем так, чтобы Русский язык
+                            становился любимым увлечением всех школьников!</p>
+		                <p><strong>Стоимость</strong>: от 900руб/урок</p>
+		                <p><a href="{% url 'contact' %}" class="btn btn-primary py-3">Узнать подробности</a></p>
+		              </div>
+	              </div>
+              </div>
+                <div class="tab-pane fade" id="v-informatics" role="tabpanel" aria-labelledby="v-pills-effect-tab">
+                <div class="d-md-flex">
+	              	<div class="one-forth align-self-center">
+	              		<img src="{% static 'images/informatics.jpg' %}" class="img-fluid" alt="">
+	              	</div>
+	              	<div class="one-half ml-md-5 align-self-center">
+		                <h2 class="mb-4">Подготовительные курсы ЕГЭ и ОГЭ по Информатике</h2>
+		              	<p>Занятия по информатике наполнены большим количеством интерактива,
+                            ребята будут при помощи программирования изучать основы комбинаторики,
+                            правила работы с изображениями и с табличными данными на компьютерах,
+                            тем самым сразу же проверяя свои ответы к ЕГЭ или ОГЭ. Мы помогаем детям осваивать
+                            столь непростой предмет и делаем так, чтобы информатика становилась любимым увлечением всех школьников!</p>
+                        <p><strong>Стоимость</strong>: от 700руб/урок</p>
+		                <p><a href="{% url 'contact' %}" class="btn btn-primary py-3">Узнать подробности</a></p>
 		              </div>
 	              </div>
               </div>
 
-              <div class="tab-pane fade" id="v-pills-effect" role="tabpanel" aria-labelledby="v-pills-effect-tab">
+              <div class="tab-pane fade" id="v-physics" role="tabpanel" aria-labelledby="v-pills-effect-tab">
+                <div class="d-md-flex">
+	              	<div class="one-forth order-last align-self-center">
+	              		<img src="{% static 'images/physics.jpg' %}" class="img-fluid" alt="">
+	              	</div>
+	              	<div class="one-half order-first mr-md-5 align-self-center">
+		                <h2 class="mb-4">Подготовительные курсы ЕГЭ и ОГЭ по Физике</h2>
+		              	<p>Курсы подготовки к ЕГЭ и ОГЭ по Физике наполнены большим количеством интерактива, дети будут на реальных опытах изучать распределение тока, измерять скорости предметов, переливать жидкости и работать с весами.
+                            Мы помогаем детям осваивать столь непростой предмет и делаем так, чтобы физика становилась любимым увлечением всех школьников!</p>
+		                <p><strong>Стоимость</strong>: от 700руб/урок</p>
+		                <p><a href="{% url 'contact' %}" class="btn btn-primary py-3">Узнать подробности</a></p>
+		              </div>
+	              </div>
+              </div>
+                <div class="tab-pane fade" id="v-society" role="tabpanel" aria-labelledby="v-pills-effect-tab">
                 <div class="d-md-flex">
 	              	<div class="one-forth align-self-center">
-	              		<img src="images/undraw_business_plan_5i9d.svg" class="img-fluid" alt="">
+	              		<img src="{% static 'images/sociology.jpg' %}" class="img-fluid" alt="">
 	              	</div>
 	              	<div class="one-half ml-md-5 align-self-center">
-		                <h2 class="mb-4">Effective VPS hosting</h2>
-		              	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-		                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt voluptate, quibusdam sunt iste dolores consequatur</p>
-		                <p><a href="#" class="btn btn-primary py-3">Get in touch</a></p>
+		                <h2 class="mb-4">Подготовительные курсы ЕГЭ и ОГЭ по Обществознанию</h2>
+		              	<p>Хотите, чтобы ваш ребенок овладел знаниями обществознания и отлично чувствовал себя в гражданском обществе?
+                            Вы пришли по верному адресу! Благодаря нашим курсам ребята смогут
+                            разобраться в самых сложных и запутанных случаях, предлагаемых в экзаменах, и с легкостью освоят обществознание.</p>
+                        <p><strong>Стоимость</strong>: от 900руб/урок</p>
+		                <p><a href="{% url 'contact' %}" class="btn btn-primary py-3">Узнать подробности</a></p>
 		              </div>
 	              </div>
               </div>
@@ -100,13 +143,117 @@
     	</div>
     </section>
 
+
+
+    <section class="ftco-footer ftco-bg-dark ftco-section">
+      <div class="container">
+      	<div class="row align-items-center d-flex">
+      		<div class="col-md-6">
+      			<div class="heading-section heading-section-white ftco-animate">
+      				<span class="subheading">Гарантия Знаний</span>
+	            <h2 style="font-size: 30px;">Более 100 опытных специалистов!</h2>
+	          </div>
+      		</div>
+      		<div class="col-md-3 ftco-animate">
+      			<div class="price">
+      				<span class="subheading">Занятия</span>
+      				<h3>от 8$<span>/урок</span></h3>
+      			</div>
+      		</div>
+      		<div class="col-md-3 ftco-animate">
+      			<p class="mb-0"><a href="{% url 'contact' %}#school-contacts" class="btn btn-primary py-3 px-4">Получить консультацию</a></p>
+      		</div>
+      	</div>
+      </div>
+    </section>
+
+     <section class="ftco-section services-section bg-light">
+      <div class="container">
+      	<div class="row justify-content-center mb-5 pb-3">
+          <div class="col-md-7 text-center heading-section ftco-animate">
+            <h2 class="mb-4">{{ this_page.h2 }}</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center order-md-last">
+            		<span class="flaticon-cloud"></span>
+            	</div>
+              <div class="media-body pl-4 pl-md-0 pr-md-4 text-md-right">
+                <h3 class="heading">Вводный урок</h3>
+                <p class="mb-0">Занятия начинаются с бесплатного вводного урока. На этом занятии ребенок создаст свою первую игру, а мы создадим для него план занятий!</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center">
+            		<span class="flaticon-server"></span>
+            	</div>
+              <div class="media-body pl-4">
+                <h3 class="heading">Индивидуальный подход</h3>
+                <p class="mb-0">Мы корректируем программу занятий в зависимости от успехов ребенка и формируем индивидуальный план обучения!</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center order-md-last">
+            		<span class="flaticon-customer-service"></span>
+            	</div>
+              <div class="media-body pl-4 pl-md-0 pr-md-4 text-md-right">
+                <h3 class="heading">Контроль прогресса</h3>
+                <p>Мы ежемесячно даем обратную связь по успехам ребенка. Тем самым вы всегда будете знать насколько полезны наши уроки</p>
+              </div>
+            </div>
+          </div>
+					<div class="col-md-6 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center">
+            		<span class="flaticon-life-insurance"></span>
+            	</div>
+              <div class="media-body pl-4">
+                <h3 class="heading">Удобная платформа</h3>
+                <p>Все записи занятий хранятся в личном кабинете. Мы мотивируем ребенка к обучению и дарим подарки за его достижения!</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center order-md-last">
+            		<span class="flaticon-cloud-computing"></span>
+            	</div>
+              <div class="media-body pl-4 pl-md-0 pr-md-4 text-md-right">
+                <h3 class="heading">Гарантия результата</h3>
+                <p>Мы даем гарантию, что ребенок повысит свой уровень минимум на 30% от первоначального результата уже к 16 занятию!</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services d-flex align-items-center">
+            	<div class="icon d-flex align-items-center justify-content-center">
+            		<span class="flaticon-settings"></span>
+            	</div>
+              <div class="media-body pl-4">
+                <h3 class="heading">Высокий уровень</h3>
+                <p>Наши педагоги ежегодно сдают ЕГЭ и ОГЭ и прекрасно знают все тонкости экзамена!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
     <section class="ftco-section testimony-section">
       <div class="container">
         <div class="row justify-content-center mb-5 pb-3">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <span class="subheading">Customer Says</span>
-            <h2 class="mb-4">Our satisfied customer says</h2>
-            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
+            <span class="subheading">Наши клиенты</span>
+            <h3 class="mb-4">Отзывы о школе Гарантия Знаний</h3>
+            <p>Образование - это все! Будущее ребенка зависит от качества образования и любви к учебе. Мы даем детям возможность развивать свои таланты и становиться успешнее!</p>
           </div>
         </div>
         <div class="row ftco-animate">
@@ -114,71 +261,44 @@
             <div class="carousel-testimony owl-carousel ftco-owl">
               <div class="item">
                 <div class="testimony-wrap p-4 text-center">
-                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">
+                  <div class="user-img mb-4" style="background-image: url({% static 'images/testimonial_coding_1.jpg' %})">
                     <span class="quote d-flex align-items-center justify-content-center">
                       <i class="icon-quote-left"></i>
                     </span>
                   </div>
                   <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Mark Web</p>
-                    <span class="position">Marketing Manager</span>
+                    <p class="mb-4">Занимались на курсах программирования на протяжении года в Гарантии Знаний. Ребенок был в восторге от занятий, уроки для него пролетали незаметно.</p>
+                    <p class="name">Юлия</p>
+                    <span class="position">Мама Платона</span>
+                  </div>
+                </div>
+              </div>
+                <div class="item">
+                <div class="testimony-wrap p-4 text-center">
+                  <div class="user-img mb-4" style="background-image: url({% static 'images/testimonial_coding_2.jpg' %})">
+                    <span class="quote d-flex align-items-center justify-content-center">
+                      <i class="icon-quote-left"></i>
+                    </span>
+                  </div>
+                  <div class="text">
+                    <p class="mb-4">Хочу поделиться впечатлениями!! Мой " ершистый" сынок после первого урока вставал раньше будильника, чтоб не опоздать на занятия! Спасибо за чуткое отношение к детям! </p>
+                    <p class="name">Мария</p>
+                    <span class="position">Мама Вани</span>
                   </div>
                 </div>
               </div>
               <div class="item">
                 <div class="testimony-wrap p-4 text-center">
-                  <div class="user-img mb-4" style="background-image: url(images/person_2.jpg)">
+                  <div class="user-img mb-4" style="background-image: url({% static 'images/testimonial_coding_3.jpg' %})">
                     <span class="quote d-flex align-items-center justify-content-center">
                       <i class="icon-quote-left"></i>
                     </span>
                   </div>
                   <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Mark Web</p>
-                    <span class="position">Interface Designer</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap p-4 text-center">
-                  <div class="user-img mb-4" style="background-image: url(images/person_3.jpg)">
-                    <span class="quote d-flex align-items-center justify-content-center">
-                      <i class="icon-quote-left"></i>
-                    </span>
-                  </div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Mark Web</p>
-                    <span class="position">UI Designer</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap p-4 text-center">
-                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">
-                    <span class="quote d-flex align-items-center justify-content-center">
-                      <i class="icon-quote-left"></i>
-                    </span>
-                  </div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Mark Web</p>
-                    <span class="position">Web Developer</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap p-4 text-center">
-                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">
-                    <span class="quote d-flex align-items-center justify-content-center">
-                      <i class="icon-quote-left"></i>
-                    </span>
-                  </div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Mark Web</p>
-                    <span class="position">System Analyst</span>
+                    <p class="mb-4">Замечательные курсы! Ребенок (девочка)захотел программировать. Нас очень пугало, что такой предмет и для девочки. Но опасения были напрасны... Занятия нравятся!
+                    </p>
+                    <p class="name">Ирина</p>
+                    <span class="position">Мама Алины</span>
                   </div>
                 </div>
               </div>
@@ -186,22 +306,6 @@
           </div>
         </div>
       </div>
-    </section>
-
-    <section class="ftco-section">
-    	<div class="container">
-    		<div class="row justify-content-center mb-5">
-          <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-4">Domain Pricing</h2>
-            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-          </div>
-        </div>
-    		<div class="row">
-    			<div class="col-md-12 ftco-animate text-center">
-    				<iframe src="https://vk.com/video_ext.php?oid=-48330870&id=456239054&hash=f195934eea000e95&hd=1" width="640" height="360" frameborder="0" allowfullscreen></iframe>
-    			</div>
-    		</div>
-    	</div>
     </section>
 
 

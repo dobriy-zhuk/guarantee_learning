@@ -18,5 +18,12 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('school/', views.school, name='school'),
     path('contact/', views.contact, name='contact'),
+    path('demo/', views.demo_lesson, name='demo'),
+    path('camp/', views.camp, name='camp'),
+    path('coding/', views.coding, name='coding'),
+    path('robotics/', views.robotics, name='robotics'),
+    path('school_subjects/', views.school_subjects, name='school_subjects'),
+    path('exams/', views.exams, name='exams'),
 ]

@@ -23,15 +23,16 @@
     	<div class="container">
     		<div class="row mt-5">
           <div class="col-md-7 text-left heading-section ftco-animate">
-            <h2 class="">Все уроки</h2>
+            <h2 class="">Все уроки <a class="btn btn-danger btn-sm" href="{% url 'new_lesson' %}">Добавить</a></h2>
           </div>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <label for="filterBranch">Филиал</label>
                 <select onchange="filterParams()" class="custom-select" id="filterBranch">
-                    <option value="False" {% if request.GET.branch == "Marino" %} selected {% endif %}>Братиславская</option>
-                    <option value="True" {% if request.GET.finished == True %} selected {% endif %}>Ярославль</option>
+                    {% for branch in branches %}
+                    <option value="{{ branch.id }}" {% if request.GET.branch|slugify == branch.id|slugify %} selected {% endif %}>{{ branch }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="col-md-3">
@@ -44,8 +45,10 @@
             <div class="col-md-3">
                 <label for="filterTeacher">Учитель</label>
                 <select onchange="filterParams()" class="custom-select" id="filterTeacher">
-                    <option value="id_1" selected>Квасов Артем</option>
-                    <option value="id_2">Завершенные</option>
+                    <option value="0" {% if request.GET.teacher == 0 %} selected {% endif %}>Все</option>
+                    <{% for teacher in teachers %}
+                    <option value="{{ teacher.id }}" {% if request.GET.teacher|slugify == teacher.id|slugify %} selected {% endif %}>{{ teacher }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="col-md-3">
@@ -77,12 +80,15 @@
                             {% for lesson in lessons %}
                                 <tr>
                                     <td class="color">{{ lesson.name }}</td>
-        </td>
 						        <td>{{ lesson.start }}</td>
 						        <td>{% for student in lesson.students.all %}
-                                {{ student }}<br>
-                            {% endfor %}</td>
-						        <td>{{ lesson.teacher }}</td>
+                                    {{ student }}<br>
+                                {% endfor %}
+                                </td>
+						        <td>{% for teacher in lesson.teacher.all %}
+                                    {{ teacher }}<br>
+                                {% endfor %}
+                                </td>
                                 <td>{{ lesson.module.title }}</td>
 						        <td>{{ lesson.homework }}</td>
 						        <td>
@@ -142,129 +148,16 @@
     	</div>
     </section>
 
-
-    <div class="container">
-
-      	<div class="row justify-content-center">
-          <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="">Управление школой</h2>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-            <div class="media block-4 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center">
-            		<span class="flaticon-life-insurance"></span>
-            	</div>
-              <div class="media-body pl-4">
-                <h3 class="heading">Редактор уроков</h3>
-                <p><a href="{% url 'new_lesson' %}" class="btn btn-outline-info py-3">Добавить</a></p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-            <div class="media block-4 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center">
-            		<span class="flaticon-life-insurance"></span>
-            	</div>
-              <div class="media-body pl-4">
-                <h3 class="heading">Мои задачи</h3>
-                <p>Записать видеообращение</p>
-                <p>
-                    <a href="#" class="btn btn-outline-info py-3">Все</a>
-                    <a href="#" class="btn btn-outline-info py-3">Создать</a>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-            <div class="media block-4 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center">
-            		<span class="flaticon-life-insurance"></span>
-            	</div>
-              <div class="media-body pl-4">
-                <h3 class="heading">Пользователи</h3>
-                <p>Студенты, учителя, менеджеры</p>
-                <p>
-                    <a href="{% url 'profile_list' %}" class="btn btn-outline-info py-3">Список</a>
-                    <a href="{% url 'new_profile' %}" class="btn btn-outline-info py-3">Добавить</a>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-            <div class="media block-4 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center">
-            		<span class="flaticon-life-insurance"></span>
-            	</div>
-              <div class="media-body pl-4">
-                <h3 class="heading">Финансы</h3>
-                <p>Мы дарим подарки за ваши достижения!</p>
-                <p>
-                    <a href="{% url 'finance' %}" class="btn btn-outline-info py-3">Список</a>
-                    <a href="#" class="btn btn-outline-info py-3">Добавить</a>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-            <div class="media block-4 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center">
-            		<span class="flaticon-life-insurance"></span>
-            	</div>
-              <div class="media-body pl-4">
-                <h3 class="heading">Показатели эффективности</h3>
-                <p>Мы дарим подарки за ваши достижения!</p>
-                <p>
-                    <a href="#" class="btn btn-outline-info py-3">Список</a>
-                    <a href="#" class="btn btn-outline-info py-3">Добавить</a>
-                </p>
-              </div>
-            </div>
-          </div>
-            <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-            <div class="media block-4 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center">
-            		<span class="flaticon-life-insurance"></span>
-            	</div>
-              <div class="media-body pl-4">
-                <h3 class="heading">Контент уроков</h3>
-                <p>Редактор модулей</p>
-                <p>
-                    <a href="{% url 'module_list' %}" class="btn btn-outline-info py-3">Список</a>
-                    <a href="#" class="btn btn-outline-info py-3">Добавить</a>
-                </p>
-              </div>
-            </div>
-          </div>
-            <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-            <div class="media block-4 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center">
-            		<span class="flaticon-life-insurance"></span>
-            	</div>
-              <div class="media-body pl-4">
-                <h3 class="heading">Трансляция</h3>
-                <p>Филиал в прямом эфире</p>
-                <p>
-                    <a href="#" class="btn btn-outline-info py-3">Список</a>
-                    <a href="#" class="btn btn-outline-info py-3">Добавить</a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
 <script>
 function filterParams() {
     finished = document.getElementById("filterFinished").value;
     teacher = document.getElementById("filterTeacher").value;
+    branch = document.getElementById("filterBranch").value;
 
     var url = new URL(window.location.href + "?finished=False");
     url.searchParams.set('finished', finished);
     url.searchParams.set('teacher', teacher);
+    url.searchParams.set('branch', branch);
 
     window.location.replace(url);
 

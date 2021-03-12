@@ -48,8 +48,8 @@
           </div>
         </div>
         <div class="row block-9">
-          <div class="col-md-6 pr-md-5">
-            <form method="post" id="contact-form">
+            <form method="post" id="contact-form" class="row col-12">
+          <div class="col-6">
                 {% csrf_token %}
                 <div id="result_div_id"></div>
               <div class="form-group">
@@ -61,6 +61,13 @@
               <div class="form-group">
                 <input type="tel" class="form-control" name="phone" id="phone" placeholder="Телефон" required>
               </div>
+
+              <div class="form-group">
+                <textarea name="comment" id="comment" cols="30" rows="3" class="form-control" placeholder="Укажите предпочтительное время вводного урока и любую дополнительную информацию, которую считаете нужной"></textarea>
+              </div>
+
+          </div>
+           <div class="col-6">
                 <div class="form-group">
                                 <label for="subject">Выберите направление</label>
                                 <select class="form-control" name="subject" id="subject">
@@ -84,53 +91,16 @@
                                     <option value="Новогодние праздники">Новогодние праздники</option>
                                 </select>
                             </div>
-                 <div class="form-group">
-                                <label for="subject">Выберите место занятий</label>
-                                <select class="form-control" name="place" id="place">
-                                    <option value="Онлайн">Онлайн</option>
-                                    <option value="Москва">Москва</option>
-                                    <option value="Одинцово">Одинцово</option>
-                                    <option value="Ярославль">Ярославль</option>
-                                    <option value="Тверь">Тверь</option>
-                                    <option value="Тула">Тула</option>
-                                    <option value="Симферополь">Симферополь</option>
-                                    <option value="Челябинск">Челябинск</option>
-                                    <option value="Вологда">Вологда</option>
-                                </select>
-                            </div>
-              <div class="form-group">
-                <textarea name="comment" id="comment" cols="30" rows="7" class="form-control" placeholder="Укажите любую дополнительную информацию, которую считаете нужной"></textarea>
-              </div>
-              <div class="form-group">
+                        <div class="form-group">
+                            <small style="color: grey">Выберите удобные даты</small><br>
+                            <input name="demo_date" id="demo_date" class="datefield">
+                        </div>
+               <div class="form-group">
                   <p>Оставляя заявку вы соглашаетесь с условиями <a href="documents/oferta.pdf" target="_blank">Оферты</a></p>
                   <button class="btn btn-primary py-3 px-5" type="button" onclick="if (CheckForm()) contact();">Отправить заявку</button>
               </div>
-            </form>
-          </div>
-            <div class="col-md-6">
-             <nav>
-                  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-moscow" role="tab" aria-controls="nav-home" aria-selected="true">Москва</a>
-                      <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-yaroslavl" role="tab" aria-controls="nav-contact" aria-selected="false">Ярославль</a>
-                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-odincovo" role="tab" aria-controls="nav-profile" aria-selected="false">Одинцово</a>
-                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-tver" role="tab" aria-controls="nav-contact" aria-selected="false">Тверь</a>
-                  </div>
-                </nav>
-                <div class="tab-content" id="nav-tabContent">
-                  <div class="tab-pane fade show active" id="nav-moscow" role="tabpanel" aria-labelledby="nav-home-tab">
-                    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A98eikr1BdQwXNwwoDHZC3sl_GHx6NPWp&amp;width=100%25&amp;height=491&amp;lang=ru_RU&amp;scroll=true"></script>
-                  </div>
-                  <div class="tab-pane fade" id="nav-yaroslavl" role="tabpanel" aria-labelledby="nav-profile-tab">
-                    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3ATRIB_WIkSUwqsf3W_s6G7491T81hT4IF&amp;width=100%25&amp;height=458&amp;lang=ru_RU&amp;scroll=true"></script>
-                  </div>
-                  <div class="tab-pane fade" id="nav-odincovo" role="tabpanel" aria-labelledby="nav-profile-tab">
-                      <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Af8af54f7c73f2064a544704913c0e2eb8483abc34b0eee710792bfa8f3a779f2&amp;width=100%25&amp;height=400&amp;lang=ru_RU&amp;scroll=true"></script>
-                  </div>
-                  <div class="tab-pane fade" id="nav-tver" role="tabpanel" aria-labelledby="nav-contact-tab">
-                      <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Ac84699e6722c2a303b7080c2e9225bdcdfe487812a65c41adea3721c1fd88a42&amp;width=100%25&amp;height=450&amp;lang=ru_RU&amp;scroll=true"></script>
-                  </div>
-                </div>
             </div>
+                </form>
 
 
         </div>
@@ -171,13 +141,13 @@
     function contact(){
     $.ajax({
         type:'POST',
-        url:'{% url "contact" %}',
+        url:'{% url "demo" %}',
         data:{
             name: $('#name').val(),
             email: $('#email').val(),
             phone: $('#phone').val(),
             subject: $('#subject').val(),
-            place: $('#place').val(),
+            demo_date: $('#demo_date').val(),
             comment:$('#comment').val(),
             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
             action: 'post'
@@ -191,6 +161,21 @@
     }
     });
 }
+</script>
+
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    // This code activates flatpickr on fields with the 'datetimefield' class when the document has loaded
+    window.addEventListener("DOMContentLoaded", function () {
+        flatpickr(".datefield", {
+            mode: "multiple",
+            dateFormat: "Y-m-d",
+            conjunction: " :: ",
+            minDate: "today"
+        });
+    });
 </script>
 
 {% endblock %}

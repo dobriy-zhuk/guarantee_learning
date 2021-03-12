@@ -27,7 +27,7 @@
     	<div class="container">
     		<div class="row justify-content-center mb-3 mt-5">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-3">Создание новой задачи</h2>
+            <h2 class="mb-3">Новый платеж</h2>
             <p>Внимательно вносите информацию</p>
 
           </div>
@@ -37,7 +37,7 @@
                        <form method='POST' enctype="multipart/form-data">
                        <div id="result_div_id"></div>
                       {% csrf_token %}
-                      {% for field in task_form %}
+                      {% for field in finance_form %}
                           <p>{% if field.help_text %}</p>
                       <small style="color: grey">{{ field.help_text }}</small><br>
                         {% endif %}
@@ -190,6 +190,19 @@ function changeStudent(value) {
  });
 
 
+</script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    // This code activates flatpickr on fields with the 'datetimefield' class when the document has loaded
+    window.addEventListener("DOMContentLoaded", function () {
+        flatpickr(".datetimefield", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            time_24hr: true
+        });
+    });
 </script>
 
 

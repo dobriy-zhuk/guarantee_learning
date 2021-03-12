@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% load static %}
+{% load box_tags %}
 {% block title %}ГАРАНТИЯ ЗНАНИЙ - кружки Робототехники, Программирования и Химии детям{% endblock title %}
 
 {% block tags %}
@@ -23,469 +24,45 @@
     	<div class="container">
     		<div class="row justify-content-center mb-3 mt-5">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-3">Создание нового урока</h2>
+            <h2 class="mb-3">Редактирование урока</h2>
             <p>Внимательно вносите информацию по уроку</p>
           </div>
         </div>
     		<div class="row">
     			<div class="col-md-12 ftco-animate">
-
-
-<form method="post" id="lesson-form">
-  {% csrf_token %}
-    <div id="result_div_id"></div>
-    <div class="form-group">
-        <label>Наименование урока</label>
-        <input type="text" class="form-control" id="title" placeholder="Наименование урока">
-    </div>
-    <div class="form-group">
-        <div class="row d-flex mt-100">
-            <div class="col-md-6"> <select id="choices-multiple-remove-student" placeholder="Выберите до 10 учеников" multiple>
-                {% for student in students %}
-                    <option value="{{ student.pk }}">{{ student.user.first_name }} {{ student.user.last_name }}</option>
-                {% endfor %}
-                </select> </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="subject-select">Выберите предмет</label>
-        <select class="form-control" id="subject-select">
-            {% for subject in subjects %}
-                <option value="{{ subject }}">{{ subject }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="form-group">
-        <div class="row d-flex  mt-100">
-            <div class="col-md-6">
-                <select id="choices-multiple-remove-teacher" placeholder="Выберите педагога" multiple>
-                {% for teacher in teachers %}
-                    <option value="{{ teacher.pk }}">{{ teacher.user.first_name }} {{ teacher.user.last_name }}</option>
-                {% endfor %}
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="nativeDateTimePicker">
-            <label for="party">Дата первого занятия:</label>
-            <input type="datetime-local" id="party" name="bday">
-            <span class="validity"></span>
-          </div>
-          <p class="fallbackLabel">Дата первого занятия:</p>
-          <div class="fallbackDateTimePicker">
-            <div>
-              <span>
-                <label for="day">День:</label>
-                <select id="day" name="day">
-                </select>
-              </span>
-              <span>
-                <label for="month">Месяц:</label>
-                <select id="month" name="month">
-                  <option selected value="0">Январь</option>
-                  <option value="1">Февраль</option>
-                  <option value="2">Март</option>
-                  <option value="3">Апрель</option>
-                  <option value="4">Май</option>
-                  <option value="5">Июнь</option>
-                  <option value="6">Июль</option>
-                  <option value="7">Август</option>
-                  <option value="8">Сентябрь</option>
-                  <option value="9">Октябрь</option>
-                  <option value="10">Ноябрь</option>
-                  <option value="11">Декабрь</option>
-                </select>
-              </span>
-              <span>
-                <label for="year">Год:</label>
-                <select id="year" name="year">
-                </select>
-              </span>
-              <span>
-                <label for="hour">Часы:</label>
-                <select id="hour" name="hour">
-                </select>
-              </span>
-              <span>
-                <label for="minute">Минуты:</label>
-                <select id="minute" name="minute">
-                </select>
-              </span>
-            </div>
-          </div>
-        <script>
-            // define variables
-        var nativePicker = document.querySelector('.nativeDateTimePicker');
-        var fallbackPicker = document.querySelector('.fallbackDateTimePicker');
-        var fallbackLabel = document.querySelector('.fallbackLabel');
-
-        var yearSelect = document.querySelector('#year');
-        var monthSelect = document.querySelector('#month');
-        var daySelect = document.querySelector('#day');
-        var hourSelect = document.querySelector('#hour');
-        var minuteSelect = document.querySelector('#minute');
-
-        // hide fallback initially
-        fallbackPicker.style.display = 'none';
-        fallbackLabel.style.display = 'none';
-
-        // test whether a new datetime-local input falls back to a text input or not
-        var test = document.createElement('input');
-
-        try {
-          test.type = 'datetime-local';
-        } catch (e) {
-          console.log(e.description);
-        }
-
-        // if it does, run the code inside the if() {} block
-        if(test.type === 'text') {
-          // hide the native picker and show the fallback
-          nativePicker.style.display = 'none';
-          fallbackPicker.style.display = 'block';
-          fallbackLabel.style.display = 'block';
-
-          // populate the days and years dynamically
-          // (the months are always the same, therefore hardcoded)
-          populateDays(monthSelect.value);
-          populateYears();
-          populateHours();
-          populateMinutes();
-        }
-
-        function populateDays(month) {
-          // delete the current set of <option> elements out of the
-          // day <select>, ready for the next set to be injected
-          while(daySelect.firstChild){
-            daySelect.removeChild(daySelect.firstChild);
-          }
-
-          // Create variable to hold new number of days to inject
-          var dayNum;
-
-          // 31 or 30 days?
-          if(month === 'January' || month === 'March' || month === 'May' || month === 'July' || month === 'August' || month === 'October' || month === 'December') {
-            dayNum = 31;
-          } else if(month === 'April' || month === 'June' || month === 'September' || month === 'November') {
-            dayNum = 30;
-          } else {
-          // If month is February, calculate whether it is a leap year or not
-            var year = yearSelect.value;
-            var isLeap = new Date(year, 1, 29).getMonth() == 1;
-            isLeap ? dayNum = 29 : dayNum = 28;
-          }
-
-          // inject the right number of new <option> elements into the day <select>
-          for(i = 1; i <= dayNum; i++) {
-            var option = document.createElement('option');
-            option.textContent = i;
-            daySelect.appendChild(option);
-          }
-
-          // if previous day has already been set, set daySelect's value
-          // to that day, to avoid the day jumping back to 1 when you
-          // change the year
-          if(previousDay) {
-            daySelect.value = previousDay;
-
-            // If the previous day was set to a high number, say 31, and then
-            // you chose a month with less total days in it (e.g. February),
-            // this part of the code ensures that the highest day available
-            // is selected, rather than showing a blank daySelect
-            if(daySelect.value === "") {
-              daySelect.value = previousDay - 1;
-            }
-
-            if(daySelect.value === "") {
-              daySelect.value = previousDay - 2;
-            }
-
-            if(daySelect.value === "") {
-              daySelect.value = previousDay - 3;
-            }
-          }
-        }
-
-        function populateYears() {
-          // get this year as a number
-          var date = new Date();
-          var year = date.getFullYear();
-
-          // Make this year, and the 100 years before it available in the year <select>
-          for(var i = -1; i <= 1; i++) {
-            var option = document.createElement('option');
-            option.textContent = year-i;
-            yearSelect.appendChild(option);
-          }
-        }
-
-        function populateHours() {
-          // populate the hours <select> with the 24 hours of the day
-          for(var i = 0; i <= 23; i++) {
-            var option = document.createElement('option');
-            option.textContent = (i < 10) ? ("0" + i) : i;
-            hourSelect.appendChild(option);
-          }
-        }
-
-        function populateMinutes() {
-          // populate the minutes <select> with the 60 hours of each minute
-          for(var i = 0; i <= 59; i++) {
-            var option = document.createElement('option');
-            option.textContent = (i < 10) ? ("0" + i) : i;
-            minuteSelect.appendChild(option);
-          }
-        }
-
-        // when the month or year <select> values are changed, rerun populateDays()
-        // in case the change affected the number of available days
-        yearSelect.onchange = function() {
-          populateDays(monthSelect.value);
-        }
-
-        monthSelect.onchange = function() {
-          populateDays(monthSelect.value);
-        }
-
-        //preserve day selection
-        var previousDay;
-
-        // update what day has been set to previously
-        // see end of populateDays() for usage
-        daySelect.onchange = function() {
-          previousDay = daySelect.value;
-        }
-        </script>
-    </div>
-    <div class="form-group">
-        <div class="nativeDateTimePickerLast">
-            <label for="lesson_past">Дата последнего занятия:</label>
-            <input type="datetime-local" id="lesson_past" name="bdaylast">
-            <span class="validity"></span>
-          </div>
-          <p class="fallbackLabelLast">Дата последнего занятия:</p>
-          <div class="fallbackDateTimePickerLast">
-            <div>
-              <span>
-                <label for="day_last">День:</label>
-                <select id="day_last" name="day_last">
-                </select>
-              </span>
-              <span>
-                <label for="month_last">Месяц:</label>
-                <select id="month_last" name="month_last">
-                  <option selected value="0">Январь</option>
-                  <option value="1">Февраль</option>
-                  <option value="2">Март</option>
-                  <option value="3">Апрель</option>
-                  <option value="4">Май</option>
-                  <option value="5">Июнь</option>
-                  <option value="6">Июль</option>
-                  <option value="7">Август</option>
-                  <option value="8">Сентябрь</option>
-                  <option value="9">Октябрь</option>
-                  <option value="10">Ноябрь</option>
-                  <option value="11">Декабрь</option>
-                </select>
-              </span>
-              <span>
-                <label for="year_last">Год:</label>
-                <select id="year_last" name="year_last">
-                </select>
-              </span>
-            </div>
-          </div>
-        <script>
-            // define variables
-        var nativePicker = document.querySelector('.nativeDateTimePickerLast');
-        var fallbackPicker = document.querySelector('.fallbackDateTimePickerLast');
-        var fallbackLabel = document.querySelector('.fallbackLabelLast');
-
-        var yearSelectLast = document.querySelector('#year_last');
-        var monthSelectLast = document.querySelector('#month_last');
-        var daySelectLast = document.querySelector('#day_last');
-
-        // hide fallback initially
-        fallbackPicker.style.display = 'none';
-        fallbackLabel.style.display = 'none';
-
-        // test whether a new datetime-local input falls back to a text input or not
-        var test = document.createElement('input');
-
-        try {
-          test.type = 'datetime-local';
-        } catch (e) {
-          console.log(e.description);
-        }
-
-        // if it does, run the code inside the if() {} block
-        if(test.type === 'text') {
-          // hide the native picker and show the fallback
-          nativePicker.style.display = 'none';
-          fallbackPicker.style.display = 'block';
-          fallbackLabel.style.display = 'block';
-
-          // populate the days and years dynamically
-          // (the months are always the same, therefore hardcoded)
-          populateDays(monthSelect.value);
-          populateYears();
-        }
-
-        function populateDays(month) {
-          // delete the current set of <option> elements out of the
-          // day <select>, ready for the next set to be injected
-          while(daySelectLast.firstChild){
-            daySelectLast.removeChild(daySelectLast.firstChild);
-          }
-
-          // Create variable to hold new number of days to inject
-          var dayNum;
-
-          // 31 or 30 days?
-          if(month === 'January' || month === 'March' || month === 'May' || month === 'July' || month === 'August' || month === 'October' || month === 'December') {
-            dayNum = 31;
-          } else if(month === 'April' || month === 'June' || month === 'September' || month === 'November') {
-            dayNum = 30;
-          } else {
-          // If month is February, calculate whether it is a leap year or not
-            var year = yearSelectLast.value;
-            var isLeap = new Date(year, 1, 29).getMonth() == 1;
-            isLeap ? dayNum = 29 : dayNum = 28;
-          }
-
-          // inject the right number of new <option> elements into the day <select>
-          for(i = 1; i <= dayNum; i++) {
-            var option = document.createElement('option');
-            option.textContent = i;
-            daySelectLast.appendChild(option);
-          }
-
-          // if previous day has already been set, set daySelect's value
-          // to that day, to avoid the day jumping back to 1 when you
-          // change the year
-          if(previousDay) {
-            daySelectLast.value = previousDay;
-
-            // If the previous day was set to a high number, say 31, and then
-            // you chose a month with less total days in it (e.g. February),
-            // this part of the code ensures that the highest day available
-            // is selected, rather than showing a blank daySelect
-            if(daySelectLast.value === "") {
-              daySelectLast.value = previousDay - 1;
-            }
-
-            if(daySelectLast.value === "") {
-              daySelectLast.value = previousDay - 2;
-            }
-
-            if(daySelectLast.value === "") {
-              daySelectLast.value = previousDay - 3;
-            }
-          }
-        }
-
-        function populateYears() {
-          // get this year as a number
-          var date = new Date();
-          var year = date.getFullYear();
-
-          // Make this year, and the 100 years before it available in the year <select>
-          for(var i = -1; i <= 1; i++) {
-            var option = document.createElement('option');
-            option.textContent = year-i;
-            yearSelectLast.appendChild(option);
-          }
-        }
-
-        // when the month or year <select> values are changed, rerun populateDays()
-        // in case the change affected the number of available days
-        yearSelectLast.onchange = function() {
-          populateDays(monthSelectLast.value);
-        }
-
-        monthSelectLast.onchange = function() {
-          populateDays(monthSelectLast.value);
-        }
-
-        //preserve day selection
-        var previousDay;
-
-        // update what day has been set to previously
-        // see end of populateDays() for usage
-        daySelectLast.onchange = function() {
-          previousDay = daySelectLast.value;
-        }
-        </script>
-    </div>
-    <div class="form-group">
-        <label>Продолжительность занятия</label>
-        <input type="number" class="form-control" id="duration" placeholder="Продолжительность урока, минут">
-    </div>
-    <div class="form-group">
-        <label for="frequency">Частота занятий</label>
-        <select class="form-control" id="frequency">
-            <option value="every_day">Каждый день</option>
-            <option value="every_week">Каждую неделю</option>
-        </select>
-    </div>
-   <button type="button" class="btn btn-primary" onclick="create_lesson()">Создать урок</button>
-</form>
-
-
-<script>
-    function create_lesson(){
-
-    $.ajaxSetup({
-        headers: { "X-CSRFToken": getCookie("csrftoken") }
-    });
-
-    $.ajax({
-        type:'POST',
-        url:'{% url "new_lesson" %}',
-        dataType: 'json',
-        data: JSON.stringify({
-            "title": $('#title').val(),
-            "students": $('#choices-multiple-remove-student').val(),
-            "subject": $('#subject-select').val(),
-            "teachers": $('#choices-multiple-remove-teacher').val(),
-            "start": new Date(yearSelect.value, monthSelect.value, daySelect.value, hourSelect.value, minuteSelect.value, 0, 0),
-            "end": new Date(yearSelectLast.value, monthSelectLast.value, daySelectLast.value, 23, 59, 59, 0),
-            "duration": $('#duration').val(),
-            "frequency": $('#frequency').val()
-        }),
-        contentType: 'application/json; charset=utf-8',
-        success:function(json){
-            //document.getElementById("post-form").reset();
-            alert(json.result);
-        },
-        error : function(xhr,errmsg,err) {
-            alert("ERROR");
-        console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-    }
-    });
-
-    function getCookie(c_name)
-    {
-        if (document.cookie.length > 0)
-        {
-            c_start = document.cookie.indexOf(c_name + "=");
-            if (c_start != -1)
-            {
-                c_start = c_start + c_name.length + 1;
-                c_end = document.cookie.indexOf(";", c_start);
-                if (c_end == -1) c_end = document.cookie.length;
-                return unescape(document.cookie.substring(c_start,c_end));
-            }
-    }
-    return "";
- }
-}
-</script>
+                       <form method='POST' enctype="multipart/form-data">
+                       <div id="result_div_id"></div>
+                      {% csrf_token %}
+                      {% for field in lesson_form %}
+                          <p>{% if field.help_text %}</p>
+                      <small style="color: grey">{{ field.help_text }}</small><br>
+                        {% endif %}
+                        {{ field }}
+                        {% for error in field.errors %}
+                          <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                        {% endfor %}
+                        <div class="form-group">
+                          <button class="btn btn-primary py-3 px-5" type="submit">Обновить</button>
+                      </div>
+                    </form>
     			</div>
     		</div>
     	</div>
     </section>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    // This code activates flatpickr on fields with the 'datetimefield' class when the document has loaded
+    window.addEventListener("DOMContentLoaded", function () {
+        flatpickr(".datetimefield", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            time_24hr: true
+        });
+    });
+</script>
 
 
     <section class="ftco-section ftco-partner">
@@ -516,7 +93,7 @@
 <script>
 
 
- var multipleCancelButtonStudent = new Choices('#choices-multiple-remove-student', {
+ var choices10 = new Choices('.choices-10', {
  removeItemButton: true,
  maxItemCount:10,
  searchResultLimit:10,
@@ -524,7 +101,7 @@
  });
 
 
-  var multipleCancelButtonTeacher = new Choices('#choices-multiple-remove-teacher', {
+ var choices1 = new Choices('.choices-1', {
  removeItemButton: true,
  maxItemCount:1,
  searchResultLimit:1,

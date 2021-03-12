@@ -34,13 +34,15 @@
     <section class="ftco-section">
       <div class="container">
         <div class="row">
-            <form action="/blog/new/" method="post">
+            <form method='POST' enctype="multipart/form-data">
                 {% csrf_token %}
                 {% for field in form %}
                     <h1>{{field.label_tag}}</h1>
                      {{ field }}
                 {% endfor %}
-                <input type="submit" value="Submit">
+                <div class="form-group">
+                    <button class="btn btn-primary py-3 px-5" type="submit">Добавить</button>
+                </div>
             </form>
           <div class="col-md-8 ftco-animate">
             <h2 class="mb-3">#1. We Love WordPress Themes</h2>
@@ -321,8 +323,8 @@
 	          <li class="nav-item"><a href="../domain.html" class="nav-link">Domain</a></li>
 	          <li class="nav-item"><a class="nav-link" href="../hosting.html">Hosting</a></li>
 	          <li class="nav-item active"><a href="blog.html" class="nav-link">Blog</a></li>
-	          <li class="nav-item"><a href="../contact.html" class="nav-link">Contact</a></li>
-	          <li class="nav-item cta"><a href="../contact.html" class="nav-link"><span>Get started</span></a></li>
+	          <li class="nav-item"><a href="../main_site/contact.html" class="nav-link">Contact</a></li>
+	          <li class="nav-item cta"><a href="../main_site/contact.html" class="nav-link"><span>Get started</span></a></li>
 	        </ul>
 	      </div>
 	    </div>

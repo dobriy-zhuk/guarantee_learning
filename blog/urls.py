@@ -20,5 +20,7 @@ from . import views
 urlpatterns = [
     path('', views.post_list, name = 'blog'),
     path('post/<int:pk>/', views.post_detail, name='post_detail'),
-    path('new/', views.post_new, name='post_new'),
+    path('post/new/', views.post_new, name='new_post'),
+    path('post/<int:pk>/edit', views.edit_post, name='edit_post'),
+    path('post/<int:pk>/remove/', views.remove_post, name='remove_post'),
 ]

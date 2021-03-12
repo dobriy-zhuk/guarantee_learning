@@ -21,10 +21,11 @@
 
         <section class="ftco-section">
     	<div class="container">
-    		<div class="row justify-content-center mb-5">
-          <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-4">Мои уроки</h2>
-            <p>Подключайтесь в ближайшему</p>
+    		<div class="row mt-5">
+          <div class="col-md-7 text-left heading-section ftco-animate">
+            <h2 class="">Мои уроки</h2>
+              <a href="?finished=True">finished</a>
+              <a href="?finished=False">not finished</a>
           </div>
         </div>
 
@@ -66,159 +67,73 @@
 					  </div>
     			</div>
     		</div>
-    	</div>
-    </section>
-
-
-
-    <section class="ftco-section ftco-no-pt ftc-no-pb bg-light">
-    	<div class="container">
-    		<div class="row">
-    			<div class="col-lg-6 py-5">
-    				<img src="{% static 'images/undraw_podcast_q6p7.svg' %}" class="img-fluid" alt="">
-    				<div class="heading-section ftco-animate mt-5">
-	            <h2 class="mb-4">Помогаем достичь целей</h2>
-	            <p>Каждый ученик для нас уникален! Мы уделяем большое внимание разработке образовательных методик и обязательно корректируем программу специально для вашего ребенка</p>
-	          </div>
-    			</div>
-    			<div class="col-lg-6 py-5">
-    				<div class="row">
-    					<div class="col-md-6 ftco-animate">
-    						<div class="media block-6 services border text-center">
-		            	<div class="icon d-flex align-items-center justify-content-center">
-		            		<span class="flaticon-cloud-computing"></span>
-		            	</div>
-		              <div class="mt-3 media-body media-body-2">
-		                <h3 class="heading">ЕГЭ и ОГЭ</h3>
-		                <p>Улучшим результат. Подготовим к поступлению в ВУЗ</p>
-		              </div>
-		            </div>
-    					</div>
-    					<div class="col-md-6 ftco-animate">
-    						<div class="media block-6 services border text-center">
-		            	<div class="icon d-flex align-items-center justify-content-center">
-		            		<span class="flaticon-cloud"></span>
-		            	</div>
-		              <div class="mt-3 media-body media-body-2">
-		                <h3 class="heading">Программирование</h3>
-		                <p>Поможем освоить профессии будущего. Научим создавать игры</p>
-		              </div>
-		            </div>
-    					</div>
-    					<div class="col-md-6 ftco-animate">
-                            <a href="">
-    						<div class="media block-6 services border text-center">
-		            	<div class="icon d-flex align-items-center justify-content-center">
-		            		<span class="flaticon-server"></span>
-		            	</div>
-
-		              <div class="mt-3 media-body media-body-2">
-		                <h3 class="heading">Робототехника</h3>
-		                <p>Познакомим с электроникой. Научим управлять механизмами</p>
-		              </div>
-
-		            </div>
-                                </a>
-    					</div>
-    					<div class="col-md-6 ftco-animate">
-    						<div class="media block-6 services border text-center">
-		            	<div class="icon d-flex align-items-center justify-content-center">
-		            		<span class="flaticon-database"></span>
-		            	</div>
-		              <div class="mt-3 media-body media-body-2">
-		                <h3 class="heading">Школьные предметы</h3>
-		                <p>Улучшим оценки. Повысим мотивацию</p>
-		              </div>
-		            </div>
-    					</div>
-    				</div>
-          </div>
-    		</div>
-    	</div>
-
-    </section>
-
-     <section class="ftco-section ftco-counter img" id="section-counter">
-    	<div class="container">
-    		<div class="row justify-content-center mb-5">
-          <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
-            <span class="subheading">За 7 лет мы обучили более 10000 учеников!</span>
+        <div class="row mt-5">
+          <div class="col text-center">
+            <div class="block-27">
+            {% if lessons.has_other_pages %}
+              <ul>
+                  {% if lessons.has_previous %}
+                    <li><a href="?page={{ lessons.previous_page_number }}">&lt;</a></li>
+                  {% else %}
+                    <li class="disabled"></li>
+                  {% endif %}
+                  {% for i in lessons.paginator.page_range %}
+                      {% if lessons.number > 3 and forloop.first %}
+                        <li><a href="?page=1">1</a></li>
+                        <li class="disabled">⋯</li>
+                      {% endif %}
+                    {% if lessons.number == i %}
+                        <li class="active"><span>{{ i }}</span></li>
+                    {% elif i > lessons.number|add:'-3' and i < lessons.number|add:'3' %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% if lessons.paginator.num_pages > lessons.number|add:'3' and forloop.last %}
+                        <li class="disabled">⋯</li>
+                        <li><a href="?page={{ lessons.paginator.num_pages }}">{{ lessons.paginator.num_pages }}</a></li>
+                    {% endif %}
+                  {% endfor %}
+                  {% if lessons.has_next %}
+                    <li><a href="?page={{ lessons.next_page_number }}">&raquo;</a></li>
+                  {% else %}
+                    <li class="disabled"></li>
+                  {% endif %}
+              </ul>
+            {% endif %}
+            </div>
           </div>
         </div>
-    		<div class="row justify-content-center">
-    			<div class="col-md-10">
-		    		<div class="row">
-		          <div class="col-md-6 d-flex justify-content-center counter-wrap ftco-animate">
-                    <div class="block-18 text-left">
-		              <div class="text">
-		                <strong class="text-left" style="color: white">Образовательная лицензия</strong>
-		                <span>Образовательная деятельность в школе "Гарантия Знаний" ведется на основании государственной лицензии №425/16 от 2016 год </span>
-		              </div>
-		            </div>
-		          </div>
-
-                <div class="col-md-2 d-flex justify-content-center counter-wrap ftco-animate">
-		            <div class="block-18 text-center">
-                       <img src="{% static 'images/right-arrow.svg' %}" width="105px">
-		            </div>
-		          </div>
-
-		          <div class="col-md-4 d-flex justify-content-center counter-wrap ftco-animate">
-		            <div class="block-18 text-center">
-                        <a href="">
-                       <img src="{% static 'images/undraw_podcast_q6p7.svg' %}" width="105px">
-		              <div class="text">
-		                <strong class="number"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></strong>
-		                <span>Образовательная лицензия</span>
-		              </div>
-                            </a>
-		            </div>
-		          </div>
-		        </div>
-	        </div>
-        </div>
     	</div>
     </section>
 
-    <section class="ftco-section services-section">
-      <div class="container">
 
-      	<div class="row justify-content-center mb-5 pb-3">
+    <div class="container">
+
+      	<div class="row justify-content-center">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-4">Почему обращаются к нам</h2>
+            <h2 class="">Профиль ученика</h2>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6 d-flex align-self-stretch ftco-animate">
             <div class="media block-6 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center order-md-last">
-            		<span class="flaticon-cloud"></span>
+            	<div class="icon d-flex align-items-center justify-content-center">
+            		<span class="flaticon-life-insurance"></span>
             	</div>
-              <div class="media-body pl-4 pl-md-0 pr-md-4 text-md-right">
-                <h3 class="heading">Индивидуальный подход</h3>
-                <p class="mb-0">Мы корректируем программу занятий в зависимости от успехов ребенка и формируем индивидуальный план обучения!</p>
+              <div class="media-body pl-4">
+                <h3 class="heading">Текущий баланс: {{ student.amount }}{{ student.currency }}</h3>
+                <p><a href="{% url 'payment' %}" class="btn btn-outline-info py-3">Пополнить</a></p>
               </div>
             </div>
           </div>
+
           <div class="col-md-6 d-flex align-self-stretch ftco-animate">
             <div class="media block-6 services d-flex align-items-center">
             	<div class="icon d-flex align-items-center justify-content-center">
-            		<span class="flaticon-server"></span>
+            		<span class="flaticon-life-insurance"></span>
             	</div>
               <div class="media-body pl-4">
-                <h3 class="heading">Контроль успеваемости</h3>
-                <p class="mb-0">Мы ежемесячно даем обратную связь по успехам ребенка. Тем самым вы всегда будете знать насколько полезны наши уроки</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 d-flex align-self-stretch ftco-animate">
-            <div class="media block-6 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center order-md-last">
-            		<span class="flaticon-customer-service"></span>
-            	</div>
-              <div class="media-body pl-4 pl-md-0 pr-md-4 text-md-right">
-                <h3 class="heading">Проверенная методика</h3>
-                <p>Преподаватели прошли 3 этапа отбора и обучение, чтобы проводить продуктивные уроки и достигать поставленных целей</p>
+                <h3 class="heading">Домашнее задание</h3>
+                <p>{{ last_homework }}</p>
               </div>
             </div>
           </div>
@@ -228,459 +143,15 @@
             		<span class="flaticon-life-insurance"></span>
             	</div>
               <div class="media-body pl-4">
-                <h3 class="heading">Удобная платформа</h3>
-                <p>Все записи занятий хранятся в личном кабинете. Мы мотивируем ребенка к обучению и дарим подарки за его достижения!</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 d-flex align-self-stretch ftco-animate">
-            <div class="media block-6 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center order-md-last">
-            		<span class="flaticon-cloud-computing"></span>
-            	</div>
-              <div class="media-body pl-4 pl-md-0 pr-md-4 text-md-right">
-                <h3 class="heading">Практические уроки</h3>
-                <p>Каждый урок - это отдельный небольшой проект. Мы создаем интерактивные и насыщенные уроки с большим количеством практики</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 d-flex align-self-stretch ftco-animate">
-            <div class="media block-6 services d-flex align-items-center">
-            	<div class="icon d-flex align-items-center justify-content-center">
-            		<span class="flaticon-settings"></span>
-            	</div>
-              <div class="media-body pl-4">
-                <h3 class="heading">Режим занятий</h3>
-                <p>Занятия проходят каждую неделю в удобном для ребенка формате. Теория, домашние задания и чат с педагогом - доступно 24/7!</p>
+                <h3 class="heading">Мои бонусы: {{ student.bonus }}шт.</h3>
+                <p>Мы дарим подарки за ваши достижения!</p>
+                <p><a href="#" class="btn btn-outline-info py-3">Обменять</a></p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
 
 
-
-
-       <section class="ftco-section bg-light">
-    	<div class="container">
-    		<div class="row justify-content-center mb-5">
-          <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-4">Часто задаваемые вопросы</h2>
-          </div>
-        </div>
-    		<div class="row">
-    			<div class="col-md-12 ftco-animate">
-    				<div id="accordion">
-    					<div class="row">
-    						<div class="col-md-6">
-    							<div class="card">
-						        <div class="card-header">
-								    <a class="card-link" data-toggle="collapse"  href="#menuone" aria-expanded="true" aria-controls="menuone">Как записаться на вводный урок? <span class="collapsed"><i class="ion-ios-arrow-up"></i></span><span class="expanded"><i class="ion-ios-arrow-down"></i></span></a>
-						        </div>
-						        <div id="menuone" class="collapse show">
-						          <div class="card-body">
-									    <p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way.</p>
-						          </div>
-						        </div>
-						      </div>
-
-						      <div class="card">
-						        <div class="card-header">
-										  <a class="card-link" data-toggle="collapse"  href="#menutwo" aria-expanded="false" aria-controls="menutwo">Как проходят занятия? <span class="collapsed"><i class="ion-ios-arrow-up"></i></span><span class="expanded"><i class="ion-ios-arrow-down"></i></span></a>
-						        </div>
-						        <div id="menutwo" class="collapse">
-						          <div class="card-body">
-								    <p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way.</p>
-						          </div>
-						        </div>
-						      </div>
-
-						      <div class="card">
-						        <div class="card-header">
-								    <a class="card-link" data-toggle="collapse"  href="#menu3" aria-expanded="false" aria-controls="menu3">Какой формат занятий выбрать? <span class="collapsed"><i class="ion-ios-arrow-up"></i></span><span class="expanded"><i class="ion-ios-arrow-down"></i></span></a>
-						        </div>
-						        <div id="menu3" class="collapse">
-						          <div class="card-body">
-								    <p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way.</p>
-						          </div>
-						        </div>
-						      </div>
-    						</div>
-
-    						<div class="col-md-6">
-    							<div class="card">
-						        <div class="card-header">
-								    <a class="card-link" data-toggle="collapse"  href="#menu4" aria-expanded="false" aria-controls="menu4">Почему наши занятия эффективнее репетитора? <span class="collapsed"><i class="ion-ios-arrow-up"></i></span><span class="expanded"><i class="ion-ios-arrow-down"></i></span></a>
-						        </div>
-						        <div id="menu4" class="collapse">
-						          <div class="card-body">
-                                      <p>Мы создали комплексную программу обучения, включающую лекции, семинары, онлайн-тренинги и интересные домашние задания. Даже если ребенок что-то забыл, он всегда может найти это на нашей платформе!</p>
-						          </div>
-						        </div>
-						      </div>
-
-						      <div class="card">
-						        <div class="card-header">
-								    <a class="card-link" data-toggle="collapse"  href="#menu5" aria-expanded="false" aria-controls="menu5">Есть ли у нас рассрочка? <span class="collapsed"><i class="ion-ios-arrow-up"></i></span><span class="expanded"><i class="ion-ios-arrow-down"></i></span></a>
-						        </div>
-						        <div id="menu5" class="collapse">
-						          <div class="card-body">
-									    <p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way.</p>
-						          </div>
-						        </div>
-						      </div>
-    						</div>
-    					</div>
-				    </div>
-    			</div>
-    		</div>
-    	</div>
-    </section>
-
-    <section class="ftco-section testimony-section">
-      <div class="container">
-        <div class="row justify-content-center mb-5 pb-3">
-          <div class="col-md-7 text-center heading-section ftco-animate">
-            <span class="subheading">Customer Says</span>
-            <h2 class="mb-4">Что о нас говорят</h2>
-            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
-          </div>
-        </div>
-        <div class="row ftco-animate">
-          <div class="col-md-12">
-            <div class="carousel-testimony owl-carousel ftco-owl">
-              <div class="item">
-                <div class="testimony-wrap p-4 text-center">
-                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">
-                    <span class="quote d-flex align-items-center justify-content-center">
-                      <i class="icon-quote-left"></i>
-                    </span>
-                  </div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Mark Web</p>
-                    <span class="position">Marketing Manager</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap p-4 text-center">
-                  <div class="user-img mb-4" style="background-image: url(images/person_2.jpg)">
-                    <span class="quote d-flex align-items-center justify-content-center">
-                      <i class="icon-quote-left"></i>
-                    </span>
-                  </div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Mark Web</p>
-                    <span class="position">Interface Designer</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap p-4 text-center">
-                  <div class="user-img mb-4" style="background-image: url(images/person_3.jpg)">
-                    <span class="quote d-flex align-items-center justify-content-center">
-                      <i class="icon-quote-left"></i>
-                    </span>
-                  </div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Mark Web</p>
-                    <span class="position">UI Designer</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap p-4 text-center">
-                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">
-                    <span class="quote d-flex align-items-center justify-content-center">
-                      <i class="icon-quote-left"></i>
-                    </span>
-                  </div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Mark Web</p>
-                    <span class="position">Web Developer</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap p-4 text-center">
-                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">
-                    <span class="quote d-flex align-items-center justify-content-center">
-                      <i class="icon-quote-left"></i>
-                    </span>
-                  </div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Mark Web</p>
-                    <span class="position">System Analyst</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="ftco-section bg-light">
-    	<div class="container">
-    		<div class="row justify-content-center mb-5 pb-5">
-    			<div class="col-md-7 text-center heading-section ftco-animate">
-            <span class="subheading">Services</span>
-            <h2 class="mb-4">Как проходит обучение?</h2>
-          </div>
-    		</div>
-    		<div class="row">
-          <div class="col-md-12 nav-link-wrap mb-5 pb-md-5 pb-sm-1 ftco-animate">
-            <div class="nav ftco-animate nav-pills justify-content-center text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-              <a class="nav-link active" id="v-pills-nextgen-tab" data-toggle="pill" href="#v-pills-nextgen" role="tab" aria-controls="v-pills-nextgen" aria-selected="true">Интерактивная доска</a>
-
-              <a class="nav-link" id="v-pills-performance-tab" data-toggle="pill" href="#v-pills-performance" role="tab" aria-controls="v-pills-performance" aria-selected="false">Готовые материалы</a>
-
-              <a class="nav-link" id="v-pills-effect-tab" data-toggle="pill" href="#v-pills-effect" role="tab" aria-controls="v-pills-effect" aria-selected="false">Индивидуальная программа</a>
-            </div>
-          </div>
-          <div class="col-md-12 align-items-center ftco-animate">
-
-            <div class="tab-content ftco-animate" id="v-pills-tabContent">
-
-              <div class="tab-pane fade show active" id="v-pills-nextgen" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
-              	<div class="d-md-flex">
-	              	<div class="one-forth align-self-center">
-	              		<img src="{% static 'images/undraw_laravel_and_vue_59tp.svg' %}" class="img-fluid" alt="">
-	              	</div>
-	              	<div class="one-half ml-md-5 align-self-center">
-		                <h2 class="mb-4">Next gen VPS hosting</h2>
-		              	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-		                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt voluptate, quibusdam sunt iste dolores consequatur</p>
-		                <p><a href="#" class="btn btn-primary py-3">Get in touch</a></p>
-		              </div>
-	              </div>
-              </div>
-
-              <div class="tab-pane fade" id="v-pills-performance" role="tabpanel" aria-labelledby="v-pills-performance-tab">
-                <div class="d-md-flex">
-	              	<div class="one-forth order-last align-self-center">
-	              		<img src="images/undraw_visual_data_b1wx.svg" class="img-fluid" alt="">
-	              	</div>
-	              	<div class="one-half order-first mr-md-5 align-self-center">
-		                <h2 class="mb-4">Performance VPS hosting</h2>
-		              	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-		                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt voluptate, quibusdam sunt iste dolores consequatur</p>
-		                <p><a href="#" class="btn btn-primary py-3">Get in touch</a></p>
-		              </div>
-	              </div>
-              </div>
-
-              <div class="tab-pane fade" id="v-pills-effect" role="tabpanel" aria-labelledby="v-pills-effect-tab">
-                <div class="d-md-flex">
-	              	<div class="one-forth align-self-center">
-	              		<img src="images/undraw_business_plan_5i9d.svg" class="img-fluid" alt="">
-	              	</div>
-	              	<div class="one-half ml-md-5 align-self-center">
-		                <h2 class="mb-4">Effective VPS hosting</h2>
-		              	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-		                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt voluptate, quibusdam sunt iste dolores consequatur</p>
-		                <p><a href="#" class="btn btn-primary py-3">Get in touch</a></p>
-		              </div>
-	              </div>
-              </div>
-            </div>
-          </div>
-        </div>
-    	</div>
-    </section>
-
-    <section class="ftco-section bg-light">
-      <div class="container">
-        <div class="row justify-content-center mb-5 pb-3">
-          <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2>Recent Blog</h2>
-            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4 ftco-animate">
-            <div class="blog-entry">
-              <a href="blog-single.html" class="block-20" style="background-image: url('images/image_1.jpg');">
-              </a>
-              <div class="text d-flex py-4">
-                <div class="meta mb-3">
-                  <div><a href="#">May 8, 2019</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-                <div class="desc pl-3">
-	                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-	              </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 ftco-animate">
-            <div class="blog-entry" data-aos-delay="100">
-              <a href="blog-single.html" class="block-20" style="background-image: url('images/image_2.jpg');">
-              </a>
-              <div class="text d-flex py-4">
-                <div class="meta mb-3">
-                  <div><a href="#">May 8, 2019</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-                <div class="desc pl-3">
-	                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-	              </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 ftco-animate">
-            <div class="blog-entry" data-aos-delay="200">
-              <a href="blog-single.html" class="block-20" style="background-image: url('images/image_3.jpg');">
-              </a>
-              <div class="text d-flex py-4">
-                <div class="meta mb-3">
-                  <div><a href="#">May 8, 2019</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-                <div class="desc pl-3">
-	                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-	              </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="ftco-section ftco-partner">
-    	<div class="container">
-    		<div class="row">
-    			<div class="col-sm ftco-animate">
-    				<a href="#" class="partner"><img src="images/partner-1.png" class="img-fluid" alt="Colorlib Template"></a>
-    			</div>
-    			<div class="col-sm ftco-animate">
-    				<a href="#" class="partner"><img src="images/partner-2.png" class="img-fluid" alt="Colorlib Template"></a>
-    			</div>
-    			<div class="col-sm ftco-animate">
-    				<a href="#" class="partner"><img src="images/partner-3.png" class="img-fluid" alt="Colorlib Template"></a>
-    			</div>
-    			<div class="col-sm ftco-animate">
-    				<a href="#" class="partner"><img src="images/partner-4.png" class="img-fluid" alt="Colorlib Template"></a>
-    			</div>
-    			<div class="col-sm ftco-animate">
-    				<a href="#" class="partner"><img src="images/partner-5.png" class="img-fluid" alt="Colorlib Template"></a>
-    			</div>
-    		</div>
-    	</div>
-    </section>
-
-
-
-    <!--div id="jitsi"></div>
-            <script src="https://meet.jit.si/external_api.js"></script>
-        <script>
-            var domain = "meet.jit.si";
-            var options = {
-                roomName: "guarantee_1",
-                width: 700,
-                height: 700,
-                parentNode: document.querySelector('#jitsi'),
-                configOverwrite: {},
-                interfaceConfigOverwrite: {}
-            };
-            var api = new JitsiMeetExternalAPI(domain, options);
-        </script>
-
-
-            <script>
-                function mute() {
-                    api.executeCommand('toggleChat');
-                }
-            </script>
-    <button onclick="mute()" value="hello">Hello</button-->
-
-
-
-
-
-
-
-    <style>
-    .paint-canvas {
-  border: 1px black solid;
-  display: block;
-  margin: 1rem;
-}
-
-.color-picker {
-  margin: 1rem 1rem 0 1rem;
-}
-    </style>
-
-
-<input type="color"  class="js-color-picker  color-picker">
-<input type="range" class="js-line-range" min="1" max="72" value="1">
-    <button onclick="save()">Save</button>
-<label class="js-range-value">1</label>Px
-<canvas class="js-paint  paint-canvas" width="600" height="300"></canvas>
-
-    <script>
-
-    const paintCanvas = document.querySelector( '.js-paint' );
-const context = paintCanvas.getContext( '2d' );
-context.lineCap = 'round';
-
-const colorPicker = document.querySelector( '.js-color-picker');
-
-colorPicker.addEventListener( 'change', event => {
-    context.strokeStyle = event.target.value;
-} );
-
-const lineWidthRange = document.querySelector( '.js-line-range' );
-const lineWidthLabel = document.querySelector( '.js-range-value' );
-
-lineWidthRange.addEventListener( 'input', event => {
-    const width = event.target.value;
-    lineWidthLabel.innerHTML = width;
-    context.lineWidth = width;
-} );
-
-let x = 0, y = 0;
-let isMouseDown = false;
-
-const stopDrawing = () => { isMouseDown = false; };
-const startDrawing = event => {
-    isMouseDown = true;
-   [x, y] = [event.offsetX, event.offsetY];
-};
-const drawLine = event => {
-    if ( isMouseDown ) {
-        const newX = event.offsetX;
-        const newY = event.offsetY;
-        context.beginPath();
-        context.moveTo( x, y );
-        context.lineTo( newX, newY );
-        context.stroke();
-        //[x, y] = [newX, newY];
-        x = newX;
-        y = newY;
-    }
-};
-
-paintCanvas.addEventListener( 'mousedown', startDrawing );
-paintCanvas.addEventListener( 'mousemove', drawLine );
-paintCanvas.addEventListener( 'mouseup', stopDrawing );
-paintCanvas.addEventListener( 'mouseout', stopDrawing );
-
-
-function save() {
-    var image = paintCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
-    window.location.href=image; // it will save locally
-}
-    </script>
 
 {% endblock %}

@@ -8,6 +8,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     meta_title = models.CharField(max_length=80)
     meta_description = models.CharField(max_length=160)
+    #meta_keywords = models.CharField(max_length=1000)
     text = models.TextField()
     published_date = models.DateTimeField(blank=True, null=True)
 

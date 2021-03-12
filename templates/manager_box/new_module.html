@@ -25,21 +25,16 @@
     	<div class="container">
     		<div class="row justify-content-center mb-3 mt-5">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-3">Создание нового пользователя</h2>
+            <h2 class="mb-3">Создание нового модуля</h2>
             <p>Внимательно вносите информацию</p>
           </div>
         </div>
     		<div class="row">
     			<div class="col-md-12 ftco-animate">
-                    <select onchange="changeStudent()" class="custom-select mr-sm-2" id="profile_type">
-                        <option value="student" {% if request.GET.profile_type == "student" %} selected {% endif %}>Студент</option>
-                        <option value="teacher" {% if request.GET.profile_type == "teacher" %} selected {% endif %}>Педагог</option>
-                        <option value="manager" {% if request.GET.profile_type == "manager" %} selected {% endif %}>Менеджер</option>
-                      </select>
                        <form method='POST' enctype="multipart/form-data">
                        <div id="result_div_id"></div>
                       {% csrf_token %}
-                      {% for field in user_form %}
+                      {% for field in module_form %}
                           <p>{% if field.help_text %}</p>
                       <small style="color: grey">{{ field.help_text }}</small><br>
                         {% endif %}
@@ -65,32 +60,9 @@
     		</div>
     	</div>
     </section>
-
-
-
-
     <section class="ftco-section ftco-partner">
     	<div class="container">
     		<div class="row">
-
-
-                    <textarea id="id_content"></textarea>
-
-                        <link id="themecss" rel="stylesheet" type="text/css" href="//www.shieldui.com/shared/components/latest/css/light/all.min.css" />
-                        <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/jquery-1.11.1.min.js"></script>
-                        <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
-
-                    <script type="text/javascript">
-                        jQuery(function ($) {
-                            $("#id_content").shieldEditor({
-                                height: 260
-                            });
-                        });
-                    </script>
-
-
-
-
     			<div class="col-sm ftco-animate">
     				<a href="#" class="partner"><img src="images/partner-1.png" class="img-fluid" alt="Colorlib Template"></a>
     			</div>

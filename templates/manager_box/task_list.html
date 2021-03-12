@@ -19,11 +19,283 @@
 
 {% block content %}
 
+<section class="ftco-section bg-light">
+    	<div class="container">
+    		<div class="row justify-content-center">
+    			<div class="col-md-7 text-center heading-section ftco-animate">
+            <h2 class="mt-5">Все задачи <a class="btn btn-danger btn-sm" href="{% url 'new_task' %}">Добавить</a></h2>
+          </div>
+    		</div>
+    		<div class="row">
+          <div class="col-md-12 nav-link-wrap mb-5 pb-md-5 pb-sm-1 ftco-animate">
+            <div class="nav ftco-animate nav-pills justify-content-center text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+              <a class="nav-link active" id="v-pills-nextgen-tab" data-toggle="pill" href="#v-task-new" role="tab" aria-controls="v-pills-nextgen" aria-selected="true">Новые</a>
+
+              <a class="nav-link" id="v-pills-performance-tab" data-toggle="pill" href="#v-task-in_work" role="tab" aria-controls="v-pills-performance" aria-selected="false">В работе</a>
+
+              <a class="nav-link" id="v-pills-effect-tab" data-toggle="pill" href="#v-task-finished" role="tab" aria-controls="v-pills-effect" aria-selected="false">Завершенные</a>
+            </div>
+          </div>
+          <div class="col-md-12 align-items-center ftco-animate">
+            <div class="tab-content ftco-animate" id="v-pills-tabContent">
+              <div class="tab-pane fade show active" id="v-task-new" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
+                  <div class="row">
+    			<div class="col-md-12 ftco-animate">
+    				<div class="table-responsive">
+	    				<table class="table">
+						    <thead class="thead-primary">
+						     <tr>
+						        <th>Задача</th>
+						        <th>Ученики</th>
+                                <th>Описание</th>
+                                <th>Приоритет</th>
+                                <th>Ответственный</th>
+                                <th>Срок выполнения</th>
+						      </tr>
+						    </thead>
+						    <tbody>
+                            {% for task in task_list %}
+                                {% if task.status == "NEW" %}
+                                <tr>
+                                   <td class="color">{{ task.title }}</td>
+                                    <td>
+                                    {% for student in task.students.all %}
+                                        {{ student }};
+                                    {% endfor %}
+                                    </td>
+                                    <td>{{ task.description|safe }}</td>
+                                    <td>{{ task.priority }}</td>
+                                    <td>
+                                    {% for executor in task.executor.all %}
+                                        {{ executor }}
+                                    {% endfor %}
+                                    </td>
+                                    <td>{{ task.date_finish }}</td>
+                                <td>
+                                    <a class="btn btn-dark btn-sm" href="{% url 'edit_task' pk=task.pk %}"><span class="icon-pencil"></span></a>
+                                    <a class="btn btn-danger btn-sm" href="{% url 'remove_task' pk=task.pk %}"><span class="icon-remove"></span></a>
+                                </td>
+						      </tr>
+                                {% endif %}
+                        {% endfor %}
+						    </tbody>
+						  </table>
+					  </div>
+    			</div>
+    		</div>
+                  <div class="row mt-5">
+          <div class="col text-center">
+            <div class="block-27">
+            {% if task_list.has_other_pages %}
+              <ul>
+                  {% if task_list.has_previous %}
+                    <li><a href="?page={{ task_list.previous_page_number }}">&lt;</a></li>
+                  {% else %}
+                    <li class="disabled"></li>
+                  {% endif %}
+                  {% for i in task_list.paginator.page_range %}
+                      {% if task_list.number > 3 and forloop.first %}
+                        <li><a href="?page=1">1</a></li>
+                        <li class="disabled">⋯</li>
+                      {% endif %}
+                    {% if task_list.number == i %}
+                        <li class="active"><span>{{ i }}</span></li>
+                    {% elif i > task_list.number|add:'-3' and i < task_list.number|add:'3' %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% if task_list.paginator.num_pages > task_list.number|add:'3' and forloop.last %}
+                        <li class="disabled">⋯</li>
+                        <li><a href="?page={{ task_list.paginator.num_pages }}">{{ task_list.paginator.num_pages }}</a></li>
+                    {% endif %}
+                  {% endfor %}
+                  {% if task_list.has_next %}
+                    <li><a href="?page={{ task_list.next_page_number }}">></a></li>
+                  {% else %}
+                    <li class="disabled"></li>
+                  {% endif %}
+              </ul>
+            {% endif %}
+            </div>
+          </div>
+        </div>
+              </div>
+
+              <div class="tab-pane fade" id="v-task-in_work" role="tabpanel" aria-labelledby="v-pills-performance-tab">
+                <div class="row">
+    			<div class="col-md-12 ftco-animate">
+    				<div class="table-responsive">
+	    				<table class="table">
+						    <thead class="thead-primary">
+						      <tr>
+						        <th>Задача</th>
+						        <th>Ученики</th>
+                                <th>Описание</th>
+                                <th>Приоритет</th>
+                                <th>Ответственный</th>
+                                <th>Срок выполнения</th>
+						      </tr>
+						    </thead>
+						    <tbody>
+                            {% for task in task_list %}
+                                {% if task.status == "IN_WORK" %}
+                                <tr>
+                                    <td class="color">{{ task.title }}</td>
+                                    <td>
+                                    {% for student in task.students.all %}
+                                        {{ student }};
+                                    {% endfor %}
+                                    </td>
+                                    <td>{{ task.description|safe }}</td>
+                                    <td>{{ task.priority }}</td>
+                                    <td>
+                                    {% for executor in task.executor.all %}
+                                        {{ executor }}
+                                    {% endfor %}
+                                    </td>
+                                    <td>{{ task.date_finish }}</td>
+                                <td>
+                                    <a class="btn btn-dark btn-sm" href="{% url 'edit_task' pk=task.pk %}"><span class="icon-pencil"></span></a>
+                                    <a class="btn btn-danger btn-sm" href="{% url 'remove_task' pk=task.pk %}"><span class="icon-remove"></span></a>
+                                </td>
+						      </tr>
+                                {% endif %}
+                        {% endfor %}
+						    </tbody>
+						  </table>
+					  </div>
+    			</div>
+    		</div>
+                  <div class="row mt-5">
+          <div class="col text-center">
+            <div class="block-27">
+            {% if all_profiles.has_other_pages %}
+              <ul>
+                  {% if all_profiles.has_previous %}
+                    <li><a href="?page={{ all_profiles.previous_page_number }}">&lt;</a></li>
+                  {% else %}
+                    <li class="disabled"></li>
+                  {% endif %}
+                  {% for i in all_profiles.paginator.page_range %}
+                      {% if all_profiles.number > 3 and forloop.first %}
+                        <li><a href="?page=1">1</a></li>
+                        <li class="disabled">⋯</li>
+                      {% endif %}
+                    {% if all_profiles.number == i %}
+                        <li class="active"><span>{{ i }}</span></li>
+                    {% elif i > all_profiles.number|add:'-3' and i < all_profiles.number|add:'3' %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% if all_profiles.paginator.num_pages > lessons.number|add:'3' and forloop.last %}
+                        <li class="disabled">⋯</li>
+                        <li><a href="?page={{ all_profiles.paginator.num_pages }}">{{ all_profiles.paginator.num_pages }}</a></li>
+                    {% endif %}
+                  {% endfor %}
+                  {% if all_profiles.has_next %}
+                    <li><a href="?page={{ all_profiles.next_page_number }}">></a></li>
+                  {% else %}
+                    <li class="disabled"></li>
+                  {% endif %}
+              </ul>
+            {% endif %}
+            </div>
+          </div>
+        </div>
+              </div>
+
+              <div class="tab-pane fade" id="v-task-finished" role="tabpanel" aria-labelledby="v-pills-effect-tab">
+                <div class="row">
+    			<div class="col-md-12 ftco-animate">
+    				<div class="table-responsive">
+	    				<table class="table">
+						    <thead class="thead-primary">
+						      <tr>
+						        <th>Задача</th>
+						        <th>Ученики</th>
+                                <th>Описание</th>
+                                <th>Приоритет</th>
+                                <th>Ответственный</th>
+                                <th>Срок выполнения</th>
+						      </tr>
+						    </thead>
+						    <tbody>
+                            {% for task in task_list %}
+                                {% if task.status == "FINISHED" %}
+                                <tr>
+                                    <td class="color">{{ task.title }}</td>
+                                    <td>
+                                    {% for student in task.students.all %}
+                                        {{ student }};
+                                    {% endfor %}
+                                    </td>
+                                    <td>{{ task.description|safe }}</td>
+                                    <td>{{ task.priority }}</td>
+                                    <td>
+                                    {% for executor in task.executor.all %}
+                                        {{ executor }}
+                                    {% endfor %}
+                                    </td>
+                                    <td>{{ task.date_finish }}</td>
+                                <td>
+                                    <a class="btn btn-dark btn-sm" href="{% url 'edit_task' pk=task.pk %}"><span class="icon-pencil"></span></a>
+                                    <a class="btn btn-danger btn-sm" href="{% url 'remove_task' pk=task.pk %}"><span class="icon-remove"></span></a>
+                                </td>
+						      </tr>
+                                {% endif %}
+                        {% endfor %}
+						    </tbody>
+						  </table>
+					  </div>
+    			</div>
+    		</div>
+                  <div class="row mt-5">
+          <div class="col text-center">
+            <div class="block-27">
+            {% if all_profiles.has_other_pages %}
+              <ul>
+                  {% if all_profiles.has_previous %}
+                    <li><a href="?page={{ all_profiles.previous_page_number }}">&lt;</a></li>
+                  {% else %}
+                    <li class="disabled"></li>
+                  {% endif %}
+                  {% for i in all_profiles.paginator.page_range %}
+                      {% if all_profiles.number > 3 and forloop.first %}
+                        <li><a href="?page=1">1</a></li>
+                        <li class="disabled">⋯</li>
+                      {% endif %}
+                    {% if all_profiles.number == i %}
+                        <li class="active"><span>{{ i }}</span></li>
+                    {% elif i > all_profiles.number|add:'-3' and i < all_profiles.number|add:'3' %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% if all_profiles.paginator.num_pages > lessons.number|add:'3' and forloop.last %}
+                        <li class="disabled">⋯</li>
+                        <li><a href="?page={{ all_profiles.paginator.num_pages }}">{{ all_profiles.paginator.num_pages }}</a></li>
+                    {% endif %}
+                  {% endfor %}
+                  {% if all_profiles.has_next %}
+                    <li><a href="?page={{ all_profiles.next_page_number }}">></a></li>
+                  {% else %}
+                    <li class="disabled"></li>
+                  {% endif %}
+              </ul>
+            {% endif %}
+            </div>
+          </div>
+        </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    	</div>
+    </section>
+
+
+
         <section class="ftco-section">
     	<div class="container">
     		<div class="row mt-5">
           <div class="col-md-7 text-left heading-section ftco-animate">
-            <h2 class="">Все модули <a class="btn btn-danger btn-sm" href="{% url 'new_module' %}">Добавить</a></h2>
+            <h2 class="">Все задачи <a class="btn btn-danger btn-sm" href="{% url 'new_task' %}">Добавить</a></h2>
 
           </div>
         </div>
@@ -52,7 +324,7 @@
                 </select>
             </div>
         </div>
-    		<div class="row">
+    	<div class="row">
     			<div class="col-md-12 ftco-animate">
     				<div class="table-responsive">
 	    				<table class="table">
@@ -64,15 +336,15 @@
 						      </tr>
 						    </thead>
 						    <tbody>
-                            {% for module in module_list %}
+                            {% for task in task_list %}
                                 <tr>
-                                    <td class="color">{{ module.title }}</td>
-                                    <td>{{ module.module_number }}</td>
+                                    <td class="color">{{ task.title }}</td>
+                                    <td>{{ task.status }}</td>
                                     <td></td>
-                                <td><input type="text" value="{{ profile.status }}"></td>
+                                <td><input type="text" value="{{ task.description }}"></td>
                                 <td>
-                                    <a class="btn btn-dark btn-sm" href="{% url 'edit_module' pk=module.pk %}"><span class="icon-pencil"></span></a>
-                                    <a class="btn btn-danger btn-sm" href="{% url 'remove_module' pk=module.pk %}"><span class="icon-remove"></span></a>
+                                    <a class="btn btn-dark btn-sm" href="{% url 'edit_task' pk=task.pk %}"><span class="icon-pencil"></span></a>
+                                    <a class="btn btn-danger btn-sm" href="{% url 'remove_task' pk=task.pk %}"><span class="icon-remove"></span></a>
                                 </td>
 						      </tr>
                         {% endfor %}
