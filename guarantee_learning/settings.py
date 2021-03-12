@@ -26,7 +26,7 @@ SECRET_KEY = '$si2j-12u-@(jel8-_awjhpsjb(f6_-*-kbz%s0(&+-#ubgwsj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['guarantee.eu-west-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -93,7 +93,7 @@ DATABASES = {
 }
 
 
-# Password validation
+# Password validation   4eed976853955fa493fe2c88235b19232b8662b1 pawee
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
